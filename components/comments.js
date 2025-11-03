@@ -16,7 +16,7 @@ export function initComments() {
       currentId = id;
       modalTitle.textContent = `Komentarz do ${id}`;
       commentText.value = getComment(id);
-      modal.classList.remove("hidden");
+      modal.classList.remove("hidden"); // pokazanie modala
     });
   });
 
@@ -24,15 +24,16 @@ export function initComments() {
   saveBtn.addEventListener("click", () => {
     if (currentId) {
       saveComment(currentId, commentText.value.trim());
-      modal.classList.add("hidden");
+      modal.classList.add("hidden"); // ukrycie modala po zapisaniu
       alert(`Zapisano komentarz dla ${currentId}`);
     }
   });
 
-  // Zamknięcie modala
+  // Zamknięcie modala bez zapisu
   closeBtn.addEventListener("click", () => {
     modal.classList.add("hidden");
   });
 }
 
+//  Start
 window.addEventListener("DOMContentLoaded", initComments);
