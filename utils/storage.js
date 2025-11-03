@@ -5,11 +5,12 @@ export function getComments() {
 }
 
 export function saveComment(id, text) {
-  const data = getComments();
-  data[id] = text;
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  const comments = getComments();
+  comments[id] = text;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(comments));
 }
 
 export function getComment(id) {
-  return getComments()[id] || "";
+  const comments = getComments();
+  return comments[id] || "";
 }

@@ -7,33 +7,59 @@ export function initComments() {
   const saveBtn = document.getElementById("save-comment");
   const closeBtn = document.getElementById("close-modal");
 
-  let currentId = null;
+  let currentId = null; // aktualna komórka, do której dodajemy komentarz
 
-  // Otwieranie modala
+  // 🔹 1. Reakcja na kliknięcie "Add Comment"
   document.querySelectorAll(".add-comment-btn").forEach(btn => {
     btn.addEventListener("click", e => {
-      const id = e.target.closest(".secondary").dataset.id;
-      currentId = id;
-      modalTitle.textContent = `Komentarz do ${id}`;
-      commentText.value = getComment(id);
-      modal.classList.remove("hidden"); // pokazanie modala
+      const cell = e.target.closest(".secondary");  // najbliższy element .secondary
+      currentId = cell.dataset.id;                  // np. "003.2"
+      const title = cell.querySelector("p").textContent; // np. "003.2 Cel przekazu"
+
+      // ustawiamy tytuł w modalu
+      modalTitle.textContent = `Komentarz do: ${title}`;
+
+      // jeśli wcześniej zapisano komentarz — wczytaj go
+      commentText.value = getComment(currentId);
+
+      // pokaż modal
+      modal.classList.remove("hidden");
     });
   });
 
-  // Zapis komentarza
+  // 🔹 2. Zapis komentarza
   saveBtn.addEventListener("click", () => {
     if (currentId) {
-      saveComment(currentId, commentText.value.trim());
-      modal.classList.add("hidden"); // ukrycie modala po zapisaniu
-      alert(`Zapisano komentarz dla ${currentId}`);
+      const text = commentText.value.trim();
+
+      // zapis do localStorage
+      saveComment(currentId, text);
+
+      // zamknij modal
+      modal.classList.add("hidden");
+
+      // czyść pole tekstowe
+      commentText.value = "";
+
+      // prosty komunikat
+      alert(`Zapisano komentarz dla: ${currentId}`);
     }
   });
 
-  // Zamknięcie modala bez zapisu
+  // 🔹 3. Zamknięcie modala (bez zapisu)
   closeBtn.addEventListener("click", () => {
     modal.classList.add("hidden");
+    commentText.value = "";
+  });
+
+  // 🔹 4. Zamknięcie po kliknięciu w tło modala
+  modal.addEventListener("click", e => {
+    if (e.target === modal) {
+      modal.classList.add("hidden");
+      commentText.value = "";
+    }
   });
 }
 
-//  Start
+// Uruchomienie po załadowaniu strony
 window.addEventListener("DOMContentLoaded", initComments);
