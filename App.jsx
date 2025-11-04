@@ -81,39 +81,40 @@ export default function App() {
     }
   };
 
-  const handleGeneratePDF = () => {
+  const handleGeneratePDF = async () => {
     try {
       showToast('Generowanie PDF...', 'info');
       
-      const pdf = new jsPDF('p', 'mm', 'a4');
-      const pageWidth = pdf.internal.pageSize.getWidth();
-      const pageHeight = pdf.internal.pageSize.getHeight();
-      const margin = 20;
-      const maxWidth = pageWidth - (margin * 2);
-      let yPos = margin;
-
-      // Tytuł raportu
-      pdf.setFontSize(20);
-      pdf.setFont(undefined, 'bold');
-      pdf.text('Raport: System Analizy Informacji', margin, yPos);
-      yPos += 15;
-
-      // Data generacji
-      pdf.setFontSize(10);
-      pdf.setFont(undefined, 'normal');
-      const date = new Date().toLocaleDateString('pl-PL', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-      });
-      pdf.text(`Data generacji: ${date}`, margin, yPos);
-      yPos += 10;
-
-      // Liczba komentarzy
-      pdf.text(`Liczba komentarzy: ${Object.keys(comments).length}`, margin, yPos);
-      yPos += 15;
+      // Tworzymy tymczasowy kontener z treścią raportu
+      const reportContainer = document.createElement('div');
+      reportContainer.style.position = 'absolute';
+      reportContainer.style.left = '-9999px';
+      reportContainer.style.width = '800px';
+      reportContainer.style.padding = '40px';
+      reportContainer.style.backgroundColor = '#ffffff';
+      reportContainer.style.fontFamily = 'Arial, sans-serif';
+      reportContainer.style.color = '#000000';
+      
+      // Nagłówek
+      const header = document.createElement('div');
+      header.innerHTML = `
+        <h1 style="font-size: 24px; margin: 0 0 10px 0; font-weight: bold; color: #000;">
+          Raport: System Analizy Informacji
+        </h1>
+        <p style="font-size: 12px; color: #666; margin: 0 0 5px 0;">
+          Data generacji: ${new Date().toLocaleDateString('pl-PL', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+          })}
+        </p>
+        <p style="font-size: 12px; color: #666; margin: 0 0 30px 0;">
+          Liczba komentarzy: ${Object.keys(comments).length}
+        </p>
+      `;
+      reportContainer.appendChild(header);
 
       // Struktura danych matrycy
       const MATRIX_DATA = {
@@ -143,60 +144,50 @@ export default function App() {
         }
       };
 
-      // Funkcja do dodawania nowej strony jeśli potrzeba
-      const checkPageBreak = (neededSpace) => {
-        if (yPos + neededSpace > pageHeight - margin) {
-          pdf.addPage();
-          yPos = margin;
-          return true;
-        }
-        return false;
-      };
-
-      // Iteruj po warstwach i elementach
+      // Dodaj zawartość komentarzy
+      let hasComments = false;
       Object.entries(MATRIX_DATA).forEach(([layerId, layer]) => {
-        // Nagłówek warstwy
-        checkPageBreak(20);
-        pdf.setFontSize(16);
-        pdf.setFont(undefined, 'bold');
-        pdf.text(`${layerId}: ${layer.name}`, margin, yPos);
-        yPos += 10;
+        const layerDiv = document.createElement('div');
+        layerDiv.style.marginTop = '20px';
+        
+        const layerTitle = document.createElement('h2');
+        layerTitle.textContent = `${layerId}: ${layer.name}`;
+        layerTitle.style.fontSize = '18px';
+        layerTitle.style.fontWeight = 'bold';
+        layerTitle.style.marginBottom = '15px';
+        layerTitle.style.color = '#000';
+        layerTitle.style.borderBottom = '2px solid #333';
+        layerTitle.style.paddingBottom = '5px';
+        
+        let layerHasComments = false;
 
-        // Primary Elements
+        const commentsDiv = document.createElement('div');
+
         layer.primary.forEach((pe) => {
           const peId = `${layerId}-${pe.id}`;
           const peComment = comments[peId];
 
           if (peComment) {
-            checkPageBreak(30);
+            hasComments = true;
+            layerHasComments = true;
             
-            // Primary Element header
-            pdf.setFontSize(12);
-            pdf.setFont(undefined, 'bold');
-            pdf.text(`${pe.id}: ${pe.name}`, margin + 5, yPos);
-            yPos += 7;
-
-            // Tytuł komentarza
-            pdf.setFontSize(11);
-            pdf.setFont(undefined, 'bold');
-            const titleLines = pdf.splitTextToSize(`Tytuł: ${peComment.title}`, maxWidth - 10);
-            titleLines.forEach(line => {
-              checkPageBreak(7);
-              pdf.text(line, margin + 10, yPos);
-              yPos += 7;
-            });
-
-            // Treść komentarza
-            pdf.setFontSize(10);
-            pdf.setFont(undefined, 'normal');
-            const contentLines = pdf.splitTextToSize(`Treść: ${peComment.content}`, maxWidth - 10);
-            contentLines.forEach(line => {
-              checkPageBreak(6);
-              pdf.text(line, margin + 10, yPos);
-              yPos += 6;
-            });
-
-            yPos += 5;
+            const commentBlock = document.createElement('div');
+            commentBlock.style.marginBottom = '15px';
+            commentBlock.style.paddingLeft = '10px';
+            
+            commentBlock.innerHTML = `
+              <div style="font-size: 14px; font-weight: bold; color: #000; margin-bottom: 5px;">
+                ${pe.id}: ${pe.name}
+              </div>
+              <div style="font-size: 12px; font-weight: bold; color: #333; margin-bottom: 3px; padding-left: 10px;">
+                Tytuł: ${peComment.title}
+              </div>
+              <div style="font-size: 11px; color: #555; padding-left: 10px; line-height: 1.5;">
+                Treść: ${peComment.content}
+              </div>
+            `;
+            
+            commentsDiv.appendChild(commentBlock);
           }
 
           // Secondary Elements
@@ -205,51 +196,89 @@ export default function App() {
             const seComment = comments[cellId];
 
             if (seComment) {
-              checkPageBreak(25);
+              hasComments = true;
+              layerHasComments = true;
               
-              // Secondary Element header
-              pdf.setFontSize(11);
-              pdf.setFont(undefined, 'bold');
-              pdf.text(`  ${seId}`, margin + 10, yPos);
-              yPos += 7;
-
-              // Tytuł komentarza
-              pdf.setFontSize(10);
-              pdf.setFont(undefined, 'bold');
-              const titleLines = pdf.splitTextToSize(`Tytuł: ${seComment.title}`, maxWidth - 15);
-              titleLines.forEach(line => {
-                checkPageBreak(6);
-                pdf.text(line, margin + 15, yPos);
-                yPos += 6;
-              });
-
-              // Treść komentarza
-              pdf.setFontSize(9);
-              pdf.setFont(undefined, 'normal');
-              const contentLines = pdf.splitTextToSize(`Treść: ${seComment.content}`, maxWidth - 15);
-              contentLines.forEach(line => {
-                checkPageBreak(5);
-                pdf.text(line, margin + 15, yPos);
-                yPos += 5;
-              });
-
-              yPos += 4;
+              const commentBlock = document.createElement('div');
+              commentBlock.style.marginBottom = '12px';
+              commentBlock.style.paddingLeft = '20px';
+              
+              commentBlock.innerHTML = `
+                <div style="font-size: 13px; font-weight: bold; color: #000; margin-bottom: 4px;">
+                  ${seId}
+                </div>
+                <div style="font-size: 11px; font-weight: bold; color: #333; margin-bottom: 3px; padding-left: 10px;">
+                  Tytuł: ${seComment.title}
+                </div>
+                <div style="font-size: 10px; color: #555; padding-left: 10px; line-height: 1.5;">
+                  Treść: ${seComment.content}
+                </div>
+              `;
+              
+              commentsDiv.appendChild(commentBlock);
             }
           });
         });
 
-        yPos += 5;
+        if (layerHasComments) {
+          layerDiv.appendChild(layerTitle);
+          layerDiv.appendChild(commentsDiv);
+          reportContainer.appendChild(layerDiv);
+        }
       });
 
-      // Jeśli nie ma komentarzy
-      if (Object.keys(comments).length === 0) {
-        pdf.setFontSize(12);
-        pdf.setFont(undefined, 'italic');
-        pdf.text('Brak komentarzy do wyświetlenia.', margin, yPos);
+      // Jeśli brak komentarzy
+      if (!hasComments) {
+        const noComments = document.createElement('p');
+        noComments.textContent = 'Brak komentarzy do wyświetlenia.';
+        noComments.style.fontSize = '14px';
+        noComments.style.fontStyle = 'italic';
+        noComments.style.color = '#666';
+        reportContainer.appendChild(noComments);
+      }
+
+      // Dodaj do DOM
+      document.body.appendChild(reportContainer);
+      
+      // Poczekaj na renderowanie
+      await new Promise(resolve => setTimeout(resolve, 100));
+
+      // Generuj canvas z html2canvas
+      const canvas = await html2canvas(reportContainer, {
+        scale: 2,
+        backgroundColor: '#ffffff',
+        logging: false
+      });
+
+      // Usuń tymczasowy kontener
+      document.body.removeChild(reportContainer);
+
+      // Utwórz PDF
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const imgData = canvas.toDataURL('image/jpeg', 0.95);
+      
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
+      const imgWidth = pageWidth;
+      const imgHeight = (canvas.height * pageWidth) / canvas.width;
+
+      let heightLeft = imgHeight;
+      let position = 0;
+
+      // Dodaj pierwszą stronę
+      pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+
+      // Dodaj kolejne strony jeśli trzeba
+      while (heightLeft > 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
       }
 
       pdf.save('raport.pdf');
-      showToast('PDF wygenerowany z tekstem!');
+      showToast('PDF wygenerowany!');
     } catch (err) {
       console.error(err);
       showToast('Błąd generowania PDF!', 'error');
