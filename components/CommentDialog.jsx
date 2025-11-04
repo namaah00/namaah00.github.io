@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { SE_NAMES } from './matrixData.js';
 
 export default function CommentDialog({
   isOpen,
@@ -32,11 +33,16 @@ export default function CommentDialog({
 
   if (!isOpen) return null;
 
+  // Wyciągnij tylko ID elementu (bez warstwy)
+  const elementId = cellId.split('-')[1];
+  const elementName = SE_NAMES[elementId];
+  const displayName = elementName ? `${elementId} - ${elementName}` : cellId;
+
   return (
     <div className="dialog-backdrop" onClick={handleBackdropClick}>
       <div className="dialog">
         <div className="dialog-header">
-          <h3>Komentarz - {cellId}</h3>
+          <h3>Komentarz - {displayName}</h3>
           <button className="close-btn" onClick={onClose}>✕</button>
         </div>
 

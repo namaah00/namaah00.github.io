@@ -1,31 +1,6 @@
 import { useState } from 'react';
 import CommentDialog from './CommentDialog.jsx';
-
-const MATRIX_DATA = {
-  L1: {
-    name: 'Jakość Informacji',
-    primary: [
-      { id: '001', name: 'Ocena treści', secondary: ['001.1 Spójność logiczna', '001.2 Forma przekazu', '001.3 Transparentność', '001.4 Rzetelność', '001.5 Obiektywność', '001.6 Autentyczność cyfrowa'] },
-      { id: '002', name: 'Ocena Źródła', secondary: ['002.1 Autorytet', '002.2 Reputacja', '002.3 Afiliacja', '002.4 Historia Wiarygodności'] },
-      
-    ]
-  },
-  L2: {
-    name: 'Szersze Tło',
-    primary: [
-      { id: '003', name: 'Ocena kontekstu', secondary: ['003.1 Aktualność', '003.2 Cel przekazu','003.3 Odbiorca', 
-        '003.4 Sytuacja społeczna','003.5 Interesy', '003.6 Okoliczności powstania','003.7 Dynamika', 
-        '003.8 Kontekst geopolityczny','003.9 Zasięg ', '003.10 Spójność techniczna przekazu'] }
-    ]
-  },
-  L3: {
-    name: 'Zestawienie Źródeł',
-    primary: [
-      { id: '004', name: 'Ocena kontrastu', secondary: ['004.1 Zgodności', '004.2 Rozbieżności', '004.3 Różnorodność', 
-        '004.4 Kontekst międzynarodowy'] }
-    ]
-  }
-};
+import { MATRIX_DATA, SE_NAMES } from './matrixData.js';
 
 export default function MatrixView({ comments, onSave, onDelete }) {
   const [selectedCell, setSelectedCell] = useState(null);
@@ -77,8 +52,10 @@ export default function MatrixView({ comments, onSave, onDelete }) {
                         key={seId}
                         className={`element-card secondary ${comments[cellId] ? 'has-comment' : ''}`}
                         onClick={() => handleCellClick(layerId, seId)}
+                        title={SE_NAMES[seId] || seId}
                       >
                         <div className="element-id">{seId}</div>
+                        <div className="element-name-small">{SE_NAMES[seId]}</div>
                         {comments[cellId] ? (
                           <div className="comment-indicator">💬</div>
                         ) : (

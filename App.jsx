@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import MatrixView from './components/MatrixView.jsx';
 import Toast from './components/Toast.jsx';
+import { MATRIX_DATA, SE_NAMES } from './components/matrixData.js';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 
@@ -116,34 +117,6 @@ export default function App() {
       `;
       reportContainer.appendChild(header);
 
-      // Struktura danych matrycy
-      const MATRIX_DATA = {
-        L1: {
-          name: 'Jakość Informacji',
-          primary: [
-            { id: 'PE1', name: 'Wiarygodność źródła', secondary: ['SE1.1', 'SE1.2', 'SE1.3'] },
-            { id: 'PE2', name: 'Spójność informacji', secondary: ['SE2.1', 'SE2.2'] },
-            { id: 'PE3', name: 'Kompletność danych', secondary: ['SE3.1', 'SE3.2', 'SE3.3'] }
-          ]
-        },
-        L2: {
-          name: 'Szersze Tło',
-          primary: [
-            { id: 'PE4', name: 'Kontekst historyczny', secondary: ['SE4.1', 'SE4.2'] },
-            { id: 'PE5', name: 'Powiązania geograficzne', secondary: ['SE5.1', 'SE5.2', 'SE5.3'] },
-            { id: 'PE6', name: 'Analiza czasowa', secondary: ['SE6.1', 'SE6.2'] }
-          ]
-        },
-        L3: {
-          name: 'Zestawienie Źródeł',
-          primary: [
-            { id: 'PE7', name: 'Źródła otwarte', secondary: ['SE7.1', 'SE7.2', 'SE7.3'] },
-            { id: 'PE8', name: 'Źródła zamknięte', secondary: ['SE8.1', 'SE8.2'] },
-            { id: 'PE9', name: 'Weryfikacja krzyżowa', secondary: ['SE9.1', 'SE9.2', 'SE9.3'] }
-          ]
-        }
-      };
-
       // Dodaj zawartość komentarzy
       let hasComments = false;
       Object.entries(MATRIX_DATA).forEach(([layerId, layer]) => {
@@ -177,9 +150,12 @@ export default function App() {
               commentBlock.style.marginBottom = '12px';
               commentBlock.style.paddingLeft = '20px';
               
+              const seName = SE_NAMES[seId] || '';
+              const seDisplayName = seName ? `${seId} - ${seName}` : seId;
+              
               commentBlock.innerHTML = `
                 <div style="font-size: 13px; font-weight: bold; color: #000; margin-bottom: 4px;">
-                  ${seId}
+                  ${seDisplayName}
                 </div>
                 <div style="font-size: 11px; font-weight: bold; color: #333; margin-bottom: 3px; padding-left: 10px;">
                   Tytuł: ${seComment.title}
