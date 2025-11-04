@@ -64,15 +64,9 @@ export default function MatrixView({ comments, onSave, onDelete }) {
           <div className="elements-grid">
             {layer.primary.map((pe) => (
               <div key={pe.id} className="primary-element">
-                <div
-                  className={`element-card ${comments[`${layerId}-${pe.id}`] ? 'has-comment' : ''}`}
-                  onClick={() => handleCellClick(layerId, pe.id)}
-                >
+                <div className="element-card pe-header">
                   <div className="element-id">{pe.id}</div>
                   <div className="element-name">{pe.name}</div>
-                  {comments[`${layerId}-${pe.id}`] && (
-                    <div className="comment-indicator">💬</div>
-                  )}
                 </div>
 
                 <div className="secondary-elements">
@@ -85,8 +79,10 @@ export default function MatrixView({ comments, onSave, onDelete }) {
                         onClick={() => handleCellClick(layerId, seId)}
                       >
                         <div className="element-id">{seId}</div>
-                        {comments[cellId] && (
+                        {comments[cellId] ? (
                           <div className="comment-indicator">💬</div>
+                        ) : (
+                          <div className="add-comment-hint">+</div>
                         )}
                       </div>
                     );

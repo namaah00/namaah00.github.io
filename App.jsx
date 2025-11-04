@@ -164,33 +164,7 @@ export default function App() {
         const commentsDiv = document.createElement('div');
 
         layer.primary.forEach((pe) => {
-          const peId = `${layerId}-${pe.id}`;
-          const peComment = comments[peId];
-
-          if (peComment) {
-            hasComments = true;
-            layerHasComments = true;
-            
-            const commentBlock = document.createElement('div');
-            commentBlock.style.marginBottom = '15px';
-            commentBlock.style.paddingLeft = '10px';
-            
-            commentBlock.innerHTML = `
-              <div style="font-size: 14px; font-weight: bold; color: #000; margin-bottom: 5px;">
-                ${pe.id}: ${pe.name}
-              </div>
-              <div style="font-size: 12px; font-weight: bold; color: #333; margin-bottom: 3px; padding-left: 10px;">
-                Tytuł: ${peComment.title}
-              </div>
-              <div style="font-size: 11px; color: #555; padding-left: 10px; line-height: 1.5;">
-                Treść: ${peComment.content}
-              </div>
-            `;
-            
-            commentsDiv.appendChild(commentBlock);
-          }
-
-          // Secondary Elements
+          // Tylko Secondary Elements mogą mieć komentarze
           pe.secondary.forEach((seId) => {
             const cellId = `${layerId}-${seId}`;
             const seComment = comments[cellId];

@@ -153,7 +153,6 @@ body {
   border: 2px solid #e0e0e0;
   border-radius: 8px;
   padding: 1rem;
-  cursor: pointer;
   transition: all 0.2s;
   position: relative;
   min-height: 80px;
@@ -162,7 +161,30 @@ body {
   gap: 0.5rem;
 }
 
-.element-card:hover {
+/* Primary Element Header (PE) - nie klikalne */
+.element-card.pe-header {
+  cursor: default;
+  background: #667eea;
+  border-color: #5568d3;
+  color: white;
+}
+
+.element-card.pe-header .element-id,
+.element-card.pe-header .element-name {
+  color: white;
+}
+
+.element-card.pe-header:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* Secondary Elements (SE) - klikalne */
+.element-card.secondary {
+  cursor: pointer;
+}
+
+.element-card.secondary:hover {
   border-color: #667eea;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
@@ -192,22 +214,36 @@ body {
   font-size: 1.2rem;
 }
 
+.add-comment-hint {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  font-size: 1.5rem;
+  color: #999;
+  font-weight: 300;
+  opacity: 0.5;
+  transition: all 0.2s;
+}
+
+.element-card.secondary:hover .add-comment-hint {
+  opacity: 1;
+  color: #667eea;
+  transform: scale(1.2);
+}
+
 /* Secondary Elements */
 .secondary-elements {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   padding-left: 1rem;
+  margin-top: 0.5rem;
 }
 
 .element-card.secondary {
   min-height: 50px;
   padding: 0.75rem;
   background: #fafafa;
-}
-
-.element-card.secondary:hover {
-  background: #f0f4ff;
 }
 
 /* Dialog */
