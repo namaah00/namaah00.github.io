@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import MatrixView from './components/MatrixView.jsx';
 import Toast from './components/Toast.jsx';
+import HelpDialog from './components/HelpDialog.jsx';
 import { MATRIX_DATA, SE_NAMES } from './components/matrixData.js';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
@@ -8,6 +9,7 @@ import jsPDF from 'jspdf';
 export default function App() {
   const [comments, setComments] = useState({});
   const [toast, setToast] = useState(null);
+  const [isHelpOpen, setIsHelpOpen] = useState(false);
   const matrixRef = useRef(null);
 
   const showToast = (message, type = 'success') => {
@@ -242,6 +244,9 @@ export default function App() {
       <header className="header">
         <h1>System Analizy Informacji</h1>
         <div className="header-info">
+          <button className="btn btn-help" onClick={() => setIsHelpOpen(true)}>
+            ❓ Pomoc
+          </button>
           <span className="comment-count">
             📝 Komentarzy: {commentCount}
           </span>
@@ -278,6 +283,11 @@ export default function App() {
       </div>
 
       {toast && <Toast message={toast.message} type={toast.type} />}
+      
+      <HelpDialog 
+        isOpen={isHelpOpen} 
+        onClose={() => setIsHelpOpen(false)} 
+      />
     </div>
   );
 }
