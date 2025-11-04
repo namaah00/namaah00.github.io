@@ -5,25 +5,24 @@ const MATRIX_DATA = {
   L1: {
     name: 'Jakość Informacji',
     primary: [
-      { id: 'PE1', name: 'Wiarygodność źródła', secondary: ['SE1.1', 'SE1.2', 'SE1.3'] },
-      { id: 'PE2', name: 'Spójność informacji', secondary: ['SE2.1', 'SE2.2'] },
-      { id: 'PE3', name: 'Kompletność danych', secondary: ['SE3.1', 'SE3.2', 'SE3.3'] }
+      { id: '001', name: 'Ocena treści', secondary: ['001.1 Spójność logiczna', '001.2 Forma przekazu', '001.3 Transparentność', '001.4 Rzetelność', '001.5 Obiektywność', '001.6 Autentyczność cyfrowa'] },
+      { id: '002', name: 'Ocena Źródła', secondary: ['002.1 Autorytet', '002.2 Reputacja', '002.3 Afiliacja', '002.4 Historia Wiarygodności'] },
+      
     ]
   },
   L2: {
     name: 'Szersze Tło',
     primary: [
-      { id: 'PE4', name: 'Kontekst historyczny', secondary: ['SE4.1', 'SE4.2'] },
-      { id: 'PE5', name: 'Powiązania geograficzne', secondary: ['SE5.1', 'SE5.2', 'SE5.3'] },
-      { id: 'PE6', name: 'Analiza czasowa', secondary: ['SE6.1', 'SE6.2'] }
+      { id: '003', name: 'Ocena kontekstu', secondary: ['003.1 Aktualność', '003.2 Cel przekazu','003.3 Odbiorca', 
+        '003.4 Sytuacja społeczna','003.5 Interesy', '003.6 Okoliczności powstania','003.7 Dynamika', 
+        '003.8 Kontekst geopolityczny','003.9 Zasięg ', '003.10 Spójność techniczna przekazu'] }
     ]
   },
   L3: {
     name: 'Zestawienie Źródeł',
     primary: [
-      { id: 'PE7', name: 'Źródła otwarte', secondary: ['SE7.1', 'SE7.2', 'SE7.3'] },
-      { id: 'PE8', name: 'Źródła zamknięte', secondary: ['SE8.1', 'SE8.2'] },
-      { id: 'PE9', name: 'Weryfikacja krzyżowa', secondary: ['SE9.1', 'SE9.2', 'SE9.3'] }
+      { id: '004', name: 'Ocena kontrastu', secondary: ['004.1 Zgodności', '004.2 Rozbieżności', '004.3 Różnorodność', 
+        '004.4 Kontekst międzynarodowy'] }
     ]
   }
 };
