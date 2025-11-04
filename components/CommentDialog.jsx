@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { SE_NAMES } from './matrixData.js';
+import { translations } from './translations.js';
+import { getSEName } from './matrixData.js';
 
 export default function CommentDialog({
   isOpen,
@@ -9,8 +10,11 @@ export default function CommentDialog({
   initialTitle = '',
   initialContent = '',
   cellId,
-  hasComment
+  hasComment,
+  language
 }) {
+  const t = (key) => translations[language][key] || key;
+  
   const [title, setTitle] = useState(initialTitle);
   const [content, setContent] = useState(initialContent);
 
@@ -35,38 +39,38 @@ export default function CommentDialog({
 
   // Wyciągnij tylko ID elementu (bez warstwy)
   const elementId = cellId.split('-')[1];
-  const elementName = SE_NAMES[elementId];
-  const displayName = elementName ? `${elementId} - ${elementName}` : cellId;
+  const elementName = getSEName(elementId, language);
+  const displayName = `${elementId} - ${elementName}`;
 
   return (
     <div className="dialog-backdrop" onClick={handleBackdropClick}>
       <div className="dialog">
         <div className="dialog-header">
-          <h3>Komentarz - {displayName}</h3>
+          <h3>{t('commentTitle')} - {displayName}</h3>
           <button className="close-btn" onClick={onClose}>✕</button>
         </div>
 
         <div className="dialog-body">
           <div className="form-group">
-            <label htmlFor="title">Tytuł</label>
+            <label htmlFor="title">{t('titleLabel')}</label>
             <input
               id="title"
               type="text"
               className="form-input"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder="Wprowadź tytuł komentarza..."
+              placeholder={t('titlePlaceholder')}
             />
           </div>
 
           <div className="form-group">
-            <label htmlFor="content">Treść</label>
+            <label htmlFor="content">{t('contentLabel')}</label>
             <textarea
               id="content"
               className="form-textarea"
               value={content}
               onChange={(e) => setContent(e.target.value)}
-              placeholder="Wprowadź treść komentarza..."
+              placeholder={t('contentPlaceholder')}
               rows={6}
             />
           </div>
@@ -74,15 +78,15 @@ export default function CommentDialog({
 
         <div className="dialog-footer">
           <button className="btn btn-primary" onClick={handleSave}>
-            💾 Zapisz
+            💾 {t('save')}
           </button>
           {hasComment && (
             <button className="btn btn-danger" onClick={onDelete}>
-              🗑️ Usuń
+              🗑️ {t('delete')}
             </button>
           )}
           <button className="btn btn-secondary" onClick={onClose}>
-            ✕ Anuluj
+            ✕ {t('cancel')}
           </button>
         </div>
       </div>

@@ -1,7 +1,10 @@
 import { useState, useEffect } from 'react';
-import { MATRIX_DATA, SE_NAMES } from './matrixData.js';
+import { translations } from './translations.js';
+import { getSEName } from './matrixData.js';
 
-export default function HelpDialog({ isOpen, onClose }) {
+export default function HelpDialog({ isOpen, onClose, language }) {
+  const t = (key) => translations[language][key] || key;
+  
   const [activeSection, setActiveSection] = useState('intro');
 
   useEffect(() => {
@@ -34,279 +37,202 @@ export default function HelpDialog({ isOpen, onClose }) {
 
   const sections = {
     intro: {
-      title: '📖 Wprowadzenie',
+      title: t('helpIntroTitle'),
       content: (
         <div>
-          <h4>System Analizy Taktyk i Technik Cyberbezpieczeństwa</h4>
-          <p>
-            Aplikacja pozwala na systematyczną analizę informacji w trzech warstwach hierarchicznych:
-          </p>
+          <h4>{t('helpIntroHeading')}</h4>
+          <p>{t('helpIntroDesc')}</p>
           <ul>
-            <li><strong>L1 - Jakość Informacji:</strong> Ocena treści i źródła informacji</li>
-            <li><strong>L2 - Szersze tło:</strong> Analiza kontekstu społecznego i geopolitycznego</li>
-            <li><strong>L3 - Zestawienie źródeł:</strong> Porównanie różnych źródeł informacji</li>
+            <li><strong>L1:</strong> {t('helpIntroL1')}</li>
+            <li><strong>L2:</strong> {t('helpIntroL2')}</li>
+            <li><strong>L3:</strong> {t('helpIntroL3')}</li>
           </ul>
-          <h4>Jak używać aplikacji:</h4>
+          <h4>{t('helpHowToUse')}</h4>
           <ol>
-            <li>Kliknij na dowolny <strong>Secondary Element</strong> (SE) z przyciskiem "+"</li>
-            <li>Dodaj tytuł i treść komentarza</li>
-            <li>Zapisz komentarz - zostanie oznaczony ikoną 💬</li>
-            <li>Eksportuj analizę do PDF lub JSON</li>
-            <li>Importuj wcześniej zapisane analizy z JSON</li>
+            <li>{t('helpStep1')}</li>
+            <li>{t('helpStep2')}</li>
+            <li>{t('helpStep3')}</li>
+            <li>{t('helpStep4')}</li>
+            <li>{t('helpStep5')}</li>
           </ol>
-          <p>
-            <strong>Uwaga:</strong> Tylko Secondary Elements (SE) są klikalne i mogą zawierać komentarze. 
-            Primary Elements (PE) służą jako nagłówki kategorii.
-          </p>
+          <p><strong>{t('note')}:</strong> {t('helpNote')}</p>
         </div>
       )
     },
     l1: {
-      title: 'L1 - Jakość Informacji',
+      title: t('helpL1Title'),
       content: (
         <div>
-          <p>Warstwa podstawowa oceniająca fundamentalne aspekty informacji.</p>
+          <p>{t('helpL1Desc')}</p>
           
           <div className="help-pe-section">
-            <h4>001 - Ocena treści</h4>
-            <p>Analiza samej treści przekazu pod kątem jakości i rzetelności.</p>
+            <h4>{t('helpL1PE001')}</h4>
+            <p>{t('helpL1PE001Desc')}</p>
             <div className="help-se-list">
-              <div className="help-se-item">
-                <strong>001.1 - {SE_NAMES['001.1']}</strong>
-                <p>Weryfikacja logicznej spójności argumentów i brak wewnętrznych sprzeczności.</p>
-              </div>
-              <div className="help-se-item">
-                <strong>001.2 - {SE_NAMES['001.2']}</strong>
-                <p>Ocena sposobu prezentacji informacji (tekst, wideo, grafika).</p>
-              </div>
-              <div className="help-se-item">
-                <strong>001.3 - {SE_NAMES['001.3']}</strong>
-                <p>Jawność źródeł, metod pozyskania danych i ewentualnych ograniczeń.</p>
-              </div>
-              <div className="help-se-item">
-                <strong>001.4 - {SE_NAMES['001.4']}</strong>
-                <p>Dokładność faktów, weryfikowalność danych i solidność podstaw.</p>
-              </div>
-              <div className="help-se-item">
-                <strong>001.5 - {SE_NAMES['001.5']}</strong>
-                <p>Bezstronność prezentacji, brak manipulacji i tendencyjności.</p>
-              </div>
-              <div className="help-se-item">
-                <strong>001.6 - {SE_NAMES['001.6']}</strong>
-                <p>Weryfikacja autentyczności dokumentów cyfrowych, brak manipulacji technicznych.</p>
-              </div>
+              {['001.1', '001.2', '001.3', '001.4', '001.5', '001.6'].map(id => (
+                <div key={id} className="help-se-item">
+                  <strong>{id} - {getSEName(id, language)}</strong>
+                  <p>{t(`helpSE${id.replace('.', '_')}`)}</p>
+                </div>
+              ))}
             </div>
           </div>
 
           <div className="help-pe-section">
-            <h4>002 - Ocena Źródła</h4>
-            <p>Analiza wiarygodności i reputacji źródła informacji.</p>
+            <h4>{t('helpL1PE002')}</h4>
+            <p>{t('helpL1PE002Desc')}</p>
             <div className="help-se-list">
-              <div className="help-se-item">
-                <strong>002.1 - {SE_NAMES['002.1']}</strong>
-                <p>Poziom kompetencji i uznania w danej dziedzinie.</p>
-              </div>
-              <div className="help-se-item">
-                <strong>002.2 - {SE_NAMES['002.2']}</strong>
-                <p>Historia publikacji, oceny społeczne i opinie ekspertów.</p>
-              </div>
-              <div className="help-se-item">
-                <strong>002.3 - {SE_NAMES['002.3']}</strong>
-                <p>Powiązania organizacyjne, finansowe i polityczne źródła.</p>
-              </div>
-              <div className="help-se-item">
-                <strong>002.4 - {SE_NAMES['002.4']}</strong>
-                <p>Wcześniejsze publikacje, ich trafność i korekty błędów.</p>
-              </div>
+              {['002.1', '002.2', '002.3', '002.4'].map(id => (
+                <div key={id} className="help-se-item">
+                  <strong>{id} - {getSEName(id, language)}</strong>
+                  <p>{t(`helpSE${id.replace('.', '_')}`)}</p>
+                </div>
+              ))}
             </div>
           </div>
         </div>
       )
     },
     l2: {
-      title: 'L2 - Szersze tło',
+      title: t('helpL2Title'),
       content: (
         <div>
-          <p>Warstwa kontekstowa analizująca szerszy obraz sytuacji.</p>
+          <p>{t('helpL2Desc')}</p>
           
           <div className="help-pe-section">
-            <h4>003 - Ocena kontekstu</h4>
-            <p>Kompleksowa analiza okoliczności powstania i funkcjonowania informacji.</p>
+            <h4>{t('helpL2PE003')}</h4>
+            <p>{t('helpL2PE003Desc')}</p>
             <div className="help-se-list">
-              <div className="help-se-item">
-                <strong>003.1 - {SE_NAMES['003.1']}</strong>
-                <p>Czy informacja jest aktualna, jej data publikacji i ewentualne uaktualnienia.</p>
-              </div>
-              <div className="help-se-item">
-                <strong>003.2 - {SE_NAMES['003.2']}</strong>
-                <p>Intencje autora: informować, przekonywać, manipulować czy bawić.</p>
-              </div>
-              <div className="help-se-item">
-                <strong>003.3 - {SE_NAMES['003.3']}</strong>
-                <p>Grupa docelowa przekazu i dostosowanie treści do odbiorcy.</p>
-              </div>
-              <div className="help-se-item">
-                <strong>003.4 - {SE_NAMES['003.4']}</strong>
-                <p>Kontekst społeczny, kulturowy i ekonomiczny w momencie publikacji.</p>
-              </div>
-              <div className="help-se-item">
-                <strong>003.5 - {SE_NAMES['003.5']}</strong>
-                <p>Interesy finansowe, polityczne lub osobiste związane z przekazem.</p>
-              </div>
-              <div className="help-se-item">
-                <strong>003.6 - {SE_NAMES['003.6']}</strong>
-                <p>Warunki i okoliczności powstania informacji.</p>
-              </div>
-              <div className="help-se-item">
-                <strong>003.7 - {SE_NAMES['003.7']}</strong>
-                <p>Zmienność sytuacji, tempo wydarzeń i ewolucja informacji.</p>
-              </div>
-              <div className="help-se-item">
-                <strong>003.8 - {SE_NAMES['003.8']}</strong>
-                <p>Międzynarodowe aspekty sytuacji, relacje między państwami.</p>
-              </div>
-              <div className="help-se-item">
-                <strong>003.9 - {SE_NAMES['003.9']}</strong>
-                <p>Skala rozpowszechnienia informacji i jej wpływ.</p>
-              </div>
-              <div className="help-se-item">
-                <strong>003.10 - {SE_NAMES['003.10']}</strong>
-                <p>Techniczne aspekty przekazu: format, jakość, kanały dystrybucji.</p>
-              </div>
+              {['003.1', '003.2', '003.3', '003.4', '003.5', '003.6', '003.7', '003.8', '003.9', '003.10'].map(id => (
+                <div key={id} className="help-se-item">
+                  <strong>{id} - {getSEName(id, language)}</strong>
+                  <p>{t(`helpSE${id.replace('.', '_')}`)}</p>
+                </div>
+              ))}
             </div>
           </div>
         </div>
       )
     },
     l3: {
-      title: 'L3 - Zestawienie źródeł',
+      title: t('helpL3Title'),
       content: (
         <div>
-          <p>Warstwa porównawcza analizująca różnice i zgodności między źródłami.</p>
+          <p>{t('helpL3Desc')}</p>
           
           <div className="help-pe-section">
-            <h4>004 - Ocena kontrastu</h4>
-            <p>Porównanie i weryfikacja informacji z różnych źródeł.</p>
+            <h4>{t('helpL3PE004')}</h4>
+            <p>{t('helpL3PE004Desc')}</p>
             <div className="help-se-list">
-              <div className="help-se-item">
-                <strong>004.1 - {SE_NAMES['004.1']}</strong>
-                <p>Punkty wspólne między różnymi źródłami, potwierdzenie faktów.</p>
-              </div>
-              <div className="help-se-item">
-                <strong>004.2 - {SE_NAMES['004.2']}</strong>
-                <p>Różnice w relacjach, sprzeczne informacje wymagające wyjaśnienia.</p>
-              </div>
-              <div className="help-se-item">
-                <strong>004.3 - {SE_NAMES['004.3']}</strong>
-                <p>Zróżnicowanie typów źródeł: media, eksperci, dokumenty, świadkowie.</p>
-              </div>
-              <div className="help-se-item">
-                <strong>004.4 - {SE_NAMES['004.4']}</strong>
-                <p>Międzynarodowy wymiar źródeł, perspektywy różnych krajów.</p>
-              </div>
+              {['004.1', '004.2', '004.3', '004.4'].map(id => (
+                <div key={id} className="help-se-item">
+                  <strong>{id} - {getSEName(id, language)}</strong>
+                  <p>{t(`helpSE${id.replace('.', '_')}`)}</p>
+                </div>
+              ))}
             </div>
           </div>
         </div>
       )
     },
     usage: {
-      title: '🔧 Funkcje aplikacji',
+      title: t('helpUsageTitle'),
       content: (
         <div>
-          <h4>Dodawanie komentarzy</h4>
+          <h4>{t('helpUsageAddComments')}</h4>
           <ol>
-            <li>Znajdź Secondary Element (SE), który chcesz przeanalizować</li>
-            <li>Kliknij na kartę SE z przyciskiem "+"</li>
-            <li>W oknie dialogowym wprowadź:
+            <li>{t('helpUsageAddStep1')}</li>
+            <li>{t('helpUsageAddStep2')}</li>
+            <li>{t('helpUsageAddStep3')}
               <ul>
-                <li><strong>Tytuł:</strong> Krótkie podsumowanie (np. "Źródło niezweryfikowane")</li>
-                <li><strong>Treść:</strong> Szczegółowa analiza i wnioski</li>
+                <li><strong>{t('titleLabel')}:</strong> {t('helpUsageAddTitle')}</li>
+                <li><strong>{t('contentLabel')}:</strong> {t('helpUsageAddContent')}</li>
               </ul>
             </li>
-            <li>Kliknij "💾 Zapisz"</li>
+            <li>{t('helpUsageAddStep4')}</li>
           </ol>
 
-          <h4>Edycja i usuwanie</h4>
+          <h4>{t('helpUsageEdit')}</h4>
           <ul>
-            <li>Kliknij na SE z ikoną 💬 aby edytować komentarz</li>
-            <li>W oknie dialogowym możesz zmienić tytuł i treść</li>
-            <li>Użyj przycisku "🗑️ Usuń" aby usunąć komentarz</li>
+            <li>{t('helpUsageEditStep1')}</li>
+            <li>{t('helpUsageEditStep2')}</li>
+            <li>{t('helpUsageEditStep3')}</li>
           </ul>
 
-          <h4>Eksport do PDF</h4>
+          <h4>{t('helpUsagePDF')}</h4>
           <ol>
-            <li>Kliknij przycisk "📄 Eksportuj PDF"</li>
-            <li>Aplikacja wygeneruje wizualizację matrycy + wszystkie komentarze</li>
-            <li>PDF zawiera:
+            <li>{t('helpUsagePDFStep1')}</li>
+            <li>{t('helpUsagePDFStep2')}</li>
+            <li>{t('helpUsagePDFStep3')}
               <ul>
-                <li>Pełną matrycę z zaznaczonymi komentarzami</li>
-                <li>Listę wszystkich komentarzy pogrupowanych wg warstw</li>
-                <li>Datę i godzinę generowania raportu</li>
+                <li>{t('helpUsagePDFItem1')}</li>
+                <li>{t('helpUsagePDFItem2')}</li>
+                <li>{t('helpUsagePDFItem3')}</li>
               </ul>
             </li>
           </ol>
 
-          <h4>Eksport/Import JSON</h4>
-          <p><strong>Eksport:</strong></p>
+          <h4>{t('helpUsageJSON')}</h4>
+          <p><strong>{t('helpUsageJSONExport')}</strong></p>
           <ol>
-            <li>Kliknij "💾 Eksportuj JSON"</li>
-            <li>Zapisz plik na dysku</li>
+            <li>{t('helpUsageJSONExportStep1')}</li>
+            <li>{t('helpUsageJSONExportStep2')}</li>
           </ol>
           
-          <p><strong>Import:</strong></p>
+          <p><strong>{t('helpUsageJSONImport')}</strong></p>
           <ol>
-            <li>Kliknij "📥 Importuj JSON"</li>
-            <li>Wybierz wcześniej zapisany plik</li>
-            <li>Wszystkie komentarze zostaną wczytane</li>
+            <li>{t('helpUsageJSONImportStep1')}</li>
+            <li>{t('helpUsageJSONImportStep2')}</li>
+            <li>{t('helpUsageJSONImportStep3')}</li>
           </ol>
 
-          <h4>Czyszczenie danych</h4>
+          <h4>{t('helpUsageClear')}</h4>
           <ul>
-            <li>Kliknij "🗑️ Wyczyść wszystko" aby usunąć wszystkie komentarze</li>
-            <li>Pojawi się potwierdzenie przed usunięciem</li>
+            <li>{t('helpUsageClearDesc')}</li>
+            <li>{t('helpUsageClearConfirm')}</li>
           </ul>
         </div>
       )
     },
     tips: {
-      title: '💡 Wskazówki',
+      title: t('helpTipsTitle'),
       content: (
         <div>
-          <h4>Efektywna analiza</h4>
+          <h4>{t('helpTipsAnalysis')}</h4>
           <ul>
-            <li><strong>Rozpocznij od L1:</strong> Najpierw oceń jakość samej informacji</li>
-            <li><strong>Przejdź do L2:</strong> Zrozum szerszy kontekst sytuacji</li>
-            <li><strong>Zakończ na L3:</strong> Porównaj z innymi źródłami</li>
+            <li><strong>L1:</strong> {t('helpTipsAnalysisL1')}</li>
+            <li><strong>L2:</strong> {t('helpTipsAnalysisL2')}</li>
+            <li><strong>L3:</strong> {t('helpTipsAnalysisL3')}</li>
           </ul>
 
-          <h4>Tworzenie komentarzy</h4>
+          <h4>{t('helpTipsComments')}</h4>
           <ul>
-            <li><strong>Tytuł:</strong> Powinien być krótki i opisowy (2-5 słów)</li>
-            <li><strong>Treść:</strong> Zawieraj konkretne fakty, obserwacje i wnioski</li>
-            <li><strong>Cytuj:</strong> Jeśli możliwe, odnoś się do konkretnych źródeł</li>
-            <li><strong>Data:</strong> Uwzględnij daty wydarzeń i publikacji</li>
+            <li><strong>{t('titleLabel')}:</strong> {t('helpTipsCommentsTitle')}</li>
+            <li><strong>{t('contentLabel')}:</strong> {t('helpTipsCommentsContent')}</li>
+            <li>{t('helpTipsCommentsCite')}</li>
+            <li>{t('helpTipsCommentsDate')}</li>
           </ul>
 
-          <h4>Organizacja pracy</h4>
+          <h4>{t('helpTipsOrganization')}</h4>
           <ul>
-            <li>Regularnie eksportuj JSON jako backup</li>
-            <li>Używaj spójnej konwencji nazewnictwa w tytułach</li>
-            <li>Generuj PDF po zakończeniu analizy jako raport końcowy</li>
-            <li>Dla złożonych analiz twórz osobne pliki JSON dla różnych tematów</li>
+            <li>{t('helpTipsOrgBackup')}</li>
+            <li>{t('helpTipsOrgNaming')}</li>
+            <li>{t('helpTipsOrgPDF')}</li>
+            <li>{t('helpTipsOrgFiles')}</li>
           </ul>
 
-          <h4>Najlepsze praktyki</h4>
+          <h4>{t('helpTipsBestPractices')}</h4>
           <ul>
-            <li><strong>Obiektywność:</strong> Oddzielaj fakty od opinii</li>
-            <li><strong>Weryfikacja:</strong> Sprawdzaj informacje w wielu źródłach</li>
-            <li><strong>Dokumentacja:</strong> Zapisuj źródła i linki w treści komentarzy</li>
-            <li><strong>Regularność:</strong> Aktualizuj analizę w miarę napływu nowych informacji</li>
+            <li><strong>{t('objectivity')}:</strong> {t('helpTipsBPObjectivity')}</li>
+            <li><strong>{t('verification')}:</strong> {t('helpTipsBPVerification')}</li>
+            <li><strong>{t('documentation')}:</strong> {t('helpTipsBPDocumentation')}</li>
+            <li><strong>{t('regularity')}:</strong> {t('helpTipsBPRegularity')}</li>
           </ul>
 
-          <h4>Skróty klawiszowe</h4>
+          <h4>{t('helpTipsShortcuts')}</h4>
           <ul>
-            <li><strong>ESC:</strong> Zamknij otwarty dialog</li>
-            <li><strong>Kliknięcie poza dialog:</strong> Zamknij bez zapisywania</li>
+            <li><strong>ESC:</strong> {t('helpTipsShortcutsESC')}</li>
+            <li><strong>{t('click')}:</strong> {t('helpTipsShortcutsClick')}</li>
           </ul>
         </div>
       )
@@ -317,7 +243,7 @@ export default function HelpDialog({ isOpen, onClose }) {
     <div className="dialog-backdrop help-backdrop" onClick={handleBackdropClick}>
       <div className="dialog help-dialog">
         <div className="dialog-header">
-          <h3>❓ Samouczek</h3>
+          <h3>❓ {t('helpTitle')}</h3>
           <button className="close-btn" onClick={onClose}>✕</button>
         </div>
 
@@ -346,7 +272,7 @@ export default function HelpDialog({ isOpen, onClose }) {
 
         <div className="dialog-footer">
           <button className="btn btn-secondary" onClick={onClose}>
-            ✓ Zamknij
+            ✓ {t('helpClose')}
           </button>
         </div>
       </div>

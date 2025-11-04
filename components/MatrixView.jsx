@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import CommentDialog from './CommentDialog.jsx';
-import { MATRIX_DATA, SE_NAMES } from './matrixData.js';
+import { translations } from './translations.js';
+import { MATRIX_DATA, getSEName, getLayerName, getPEName } from './matrixData.js';
 
-export default function MatrixView({ comments, onSave, onDelete }) {
+export default function MatrixView({ comments, onSave, onDelete, language }) {
+  const t = (key) => translations[language][key] || key;
   const [selectedCell, setSelectedCell] = useState(null);
 
   const handleCellClick = (layerId, elementId) => {
@@ -33,7 +35,7 @@ export default function MatrixView({ comments, onSave, onDelete }) {
       {Object.entries(MATRIX_DATA).map(([layerId, layer]) => (
         <div key={layerId} className="layer">
           <div className="layer-header">
-            <h2>{layerId}: {layer.name}</h2>
+            <h2>{getLayerName(layerId, language)}</h2>
           </div>
 
           <div className="elements-grid">
@@ -41,21 +43,22 @@ export default function MatrixView({ comments, onSave, onDelete }) {
               <div key={pe.id} className="primary-element">
                 <div className="element-card pe-header">
                   <div className="element-id">{pe.id}</div>
-                  <div className="element-name">{pe.name}</div>
+                  <div className="element-name">{getPEName(pe.id, language)}</div>
                 </div>
 
                 <div className="secondary-elements">
                   {pe.secondary.map((seId) => {
                     const cellId = `${layerId}-${seId}`;
+                    const seName = getSEName(seId, language);
                     return (
                       <div
                         key={seId}
                         className={`element-card secondary ${comments[cellId] ? 'has-comment' : ''}`}
                         onClick={() => handleCellClick(layerId, seId)}
-                        title={SE_NAMES[seId] || seId}
+                        title={seName}
                       >
                         <div className="element-id">{seId}</div>
-                        <div className="element-name-small">{SE_NAMES[seId]}</div>
+                        <div className="element-name-small">{seName}</div>
                         {comments[cellId] ? (
                           <div className="comment-indicator">💬</div>
                         ) : (
@@ -81,6 +84,7 @@ export default function MatrixView({ comments, onSave, onDelete }) {
           initialContent={comments[selectedCell]?.content || ''}
           cellId={selectedCell}
           hasComment={!!comments[selectedCell]}
+          language={language}
         />
       )}
     </div>

@@ -1,12 +1,28 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import MatrixView from './components/MatrixView.jsx';
 import Toast from './components/Toast.jsx';
 import HelpDialog from './components/HelpDialog.jsx';
-import { MATRIX_DATA, SE_NAMES } from './components/matrixData.js';
+import { translations } from './components/translations.js';
+import { MATRIX_DATA, getSEName, getLayerName } from './components/matrixData.js';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 
 export default function App() {
+  // Language management
+  const [language, setLanguage] = useState(() => {
+    return localStorage.getItem('app-language') || 'pl';
+  });
+  
+  useEffect(() => {
+    localStorage.setItem('app-language', language);
+  }, [language]);
+  
+  const toggleLanguage = () => {
+    setLanguage(prev => prev === 'pl' ? 'en' : 'pl');
+  };
+  
+  const t = (key) => translations[language][key] || key;
+  
   const [comments, setComments] = useState({});
   const [toast, setToast] = useState(null);
   const [isHelpOpen, setIsHelpOpen] = useState(false);
@@ -22,7 +38,7 @@ export default function App() {
       ...prev,
       [id]: { title, content }
     }));
-    showToast('Komentarz zapisany!');
+    showToast(t('commentSaved'));
   };
 
   const handleDeleteComment = (id) => {
@@ -31,7 +47,7 @@ export default function App() {
       delete newComments[id];
       return newComments;
     });
-    showToast('Komentarz usunięty!');
+    showToast(t('commentDeleted'));
   };
 
   const handleExportJSON = () => {
@@ -40,10 +56,10 @@ export default function App() {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = 'komentarze.json';
+    link.download = 'comments.json';
     link.click();
     URL.revokeObjectURL(url);
-    showToast('JSON wyeksportowany!');
+    showToast(t('exportSuccess'));
   };
 
   const handleImportJSON = (e) => {
@@ -55,9 +71,9 @@ export default function App() {
       try {
         const imported = JSON.parse(event.target.result);
         setComments(imported);
-        showToast('JSON zaimportowany!');
+        showToast(t('importSuccess'));
       } catch (err) {
-        showToast('Błąd importu JSON!', 'error');
+        showToast(t('importError'), 'error');
       }
     };
     reader.readAsText(file);
@@ -100,12 +116,13 @@ export default function App() {
       
       // Nagłówek
       const header = document.createElement('div');
+      const locale = language === 'pl' ? 'pl-PL' : 'en-US';
       header.innerHTML = `
         <h1 style="font-size: 24px; margin: 0 0 10px 0; font-weight: bold; color: #000;">
-          Raport: System Analizy Informacji
+          ${t('pdfTitle')}
         </h1>
         <p style="font-size: 12px; color: #666; margin: 0 0 5px 0;">
-          Data generacji: ${new Date().toLocaleDateString('pl-PL', {
+          ${t('pdfGenerated')}: ${new Date().toLocaleDateString(locale, {
             year: 'numeric',
             month: 'long',
             day: 'numeric',
@@ -114,7 +131,7 @@ export default function App() {
           })}
         </p>
         <p style="font-size: 12px; color: #666; margin: 0 0 30px 0;">
-          Liczba komentarzy: ${Object.keys(comments).length}
+          ${t('comments')}: ${Object.keys(comments).length}
         </p>
       `;
       reportContainer.appendChild(header);
@@ -126,7 +143,7 @@ export default function App() {
         layerDiv.style.marginTop = '20px';
         
         const layerTitle = document.createElement('h2');
-        layerTitle.textContent = `${layerId}: ${layer.name}`;
+        layerTitle.textContent = `${getLayerName(layerId, language)}`;
         layerTitle.style.fontSize = '18px';
         layerTitle.style.fontWeight = 'bold';
         layerTitle.style.marginBottom = '15px';
@@ -152,18 +169,18 @@ export default function App() {
               commentBlock.style.marginBottom = '12px';
               commentBlock.style.paddingLeft = '20px';
               
-              const seName = SE_NAMES[seId] || '';
-              const seDisplayName = seName ? `${seId} - ${seName}` : seId;
+              const seName = getSEName(seId, language);
+              const seDisplayName = `${seId} - ${seName}`;
               
               commentBlock.innerHTML = `
                 <div style="font-size: 13px; font-weight: bold; color: #000; margin-bottom: 4px;">
                   ${seDisplayName}
                 </div>
                 <div style="font-size: 11px; font-weight: bold; color: #333; margin-bottom: 3px; padding-left: 10px;">
-                  Tytuł: ${seComment.title}
+                  ${t('titleLabel')}: ${seComment.title}
                 </div>
                 <div style="font-size: 10px; color: #555; padding-left: 10px; line-height: 1.5;">
-                  Treść: ${seComment.content}
+                  ${t('contentLabel')}: ${seComment.content}
                 </div>
               `;
               
@@ -182,7 +199,7 @@ export default function App() {
       // Jeśli brak komentarzy
       if (!hasComments) {
         const noComments = document.createElement('p');
-        noComments.textContent = 'Brak komentarzy do wyświetlenia.';
+        noComments.textContent = t('pdfNoComments');
         noComments.style.fontSize = '14px';
         noComments.style.fontStyle = 'italic';
         noComments.style.color = '#666';
@@ -242,29 +259,32 @@ export default function App() {
   return (
     <div className="app">
       <header className="header">
-        <h1>System Analizy Informacji</h1>
+        <h1>{t('appTitle')}</h1>
         <div className="header-info">
+          <button className="btn btn-language" onClick={toggleLanguage}>
+            🌐 {language === 'pl' ? 'EN' : 'PL'}
+          </button>
           <button className="btn btn-help" onClick={() => setIsHelpOpen(true)}>
-            ❓ Pomoc
+            ❓ {t('help')}
           </button>
           <span className="comment-count">
-            📝 Komentarzy: {commentCount}
+            📝 {t('comments')}: {commentCount}
           </span>
         </div>
       </header>
 
       <div className="toolbar">
         <button className="btn btn-primary" onClick={handleExportImage}>
-          📷 Eksport JPEG
+          📷 {t('exportJPEG')}
         </button>
         <button className="btn btn-primary" onClick={handleGeneratePDF}>
-          📄 Generuj PDF
+          📄 {t('generatePDF')}
         </button>
         <button className="btn btn-secondary" onClick={handleExportJSON}>
-          ⬇️ Eksport JSON
+          💾 {t('exportJSON')}
         </button>
         <label className="btn btn-secondary">
-          ⬆️ Import JSON
+          📥 {t('importJSON')}
           <input
             type="file"
             accept=".json"
@@ -279,6 +299,7 @@ export default function App() {
           comments={comments}
           onSave={handleSaveComment}
           onDelete={handleDeleteComment}
+          language={language}
         />
       </div>
 
@@ -286,7 +307,8 @@ export default function App() {
       
       <HelpDialog 
         isOpen={isHelpOpen} 
-        onClose={() => setIsHelpOpen(false)} 
+        onClose={() => setIsHelpOpen(false)}
+        language={language}
       />
     </div>
   );
