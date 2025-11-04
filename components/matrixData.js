@@ -1,4 +1,6 @@
-// Mapa pełnych nazw dla Secondary Elements
+import { translations } from './translations.js';
+
+// Legacy SE_NAMES for backward compatibility (Polish)
 export const SE_NAMES = {
   '001.1': 'Spójność logiczna',
   '001.2': 'Forma przekazu',
@@ -63,4 +65,22 @@ export const MATRIX_DATA = {
       }
     ]
   }
+};
+
+// Helper function to get SE name by language
+export const getSEName = (id, lang = 'pl') => {
+  const key = `se${id.replace('.', '_')}`;
+  return translations[lang][key] || id;
+};
+
+// Helper function to get layer name
+export const getLayerName = (layerId, lang = 'pl') => {
+  const key = `layer${layerId.replace('L', '')}`;
+  return translations[lang][key] || layerId;
+};
+
+// Helper function to get PE name
+export const getPEName = (peId, lang = 'pl') => {
+  const key = `pe${peId}`;
+  return translations[lang][key] || peId;
 };
