@@ -17,6 +17,8 @@ export default function CommentDialog({
 //funcja tłumaczenia pl en
 {
   //t(key) zwraca tłumaczenie dla bieżącego języka; jeśli brak tłumaczenia, zwraca sam klucz (fallback)
+  //Jeśli mamy tłumaczenie danego tekstu (np. „save” → „Zapisz”), to je pokazuje.
+  //Jeśli tłumaczenia nie ma — pokazuje po prostu sam angielski klucz
   const t = (key) => translations[language][key] || key;
   
   //title i content przechowują aktualne wartości pól formularza
@@ -59,7 +61,7 @@ export default function CommentDialog({
   //dialog-header: tytuł okna dialogowego
   //dialog-body: tytuł i treść komentarza
   //dialog-footer: przyciski na dole okna dialogowego
-  
+
   return (
     <div className="dialog-backdrop" onClick={handleBackdropClick}>
       <div className="dialog"> 
