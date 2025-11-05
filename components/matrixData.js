@@ -1,6 +1,7 @@
+//zestaw tłumaczeń z pliku translations.js
 import { translations } from './translations.js';
 
-// Legacy SE_NAMES for backward compatibility (Polish)
+//polska wersja nazw elementów razem z ID
 export const SE_NAMES = {
   '001.1': 'Spójność logiczna',
   '001.2': 'Forma przekazu',
@@ -28,7 +29,7 @@ export const SE_NAMES = {
   '004.4': 'Kontekst międzynarodowy'
 };
 
-// Główna struktura danych matrycy
+// Główna, poziomowa struktura danych matrycy
 export const MATRIX_DATA = {
   L1: {
     name: 'Jakość Informacji',
@@ -67,19 +68,19 @@ export const MATRIX_DATA = {
   }
 };
 
-// Helper function to get SE name by language
+//funkcja pomocnicza do pobrania nazwy SE w zależności od języka (001.1 -- se001_1)
 export const getSEName = (id, lang = 'pl') => {
   const key = `se${id.replace('.', '_')}`;
   return translations[lang][key] || id;
 };
 
-// Helper function to get layer name
+//funkcja pomocnicza do pobrania nazwy warstwy L1,L2, L3 (L1 -- layer1)
 export const getLayerName = (layerId, lang = 'pl') => {
   const key = `layer${layerId.replace('L', '')}`;
   return translations[lang][key] || layerId;
 };
 
-// Helper function to get PE name
+//funkcja pomocnicza do pobrania nazwy PE (001 -- pe001)
 export const getPEName = (peId, lang = 'pl') => {
   const key = `pe${peId}`;
   return translations[lang][key] || peId;
