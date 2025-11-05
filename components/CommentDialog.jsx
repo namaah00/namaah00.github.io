@@ -55,18 +55,20 @@ export default function CommentDialog({
   const displayName = `${elementId} - ${elementName}`;
 
   //render okna dialogowego
+  //dialog: główny kontener okna dialogowego
+  //dialog-header: tytuł okna dialogowego
+  //dialog-body: tytuł i treść komentarza
+  //dialog-footer: przyciski na dole okna dialogowego
+  
   return (
     <div className="dialog-backdrop" onClick={handleBackdropClick}>
-      
       <div className="dialog"> 
 
-        
         <div className="dialog-header">
           <h3>{t('commentTitle')} - {displayName}</h3>
           <button className="close-btn" onClick={onClose}>✕</button>
         </div>
 
-        
         <div className="dialog-body">
           <div className="form-group">
             <label htmlFor="title">{t('titleLabel')}</label>
@@ -93,7 +95,6 @@ export default function CommentDialog({
           </div>
         </div>
 
-        
         <div className="dialog-footer">
           <button className="btn btn-primary" onClick={handleSave}>
             💾 {t('save')}
