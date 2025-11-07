@@ -16,9 +16,9 @@ export default function MatrixView({ comments, onSave, onDelete, language }) {
     setSelectedCell(null);
   };
 
-  const handleSave = (title, content, image) => {
+  const handleSave = (title, content) => {
     if (selectedCell) {
-      onSave(selectedCell, title, content, image);
+      onSave(selectedCell, title, content);
       setSelectedCell(null);
     }
   };
@@ -60,9 +60,7 @@ export default function MatrixView({ comments, onSave, onDelete, language }) {
                         <div className="element-id">{seId}</div>
                         <div className="element-name-small">{seName}</div>
                         {comments[cellId] ? (
-                          <div className="comment-indicator">
-                            💬{comments[cellId].image ? ' 📎' : ''}
-                          </div>
+                          <div className="comment-indicator">💬</div>
                         ) : (
                           <div className="add-comment-hint">+</div>
                         )}
@@ -78,14 +76,12 @@ export default function MatrixView({ comments, onSave, onDelete, language }) {
 
       {selectedCell && (
         <CommentDialog
-          key={selectedCell}
           isOpen={true}
           onClose={handleCloseDialog}
           onSave={handleSave}
           onDelete={handleDelete}
           initialTitle={comments[selectedCell]?.title || ''}
           initialContent={comments[selectedCell]?.content || ''}
-          initialImage={comments[selectedCell]?.image || null}
           cellId={selectedCell}
           hasComment={!!comments[selectedCell]}
           language={language}
