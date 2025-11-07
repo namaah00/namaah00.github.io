@@ -29,7 +29,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      #instaluje środowisko Node.js 18 wersja, które jest potrzebne do uruchomienia projektu
+      #instaluje środowisko Node.js 18 wersja, które jest potrzebne do uruchomienia projektu,
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
