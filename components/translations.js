@@ -1,6 +1,6 @@
 export const translations = {
   pl: {
-    // Header
+    // tłumaczenie Header
     appTitle: 'System Analizy Informacji',
     help: 'Pomoc',
     comments: 'Komentarzy',
