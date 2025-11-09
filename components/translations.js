@@ -1,13 +1,13 @@
 export const translations = {
   pl: {
     // tłumaczenie Header
-    appTitle: 'System Analizy Informacji',
+    appTitle: 'System Weryfikacji Informacji',
     help: 'Pomoc',
     comments: 'Komentarzy',
     
     // Toolbar
     exportJPEG: 'Eksport JPEG',
-    generatePDF: 'Generuj PDF',
+    generatePDF: 'Generuj Raport',
     exportJSON: 'Eksport JSON',
     importJSON: 'Import JSON',
     clearAll: 'Wyczyść wszystko',
@@ -83,12 +83,12 @@ export const translations = {
     helpClose: 'Zamknij',
     
     // Help Sections
-    helpIntroTitle: '📖 Wprowadzenie',
+    helpIntroTitle: 'Wprowadzenie',
     helpL1Title: 'L1 - Jakość Informacji',
     helpL2Title: 'L2 - Szersze tło',
     helpL3Title: 'L3 - Zestawienie źródeł',
-    helpUsageTitle: '🔧 Funkcje aplikacji',
-    helpTipsTitle: '💡 Wskazówki',
+    helpUsageTitle: 'Funkcje aplikacji',
+    helpTipsTitle: 'Wskazówki',
     
     // Help Content - Intro
     helpIntroHeading: 'System Analizy Taktyk i Technik Cyberbezpieczeństwa',
@@ -306,12 +306,12 @@ export const translations = {
     helpClose: 'Close',
     
     // Help Sections
-    helpIntroTitle: '📖 Introduction',
+    helpIntroTitle: 'Introduction',
     helpL1Title: 'L1 - Information Quality',
     helpL2Title: 'L2 - Broader Context',
     helpL3Title: 'L3 - Source Comparison',
-    helpUsageTitle: '🔧 Application Features',
-    helpTipsTitle: '💡 Tips',
+    helpUsageTitle: 'Application Features',
+    helpTipsTitle: 'Tips',
     
     // Help Content - Intro
     helpIntroHeading: 'Cybersecurity Tactics and Techniques Analysis System',
