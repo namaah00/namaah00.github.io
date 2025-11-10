@@ -1,7 +1,6 @@
-//zestaw tłumaczeń z pliku translations.js
 import { translations } from './translations.js';
 
-//polska wersja nazw elementów razem z ID
+// Legacy SE_NAMES for backward compatibility (Polish)
 export const SE_NAMES = {
   '001.1': 'Spójność logiczna',
   '001.2': 'Forma przekazu',
@@ -26,10 +25,15 @@ export const SE_NAMES = {
   '004.1': 'Zgodności',
   '004.2': 'Rozbieżności',
   '004.3': 'Różnorodność',
-  '004.4': 'Kontekst międzynarodowy'
+  '004.4': 'Kontekst międzynarodowy',
+  '005.1': 'Reakcja instytucjonalna',
+  '005.2': 'Zasięg emocjonalny i reakcyjny',
+  '005.3': 'Efekt społeczny i sieciowy',
+  '005.4': 'Replikacja i trwałość',
+  '005.6': 'Efekt dezinformacyjny lub korekcyjny'
 };
 
-// Główna, poziomowa struktura danych matrycy
+// Główna struktura danych matrycy
 export const MATRIX_DATA = {
   L1: {
     name: 'Jakość Informacji',
@@ -53,6 +57,11 @@ export const MATRIX_DATA = {
         id: '003', 
         name: 'Ocena kontekstu', 
         secondary: ['003.1', '003.2', '003.3', '003.4', '003.5', '003.6', '003.7', '003.8', '003.9', '003.10'] 
+      },
+      { 
+        id: '005', 
+        name: 'Ocena skutków', 
+        secondary: ['005.1', '005.2', '005.3', '005.4', '005.6'] 
       }
     ]
   },
@@ -68,19 +77,19 @@ export const MATRIX_DATA = {
   }
 };
 
-//funkcja pomocnicza do pobrania nazwy SE w zależności od języka (001.1 -- se001_1)
+// Helper function to get SE name by language
 export const getSEName = (id, lang = 'pl') => {
   const key = `se${id.replace('.', '_')}`;
   return translations[lang][key] || id;
 };
 
-//funkcja pomocnicza do pobrania nazwy warstwy L1,L2, L3 (L1 -- layer1)
+// Helper function to get layer name
 export const getLayerName = (layerId, lang = 'pl') => {
   const key = `layer${layerId.replace('L', '')}`;
   return translations[lang][key] || layerId;
 };
 
-//funkcja pomocnicza do pobrania nazwy PE (001 -- pe001)
+// Helper function to get PE name
 export const getPEName = (peId, lang = 'pl') => {
   const key = `pe${peId}`;
   return translations[lang][key] || peId;

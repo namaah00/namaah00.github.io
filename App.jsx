@@ -3,10 +3,11 @@ import MatrixView from './components/MatrixView.jsx';
 import Toast from './components/Toast.jsx';
 import HelpDialog from './components/HelpDialog.jsx';
 import { translations } from './components/translations.js';
-import { MATRIX_DATA, getSEName, getLayerName } from './components/matrixData.js';
+import { MATRIX_DATA, getSEName, getLayerName, getRatingDescription } from './components/matrixData.js';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 
+// Version: Separated rating system v2
 export default function App() {
   // Language management
   const [language, setLanguage] = useState(() => {
@@ -23,7 +24,23 @@ export default function App() {
   
   const t = (key) => translations[language][key] || key;
   
-  const [comments, setComments] = useState({});
+  // Inicjalizuj komentarze z localStorage
+  const [comments, setComments] = useState(() => {
+    try {
+      const saved = localStorage.getItem('matrix-comments');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        console.log('🔄 Loading from localStorage:', Object.keys(parsed).length, 'comments');
+        return parsed;
+      }
+      console.log('📭 No saved comments in localStorage');
+      return {};
+    } catch (err) {
+      console.error('❌ Błąd ładowania komentarzy:', err);
+      return {};
+    }
+  });
+  
   const [toast, setToast] = useState(null);
   const [isHelpOpen, setIsHelpOpen] = useState(false);
   const matrixRef = useRef(null);
@@ -32,14 +49,68 @@ export default function App() {
     setToast({ message, type });
     setTimeout(() => setToast(null), 3000);
   };
+  
+  // Zapisuj komentarze do localStorage przy każdej zmianie
+  useEffect(() => {
+    try {
+      const jsonString = JSON.stringify(comments);
+      localStorage.setItem('matrix-comments', jsonString);
+      console.log('💿 Saved to localStorage:', Object.keys(comments).length, 'comments, size:', (jsonString.length / 1024).toFixed(2), 'KB');
+      
+      // Debug: Sprawdź czy localStorage faktycznie zawiera dane
+      const saved = localStorage.getItem('matrix-comments');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        console.log('✅ Verified in localStorage:', Object.keys(parsed).length, 'comments');
+      }
+    } catch (err) {
+      console.error('❌ Błąd zapisywania komentarzy:', err);
+      // Jeśli localStorage jest pełny, pokaż ostrzeżenie
+      if (err.name === 'QuotaExceededError') {
+        showToast('Przekroczono limit pamięci. Usuń stare komentarze.', 'error');
+      }
+    }
+  }, [comments]);
 
   const handleSaveComment = (id, title, content) => {
-    setComments(prev => ({
-      ...prev,
-      [id]: { title, content }
-    }));
+    setComments(prev => {
+      const existingRating = prev[id]?.rating ?? null;
+      return {
+        ...prev,
+        [id]: { title, content, rating: existingRating }
+      };
+    });
     showToast(t('commentSaved'));
   };
+
+  const handleSaveRating = (id, rating) => {
+    console.log('⭐ App.handleSaveRating called:', { id, rating });
+    setComments(prev => {
+      const existing = prev[id] || { title: '', content: '' };
+      const updated = {
+        ...prev,
+        [id]: { ...existing, rating }
+      };
+      console.log('⭐ Updated comments:', updated[id]);
+      return updated;
+    });
+    showToast(t('ratingSaved'));
+  };
+
+  const handleDeleteRating = (id) => {
+    console.log('⭐ App.handleDeleteRating called:', id);
+    setComments(prev => {
+      if (!prev[id]) return prev;
+      const { rating, ...rest } = prev[id];
+      return {
+        ...prev,
+        [id]: { ...rest, rating: null }
+      };
+    });
+    showToast(t('ratingDeleted'));
+  };
+  
+  console.log('🔄 App render - handleSaveRating exists:', typeof handleSaveRating);
 
   const handleDeleteComment = (id) => {
     setComments(prev => {
@@ -100,157 +171,186 @@ export default function App() {
     }
   };
 
+  const handleClearAll = () => {
+    if (window.confirm(t('confirmClear'))) {
+      setComments({});
+      showToast(t('clearSuccess'));
+    }
+  };
+
   const handleGeneratePDF = async () => {
     try {
-      showToast('Generowanie PDF...', 'info');
+      console.log('📄 Starting PDF generation...');
+      console.log('📊 Comments data:', comments);
+      console.log('📊 Number of comments:', Object.keys(comments).length);
       
-      // Tworzymy tymczasowy kontener z treścią raportu
-      const reportContainer = document.createElement('div');
-      reportContainer.style.position = 'absolute';
-      reportContainer.style.left = '-9999px';
-      reportContainer.style.width = '800px';
-      reportContainer.style.padding = '40px';
-      reportContainer.style.backgroundColor = '#ffffff';
-      reportContainer.style.fontFamily = 'Arial, sans-serif';
-      reportContainer.style.color = '#000000';
+      showToast(t('generatePDF') + '...', 'info');
       
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
+      const margin = 20;
+      const contentWidth = pageWidth - 2 * margin;
+      let yPosition = margin;
+
+      // Funkcja konwertująca tekst z polskimi znakami
+      const encodeText = (text) => {
+        if (!text) return '';
+        // Mapa polskich znaków na bezpieczne odpowiedniki
+        const polishChars = {
+          'ą': 'a', 'ć': 'c', 'ę': 'e', 'ł': 'l', 'ń': 'n', 'ó': 'o', 'ś': 's', 'ź': 'z', 'ż': 'z',
+          'Ą': 'A', 'Ć': 'C', 'Ę': 'E', 'Ł': 'L', 'Ń': 'N', 'Ó': 'O', 'Ś': 'S', 'Ź': 'Z', 'Ż': 'Z'
+        };
+        return text.split('').map(char => polishChars[char] || char).join('');
+      };
+
+      // Funkcja dodająca nową stronę jeśli potrzeba
+      const checkPageBreak = (requiredHeight) => {
+        if (yPosition + requiredHeight > pageHeight - margin) {
+          pdf.addPage();
+          yPosition = margin;
+          return true;
+        }
+        return false;
+      };
+
       // Nagłówek
-      const header = document.createElement('div');
+      pdf.setFontSize(20);
+      pdf.setFont('helvetica', 'bold');
+      pdf.text(encodeText(t('pdfTitle')), margin, yPosition);
+      yPosition += 10;
+
+      // Data generowania
+      pdf.setFontSize(10);
+      pdf.setFont('helvetica', 'normal');
       const locale = language === 'pl' ? 'pl-PL' : 'en-US';
-      header.innerHTML = `
-        <h1 style="font-size: 24px; margin: 0 0 10px 0; font-weight: bold; color: #000;">
-          ${t('pdfTitle')}
-        </h1>
-        <p style="font-size: 12px; color: #666; margin: 0 0 5px 0;">
-          ${t('pdfGenerated')}: ${new Date().toLocaleDateString(locale, {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-          })}
-        </p>
-        <p style="font-size: 12px; color: #666; margin: 0 0 30px 0;">
-          ${t('comments')}: ${Object.keys(comments).length}
-        </p>
-      `;
-      reportContainer.appendChild(header);
+      const dateStr = `${t('pdfGenerated')}: ${new Date().toLocaleDateString(locale, {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      })}`;
+      pdf.text(encodeText(dateStr), margin, yPosition);
+      yPosition += 6;
+
+      // Liczba komentarzy
+      const commentCountStr = `${t('comments')}: ${Object.keys(comments).length}`;
+      pdf.text(encodeText(commentCountStr), margin, yPosition);
+      yPosition += 15;
 
       // Dodaj zawartość komentarzy
       let hasComments = false;
-      Object.entries(MATRIX_DATA).forEach(([layerId, layer]) => {
-        const layerDiv = document.createElement('div');
-        layerDiv.style.marginTop = '20px';
-        
-        const layerTitle = document.createElement('h2');
-        layerTitle.textContent = `${getLayerName(layerId, language)}`;
-        layerTitle.style.fontSize = '18px';
-        layerTitle.style.fontWeight = 'bold';
-        layerTitle.style.marginBottom = '15px';
-        layerTitle.style.color = '#000';
-        layerTitle.style.borderBottom = '2px solid #333';
-        layerTitle.style.paddingBottom = '5px';
-        
+      
+      for (const [layerId, layer] of Object.entries(MATRIX_DATA)) {
         let layerHasComments = false;
+        const layerComments = [];
 
-        const commentsDiv = document.createElement('div');
-
+        // Zbierz komentarze dla tej warstwy
         layer.primary.forEach((pe) => {
-          // Tylko Secondary Elements mogą mieć komentarze
           pe.secondary.forEach((seId) => {
             const cellId = `${layerId}-${seId}`;
             const seComment = comments[cellId];
 
             if (seComment) {
+              console.log(`📝 Found comment for ${cellId}:`, seComment);
               hasComments = true;
               layerHasComments = true;
-              
-              const commentBlock = document.createElement('div');
-              commentBlock.style.marginBottom = '12px';
-              commentBlock.style.paddingLeft = '20px';
-              
               const seName = getSEName(seId, language);
-              const seDisplayName = `${seId} - ${seName}`;
-              
-              commentBlock.innerHTML = `
-                <div style="font-size: 13px; font-weight: bold; color: #000; margin-bottom: 4px;">
-                  ${seDisplayName}
-                </div>
-                <div style="font-size: 11px; font-weight: bold; color: #333; margin-bottom: 3px; padding-left: 10px;">
-                  ${t('titleLabel')}: ${seComment.title}
-                </div>
-                <div style="font-size: 10px; color: #555; padding-left: 10px; line-height: 1.5;">
-                  ${t('contentLabel')}: ${seComment.content}
-                </div>
-              `;
-              
-              commentsDiv.appendChild(commentBlock);
+              layerComments.push({
+                seId,
+                seName,
+                comment: seComment
+              });
             }
           });
         });
 
         if (layerHasComments) {
-          layerDiv.appendChild(layerTitle);
-          layerDiv.appendChild(commentsDiv);
-          reportContainer.appendChild(layerDiv);
+          console.log(`📋 Adding layer ${layerId} with ${layerComments.length} comments`);
+          // Nagłówek warstwy
+          checkPageBreak(15);
+          pdf.setFontSize(14);
+          pdf.setFont('helvetica', 'bold');
+          const layerName = encodeText(getLayerName(layerId, language));
+          console.log(`  Layer name: ${layerName} at position ${yPosition}`);
+          pdf.text(layerName, margin, yPosition);
+          yPosition += 8;
+          
+          // Linia pod nagłówkiem
+          pdf.setDrawColor(100, 100, 100);
+          pdf.setLineWidth(0.5);
+          pdf.line(margin, yPosition, pageWidth - margin, yPosition);
+          yPosition += 8;
+
+          // Komentarze w tej warstwie
+          for (const item of layerComments) {
+            const seDisplayName = `${item.seId} - ${item.seName}`;
+            
+            checkPageBreak(20);
+
+            // ID i nazwa elementu
+            pdf.setFontSize(11);
+            pdf.setFont('helvetica', 'bold');
+            pdf.text(encodeText(seDisplayName), margin + 5, yPosition);
+            yPosition += 6;
+
+            // Ocena (jeśli istnieje)
+            if (item.comment.rating !== null && item.comment.rating !== undefined) {
+              pdf.setFontSize(9);
+              pdf.setFont('helvetica', 'bold');
+              const ratingText = `${t('ratingLabel')}: ${item.comment.rating}/5 - ${getRatingDescription(item.seId, item.comment.rating, language)}`;
+              const splitRating = pdf.splitTextToSize(encodeText(ratingText), contentWidth - 15);
+              for (let i = 0; i < splitRating.length; i++) {
+                checkPageBreak(5);
+                pdf.text(splitRating[i], margin + 10, yPosition);
+                yPosition += 5;
+              }
+              yPosition += 2;
+            }
+
+            // Tytuł komentarza (tylko jeśli istnieje)
+            if (item.comment.title) {
+              pdf.setFontSize(9);
+              pdf.setFont('helvetica', 'bold');
+              const titleText = `${t('titleLabel')}: ${item.comment.title}`;
+              pdf.text(encodeText(titleText), margin + 10, yPosition);
+              yPosition += 5;
+            }
+
+            // Treść komentarza (tylko jeśli istnieje)
+            if (item.comment.content) {
+              pdf.setFont('helvetica', 'normal');
+              const contentText = `${t('contentLabel')}: ${item.comment.content}`;
+              const splitContent = pdf.splitTextToSize(encodeText(contentText), contentWidth - 15);
+              
+              for (let i = 0; i < splitContent.length; i++) {
+                checkPageBreak(5);
+                pdf.text(splitContent[i], margin + 10, yPosition);
+                yPosition += 5;
+              }
+            }
+            
+            yPosition += 8;
+          }
         }
-      });
+      }
 
       // Jeśli brak komentarzy
       if (!hasComments) {
-        const noComments = document.createElement('p');
-        noComments.textContent = t('pdfNoComments');
-        noComments.style.fontSize = '14px';
-        noComments.style.fontStyle = 'italic';
-        noComments.style.color = '#666';
-        reportContainer.appendChild(noComments);
-      }
-
-      // Dodaj do DOM
-      document.body.appendChild(reportContainer);
-      
-      // Poczekaj na renderowanie
-      await new Promise(resolve => setTimeout(resolve, 100));
-
-      // Generuj canvas z html2canvas
-      const canvas = await html2canvas(reportContainer, {
-        scale: 2,
-        backgroundColor: '#ffffff',
-        logging: false
-      });
-
-      // Usuń tymczasowy kontener
-      document.body.removeChild(reportContainer);
-
-      // Utwórz PDF
-      const pdf = new jsPDF('p', 'mm', 'a4');
-      const imgData = canvas.toDataURL('image/jpeg', 0.95);
-      
-      const pageWidth = pdf.internal.pageSize.getWidth();
-      const pageHeight = pdf.internal.pageSize.getHeight();
-      const imgWidth = pageWidth;
-      const imgHeight = (canvas.height * pageWidth) / canvas.width;
-
-      let heightLeft = imgHeight;
-      let position = 0;
-
-      // Dodaj pierwszą stronę
-      pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
-      heightLeft -= pageHeight;
-
-      // Dodaj kolejne strony jeśli trzeba
-      while (heightLeft > 0) {
-        position = heightLeft - imgHeight;
-        pdf.addPage();
-        pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
-        heightLeft -= pageHeight;
+        console.log('⚠️ No comments found in PDF generation');
+        pdf.setFontSize(12);
+        pdf.setFont('helvetica', 'italic');
+        pdf.text(encodeText(t('pdfNoComments')), margin, yPosition);
+      } else {
+        console.log('✅ PDF generated with comments');
       }
 
       pdf.save('raport.pdf');
-      showToast('PDF wygenerowany!');
+      showToast(t('generatePDF') + ' ✓');
     } catch (err) {
       console.error(err);
-      showToast('Błąd generowania PDF!', 'error');
+      showToast(t('generatePDF') + ' - błąd!', 'error');
     }
   };
 
@@ -292,6 +392,11 @@ export default function App() {
             style={{ display: 'none' }}
           />
         </label>
+        {commentCount > 0 && (
+          <button className="btn btn-danger" onClick={handleClearAll}>
+            🗑️ {t('clearAll')}
+          </button>
+        )}
       </div>
 
       <div className="content" ref={matrixRef}>
@@ -299,6 +404,8 @@ export default function App() {
           comments={comments}
           onSave={handleSaveComment}
           onDelete={handleDeleteComment}
+          onSaveRating={handleSaveRating}
+          onDeleteRating={handleDeleteRating}
           language={language}
         />
       </div>
