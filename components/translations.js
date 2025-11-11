@@ -1,6 +1,7 @@
 export const translations = {
   pl: {
     // tłumaczenie Header
+    //test
     appTitle: 'System Weryfikacji Informacji',
     help: 'Pomoc',
     comments: 'Komentarzy',
@@ -449,3 +450,4 @@ export const translations = {
 export const getTranslation = (lang, key) => {
   return translations[lang]?.[key] || translations['pl'][key] || key;
 };
+//test
