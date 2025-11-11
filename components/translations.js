@@ -493,3 +493,8 @@ export const translations = {
 export const getTranslation = (lang, key) => {
   return translations[lang]?.[key] || translations['pl'][key] || key;
 };
+<<<<<<< HEAD
+//test
+=======
+
+>>>>>>> 171427434bacff9c614aa33c1c7bcd0b0b341d2d
