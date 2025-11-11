@@ -99,16 +99,23 @@ body {
   background: #dc2626;
 }
 
-.btn-help {
+.btn-help,
+.btn-language {
   background: rgba(255, 255, 255, 0.25);
   color: white;
   border: 1px solid rgba(255, 255, 255, 0.4);
   backdrop-filter: blur(10px);
 }
 
-.btn-help:hover {
+.btn-help:hover,
+.btn-language:hover {
   background: rgba(255, 255, 255, 0.35);
   border-color: rgba(255, 255, 255, 0.6);
+}
+
+.btn-language {
+  font-weight: 600;
+  min-width: 70px;
 }
 
 /* Content */
@@ -143,6 +150,13 @@ body {
   font-size: 1.5rem;
   color: #667eea;
   font-weight: 600;
+}
+
+/* Layer Content - Primary Elements obok siebie */
+.layer-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
 }
 
 /* Elements Grid */
@@ -248,6 +262,77 @@ body {
   opacity: 1;
   color: #667eea;
   transform: scale(1.2);
+}
+
+/* Rating Badge */
+.rating-badge {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  background: #fbbf24;
+  color: #78350f;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+}
+
+/* Element Actions */
+.element-actions {
+  position: absolute;
+  bottom: 0.5rem;
+  right: 0.5rem;
+  display: flex;
+  gap: 0.5rem;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.element-card:hover .element-actions {
+  opacity: 1;
+}
+
+.action-btn {
+  width: 2rem;
+  height: 2rem;
+  border: none;
+  border-radius: 50%;
+  background: white;
+  color: #667eea;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s;
+}
+
+.action-btn:hover {
+  transform: scale(1.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.action-btn.rating-btn {
+  background: #fef3c7;
+  color: #f59e0b;
+}
+
+.action-btn.rating-btn:hover {
+  background: #fbbf24;
+  color: white;
+}
+
+.action-btn.comment-btn {
+  background: #dbeafe;
+  color: #667eea;
+}
+
+.action-btn.comment-btn:hover {
+  background: #667eea;
+  color: white;
 }
 
 /* Secondary Elements */
@@ -360,7 +445,8 @@ body {
 }
 
 .form-input,
-.form-textarea {
+.form-textarea,
+select.form-input {
   width: 100%;
   padding: 0.75rem;
   border: 2px solid #e0e0e0;
@@ -371,14 +457,65 @@ body {
 }
 
 .form-input:focus,
-.form-textarea:focus {
+.form-textarea:focus,
+select.form-input:focus {
   outline: none;
   border-color: #667eea;
+}
+
+select.form-input {
+  cursor: pointer;
+  background-color: white;
+}
+
+select.rating-select option {
+  padding: 0.5rem;
+  line-height: 1.6;
 }
 
 .form-textarea {
   resize: vertical;
   min-height: 120px;
+}
+
+/* Rating Description */
+.rating-description {
+  margin-top: 0.75rem;
+  padding: 0.75rem;
+  background: #fef3c7;
+  border-left: 3px solid #fbbf24;
+  border-radius: 4px;
+  color: #78350f;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.rating-description strong {
+  color: #92400e;
+}
+
+/* Image upload preview */
+.image-preview-container {
+  border: 2px solid #667eea;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 10px;
+  background: #f9f9ff;
+}
+
+.image-preview-label {
+  font-weight: bold;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #667eea;
+}
+
+.image-preview-img {
+  max-width: 100%;
+  max-height: 200px;
+  display: block;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Toast */
@@ -640,8 +777,36 @@ body {
     padding: 1rem;
   }
 
+  /* Layer Content - 1 kolumna na mobile */
+  .layer-content {
+    grid-template-columns: 1fr;
+  }
+
   .elements-grid {
     grid-template-columns: 1fr;
+  }
+
+  /* Element Actions - zawsze widoczne na mobile */
+  .element-actions {
+    opacity: 1 !important;
+    position: static;
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid #e0e0e0;
+    justify-content: flex-end;
+  }
+
+  /* Większe przyciski dla lepszej dostępności na mobile */
+  .action-btn {
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 1.25rem;
+  }
+
+  /* Rating badge nieco mniejszy na mobile */
+  .rating-badge {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.4rem;
   }
 
   .toast {
@@ -678,5 +843,17 @@ body {
 
   .help-main {
     padding: 1rem;
+  }
+}
+
+/* Tablet - 2 kolumny dla PE */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .layer-content {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Przyciski widoczne też na tablet dla lepszego UX */
+  .element-actions {
+    opacity: 1;
   }
 }
