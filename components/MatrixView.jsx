@@ -1,25 +1,52 @@
 import { useState } from 'react';
 import CommentDialog from './CommentDialog.jsx';
-import { translations } from './translations.js';
-import { MATRIX_DATA, getSEName, getLayerName, getPEName } from './matrixData.js';
+import RatingDialog from './RatingDialog.jsx';
+import { MATRIX_DATA, getSEName, getPEName, getLayerName, hasRatingScale } from './matrixData.js';
 
-export default function MatrixView({ comments, onSave, onDelete, language }) {
-  const t = (key) => translations[language][key] || key;
+export default function MatrixView({ comments, onSave, onDelete, onSaveRating, onDeleteRating, language }) {
   const [selectedCell, setSelectedCell] = useState(null);
+  const [selectedRatingCell, setSelectedRatingCell] = useState(null);
+  
+  // Debug logging
+  console.log('🔍 MatrixView render - props check:', { 
+    hasOnSave: typeof onSave, 
+    hasOnDelete: typeof onDelete, 
+    hasOnSaveRating: typeof onSaveRating, 
+    hasOnDeleteRating: typeof onDeleteRating,
+    onSaveRating: onSaveRating
+  });
 
-  const handleCellClick = (layerId, elementId) => {
-    const cellId = `${layerId}-${elementId}`;
+  const handleCellClick = (cellId) => {
     setSelectedCell(cellId);
   };
 
-  const handleCloseDialog = () => {
+  const handleRatingClick = (id, e) => {
+    e.stopPropagation(); // Zapobiega otwieraniu dialogu komentarza
+    setSelectedRatingCell(id);
+  };
+
+  const handleClose = () => {
     setSelectedCell(null);
+  };
+
+  const handleCloseRating = () => {
+    setSelectedRatingCell(null);
   };
 
   const handleSave = (title, content) => {
     if (selectedCell) {
       onSave(selectedCell, title, content);
       setSelectedCell(null);
+    }
+  };
+
+  const handleSaveRating = (rating) => {
+    console.log('handleSaveRating called:', { rating, selectedRatingCell, hasOnSaveRating: !!onSaveRating });
+    if (selectedRatingCell && onSaveRating) {
+      onSaveRating(selectedRatingCell, rating);
+      setSelectedRatingCell(null);
+    } else if (!onSaveRating) {
+      console.error('❌ onSaveRating is not defined!');
     }
   };
 
@@ -30,6 +57,15 @@ export default function MatrixView({ comments, onSave, onDelete, language }) {
     }
   };
 
+  const handleDeleteRating = () => {
+    if (selectedRatingCell && onDeleteRating) {
+      onDeleteRating(selectedRatingCell);
+      setSelectedRatingCell(null);
+    } else if (!onDeleteRating) {
+      console.error('❌ onDeleteRating is not defined!');
+    }
+  };
+
   return (
     <div className="matrix-container">
       {Object.entries(MATRIX_DATA).map(([layerId, layer]) => (
@@ -37,33 +73,57 @@ export default function MatrixView({ comments, onSave, onDelete, language }) {
           <div className="layer-header">
             <h2>{getLayerName(layerId, language)}</h2>
           </div>
-
-          <div className="elements-grid">
+          <div className="layer-content">
             {layer.primary.map((pe) => (
               <div key={pe.id} className="primary-element">
+                {/* PE Header - nie klikalne */}
                 <div className="element-card pe-header">
                   <div className="element-id">{pe.id}</div>
                   <div className="element-name">{getPEName(pe.id, language)}</div>
                 </div>
-
+                
+                {/* Secondary Elements */}
                 <div className="secondary-elements">
                   {pe.secondary.map((seId) => {
                     const cellId = `${layerId}-${seId}`;
-                    const seName = getSEName(seId, language);
+                    const comment = comments[cellId];
+                    const hasComment = !!comment;
+                    const currentRating = comment?.rating;
+                    const hasCurrentRating = currentRating !== null && currentRating !== undefined;
+                    const canRate = hasRatingScale(seId);
+                    
                     return (
                       <div
                         key={seId}
-                        className={`element-card secondary ${comments[cellId] ? 'has-comment' : ''}`}
-                        onClick={() => handleCellClick(layerId, seId)}
-                        title={seName}
+                        className={`element-card secondary ${hasComment ? 'has-comment' : ''}`}
                       >
                         <div className="element-id">{seId}</div>
-                        <div className="element-name-small">{seName}</div>
-                        {comments[cellId] ? (
-                          <div className="comment-indicator">💬</div>
-                        ) : (
-                          <div className="add-comment-hint">+</div>
+                        <div className="element-name">{getSEName(seId, language)}</div>
+                        
+                        {/* Rating Badge */}
+                        {hasCurrentRating && (
+                          <div className="rating-badge">⭐ {currentRating}/5</div>
                         )}
+                        
+                        {/* Action Buttons */}
+                        <div className="element-actions">
+                          {canRate && (
+                            <button 
+                              className="action-btn rating-btn"
+                              onClick={(e) => handleRatingClick(cellId, e)}
+                              title={hasCurrentRating ? `Ocena: ${currentRating}/5` : 'Dodaj ocenę'}
+                            >
+                              ⭐
+                            </button>
+                          )}
+                          <button 
+                            className="action-btn comment-btn"
+                            onClick={() => handleCellClick(cellId)}
+                            title={hasComment ? 'Edytuj komentarz' : 'Dodaj komentarz'}
+                          >
+                            {hasComment ? '💬' : '+'}
+                          </button>
+                        </div>
                       </div>
                     );
                   })}
@@ -74,16 +134,31 @@ export default function MatrixView({ comments, onSave, onDelete, language }) {
         </div>
       ))}
 
+      {/* Comment Dialog */}
       {selectedCell && (
         <CommentDialog
-          isOpen={true}
-          onClose={handleCloseDialog}
+          isOpen={!!selectedCell}
+          onClose={handleClose}
           onSave={handleSave}
           onDelete={handleDelete}
           initialTitle={comments[selectedCell]?.title || ''}
           initialContent={comments[selectedCell]?.content || ''}
           cellId={selectedCell}
           hasComment={!!comments[selectedCell]}
+          language={language}
+        />
+      )}
+
+      {/* Rating Dialog */}
+      {selectedRatingCell && (
+        <RatingDialog
+          isOpen={!!selectedRatingCell}
+          onClose={handleCloseRating}
+          onSave={handleSaveRating}
+          onDelete={handleDeleteRating}
+          initialRating={comments[selectedRatingCell]?.rating ?? null}
+          cellId={selectedRatingCell}
+          hasRating={comments[selectedRatingCell]?.rating !== null && comments[selectedRatingCell]?.rating !== undefined}
           language={language}
         />
       )}

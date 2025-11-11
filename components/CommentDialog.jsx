@@ -1,54 +1,40 @@
-import { useState, useEffect } from 'react'; //do stanu i synchronizacji
-import { translations } from './translations.js'; //obiekt z tłumaczeniami
-import { getSEName } from './matrixData.js'; //funkcja zwracająca nazwę elementu na podstawie ID i języka
+import { useState, useEffect } from 'react';
+import { translations } from './translations.js';
+import { getSEName } from './matrixData.js';
 
 export default function CommentDialog({
-  isOpen, //boolean; czy dialog ma być widoczny
-  onClose, //funkcja; wywoływana, gdy dialog ma się zamknąć
-  onSave, //funkcja; wywoływana, gdy użytkownik zapisuje komentarz; dostaje tytuł i treść
-  onDelete, //funkcja; wywoływana przy usuwaniu komentarza
-  initialTitle = '', //string; początkowy tytuł (domyślnie '')
-  initialContent = '', //string; początkowa treść (domyślnie '')
-  cellId, //string; identyfikator komórki (np. zawierający warstwę i id rozdzielone myślnikiem)
-  hasComment, //boolean; czy komentarz już istnieje (używane do pokazania przycisku usuń)
-  language //klucz języka (np. 'pl', 'en'), używany do tłumaczeń
-}) 
-
-//funcja tłumaczenia pl en
-{
-  //t(key) zwraca tłumaczenie dla bieżącego języka; jeśli brak tłumaczenia, zwraca sam klucz (fallback)
-  //Jeśli mamy tłumaczenie danego tekstu (np. „save” → „Zapisz”), to je pokazuje.
-  //Jeśli tłumaczenia nie ma — pokazuje po prostu sam angielski klucz
+  isOpen,
+  onClose,
+  onSave,
+  onDelete,
+  initialTitle = '',
+  initialContent = '',
+  cellId,
+  hasComment,
+  language
+}) {
   const t = (key) => translations[language][key] || key;
   
-  //title i content przechowują aktualne wartości pól formularza
   const [title, setTitle] = useState(initialTitle);
   const [content, setContent] = useState(initialContent);
 
-  //Jeżeli initialTitle lub initialContent się zmienią z zewnątrz, stan formularza zostanie 
-  //zaktualizowany tak, aby odzwierciedlać nowe wartości. Zapobiega to rozjechaniu wartości pól i propów
   useEffect(() => {
     setTitle(initialTitle);
     setContent(initialContent);
   }, [initialTitle, initialContent]);
 
-  //handleSave wywołuje onSave(title, content) tylko wtedy, gdy przynajmniej jedno z pól zawiera 
-  // niepusty tekst (po trim). Pozwala to uniknąć zapisu pustego komentarza
   const handleSave = () => {
     if (title.trim() || content.trim()) {
       onSave(title, content);
     }
   };
 
-  //Kliknięcie w warstwę tła (poza samym dialogiem) zamyka dialog. Sprawdzenie 
-  // e.target === e.currentTarget zapobiega zamknięciu przy kliknięciu elementów wewnątrz dialogu
   const handleBackdropClick = (e) => {
     if (e.target === e.currentTarget) {
       onClose();
     }
   };
 
-  //Jeśli isOpen jest false, komponent nic nie renderuje (zwraca null)
   if (!isOpen) return null;
 
   // Wyciągnij tylko ID elementu (bez warstwy)
@@ -56,16 +42,9 @@ export default function CommentDialog({
   const elementName = getSEName(elementId, language);
   const displayName = `${elementId} - ${elementName}`;
 
-  //render okna dialogowego
-  //dialog: główny kontener okna dialogowego
-  //dialog-header: tytuł okna dialogowego
-  //dialog-body: tytuł i treść komentarza
-  //dialog-footer: przyciski na dole okna dialogowego
-
   return (
     <div className="dialog-backdrop" onClick={handleBackdropClick}>
-      <div className="dialog"> 
-
+      <div className="dialog">
         <div className="dialog-header">
           <h3>{t('commentTitle')} - {displayName}</h3>
           <button className="close-btn" onClick={onClose}>✕</button>

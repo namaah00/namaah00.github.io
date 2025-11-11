@@ -1,14 +1,13 @@
 export const translations = {
   pl: {
-    // tłumaczenie Header
-    //test
-    appTitle: 'System Weryfikacji Informacji',
+    // Header
+    appTitle: 'System Analizy Informacji',
     help: 'Pomoc',
     comments: 'Komentarzy',
     
     // Toolbar
     exportJPEG: 'Eksport JPEG',
-    generatePDF: 'Generuj Raport',
+    generatePDF: 'Generuj PDF',
     exportJSON: 'Eksport JSON',
     importJSON: 'Import JSON',
     clearAll: 'Wyczyść wszystko',
@@ -22,7 +21,8 @@ export const translations = {
     pe001: '001 Ocena treści',
     pe002: '002 Ocena Źródła',
     pe003: '003 Ocena kontekstu',
-    pe004: '004 Ocena kontrastu',
+    pe004: '004 Ocena skutków',
+    pe005: '005 Ocena kontrastu',
     
     // Secondary Elements - Full names
     se001_1: 'Spójność logiczna',
@@ -48,10 +48,16 @@ export const translations = {
     se003_9: 'Zasięg',
     se003_10: 'Spójność techniczna przekazu',
     
-    se004_1: 'Zgodności',
-    se004_2: 'Rozbieżności',
-    se004_3: 'Różnorodność',
-    se004_4: 'Kontekst międzynarodowy',
+    se004_1: 'Reakcja instytucjonalna',
+    se004_2: 'Zasięg emocjonalny i reakcyjny',
+    se004_3: 'Efekt społeczny i sieciowy',
+    se004_4: 'Replikacja i trwałość',
+    se004_5: 'Efekt dezinformacyjny lub korekcyjny',
+    
+    se005_1: 'Zgodności',
+    se005_2: 'Rozbieżności',
+    se005_3: 'Różnorodność',
+    se005_4: 'Kontekst międzynarodowy',
     
     // Comment Dialog
     commentTitle: 'Komentarz',
@@ -59,6 +65,9 @@ export const translations = {
     titlePlaceholder: 'Krótki tytuł komentarza',
     contentLabel: 'Treść',
     contentPlaceholder: 'Szczegółowy opis, analiza, wnioski...',
+    ratingLabel: 'Ocena',
+    ratingPlaceholder: 'Wybierz ocenę (0-5)',
+    noRating: 'Brak oceny',
     save: 'Zapisz',
     delete: 'Usuń',
     cancel: 'Anuluj',
@@ -66,6 +75,8 @@ export const translations = {
     // Toast messages
     commentSaved: 'Komentarz zapisany!',
     commentDeleted: 'Komentarz usunięty',
+    ratingSaved: 'Ocena zapisana!',
+    ratingDeleted: 'Ocena usunięta',
     exportSuccess: 'Wyeksportowano pomyślnie!',
     importSuccess: 'Zaimportowano pomyślnie!',
     clearSuccess: 'Wszystkie komentarze usunięte',
@@ -84,12 +95,12 @@ export const translations = {
     helpClose: 'Zamknij',
     
     // Help Sections
-    helpIntroTitle: 'Wprowadzenie',
+    helpIntroTitle: '📖 Wprowadzenie',
     helpL1Title: 'L1 - Jakość Informacji',
     helpL2Title: 'L2 - Szersze tło',
     helpL3Title: 'L3 - Zestawienie źródeł',
-    helpUsageTitle: 'Funkcje aplikacji',
-    helpTipsTitle: 'Wskazówki',
+    helpUsageTitle: '🔧 Funkcje aplikacji',
+    helpTipsTitle: '💡 Wskazówki',
     
     // Help Content - Intro
     helpIntroHeading: 'System Analizy Taktyk i Technik Cyberbezpieczeństwa',
@@ -129,6 +140,8 @@ export const translations = {
     helpL2Desc: 'Warstwa kontekstowa analizująca szerszy obraz sytuacji.',
     helpL2PE003: '003 - Ocena kontekstu',
     helpL2PE003Desc: 'Kompleksowa analiza okoliczności powstania i funkcjonowania informacji.',
+    helpL2PE004: '004 - Ocena skutków',
+    helpL2PE004Desc: 'Analiza wpływu i konsekwencji rozprzestrzeniania się informacji.',
     
     helpSE003_1: 'Czy informacja jest aktualna, jej data publikacji i ewentualne uaktualnienia.',
     helpSE003_2: 'Intencje autora: informować, przekonywać, manipulować czy bawić.',
@@ -141,15 +154,21 @@ export const translations = {
     helpSE003_9: 'Skala rozpowszechnienia informacji i jej wpływ.',
     helpSE003_10: 'Techniczne aspekty przekazu: format, jakość, kanały dystrybucji.',
     
+    helpSE004_1: 'Reakcje oficjalnych instytucji, organizacji i władz na przekaz.',
+    helpSE004_2: 'Emocjonalny wpływ na odbiorców, reakcje społeczne i zachowania.',
+    helpSE004_3: 'Rozprzestrzenianie się w sieciach społecznych, efekt wirusowy.',
+    helpSE004_4: 'Trwałość informacji, jej kopiowanie i długoterminowe przechowywanie.',
+    helpSE004_5: 'Czy informacja wzmacnia dezinformację czy służy jej korekcji.',
+    
     // Help Content - L3
     helpL3Desc: 'Warstwa porównawcza analizująca różnice i zgodności między źródłami.',
-    helpL3PE004: '004 - Ocena kontrastu',
-    helpL3PE004Desc: 'Porównanie i weryfikacja informacji z różnych źródeł.',
+    helpL3PE005: '005 - Ocena kontrastu',
+    helpL3PE005Desc: 'Porównanie i weryfikacja informacji z różnych źródeł.',
     
-    helpSE004_1: 'Punkty wspólne między różnymi źródłami, potwierdzenie faktów.',
-    helpSE004_2: 'Różnice w relacjach, sprzeczne informacje wymagające wyjaśnienia.',
-    helpSE004_3: 'Zróżnicowanie typów źródeł: media, eksperci, dokumenty, świadkowie.',
-    helpSE004_4: 'Międzynarodowy wymiar źródeł, perspektywy różnych krajów.',
+    helpSE005_1: 'Punkty wspólne między różnymi źródłami, potwierdzenie faktów.',
+    helpSE005_2: 'Różnice w relacjach, sprzeczne informacje wymagające wyjaśnienia.',
+    helpSE005_3: 'Zróżnicowanie typów źródeł: media, eksperci, dokumenty, świadkowie.',
+    helpSE005_4: 'Międzynarodowy wymiar źródeł, perspektywy różnych krajów.',
     
     // Help Content - Usage
     helpUsageAddComments: 'Dodawanie komentarzy',
@@ -158,7 +177,9 @@ export const translations = {
     helpUsageAddStep3: 'W oknie dialogowym wprowadź:',
     helpUsageAddTitle: 'Krótkie podsumowanie (np. "Źródło niezweryfikowane")',
     helpUsageAddContent: 'Szczegółowa analiza i wnioski',
+    helpUsageAddImage: 'Opcjonalnie: załącz obraz JPG/PNG (max 5MB)',
     helpUsageAddStep4: 'Kliknij "💾 Zapisz"',
+    helpUsageImageNote: 'Komentarze z załącznikami mają ikonę 💬📎 na matrycy',
     
     helpUsageEdit: 'Edycja i usuwanie',
     helpUsageEditStep1: 'Kliknij na SE z ikoną 💬 aby edytować komentarz',
@@ -166,11 +187,11 @@ export const translations = {
     helpUsageEditStep3: 'Użyj przycisku "🗑️ Usuń" aby usunąć komentarz',
     
     helpUsagePDF: 'Eksport do PDF',
-    helpUsagePDFStep1: 'Kliknij przycisk "📄 Eksportuj PDF"',
-    helpUsagePDFStep2: 'Aplikacja wygeneruje wizualizację matrycy + wszystkie komentarze',
+    helpUsagePDFStep1: 'Kliknij przycisk "📄 Generuj PDF"',
+    helpUsagePDFStep2: 'Aplikacja wygeneruje raport z wszystkimi komentarzami',
     helpUsagePDFStep3: 'PDF zawiera:',
-    helpUsagePDFItem1: 'Pełną matrycę z zaznaczonymi komentarzami',
-    helpUsagePDFItem2: 'Listę wszystkich komentarzy pogrupowanych wg warstw',
+    helpUsagePDFItem1: 'Listę wszystkich komentarzy pogrupowanych wg warstw',
+    helpUsagePDFItem2: 'Załączone obrazy (jeśli dodane do komentarzy)',
     helpUsagePDFItem3: 'Datę i godzinę generowania raportu',
     
     helpUsageJSON: 'Eksport/Import JSON',
@@ -245,7 +266,8 @@ export const translations = {
     pe001: '001 Content Assessment',
     pe002: '002 Source Assessment',
     pe003: '003 Context Assessment',
-    pe004: '004 Contrast Assessment',
+    pe004: '004 Impact Assessment',
+    pe005: '005 Contrast Assessment',
     
     // Secondary Elements - Full names
     se001_1: 'Logical Consistency',
@@ -271,10 +293,16 @@ export const translations = {
     se003_9: 'Reach',
     se003_10: 'Technical Message Coherence',
     
-    se004_1: 'Agreements',
-    se004_2: 'Discrepancies',
-    se004_3: 'Diversity',
-    se004_4: 'International Context',
+    se004_1: 'Institutional Response',
+    se004_2: 'Emotional and Reactive Reach',
+    se004_3: 'Social and Network Effect',
+    se004_4: 'Replication and Persistence',
+    se004_5: 'Disinformation or Corrective Effect',
+    
+    se005_1: 'Agreements',
+    se005_2: 'Discrepancies',
+    se005_3: 'Diversity',
+    se005_4: 'International Context',
     
     // Comment Dialog
     commentTitle: 'Comment',
@@ -282,6 +310,9 @@ export const translations = {
     titlePlaceholder: 'Brief comment title',
     contentLabel: 'Content',
     contentPlaceholder: 'Detailed description, analysis, conclusions...',
+    ratingLabel: 'Rating',
+    ratingPlaceholder: 'Select rating (0-5)',
+    noRating: 'No rating',
     save: 'Save',
     delete: 'Delete',
     cancel: 'Cancel',
@@ -289,6 +320,8 @@ export const translations = {
     // Toast messages
     commentSaved: 'Comment saved!',
     commentDeleted: 'Comment deleted',
+    ratingSaved: 'Rating saved!',
+    ratingDeleted: 'Rating deleted',
     exportSuccess: 'Exported successfully!',
     importSuccess: 'Imported successfully!',
     clearSuccess: 'All comments cleared',
@@ -307,12 +340,12 @@ export const translations = {
     helpClose: 'Close',
     
     // Help Sections
-    helpIntroTitle: 'Introduction',
+    helpIntroTitle: '📖 Introduction',
     helpL1Title: 'L1 - Information Quality',
     helpL2Title: 'L2 - Broader Context',
     helpL3Title: 'L3 - Source Comparison',
-    helpUsageTitle: 'Application Features',
-    helpTipsTitle: 'Tips',
+    helpUsageTitle: '🔧 Application Features',
+    helpTipsTitle: '💡 Tips',
     
     // Help Content - Intro
     helpIntroHeading: 'Cybersecurity Tactics and Techniques Analysis System',
@@ -352,6 +385,8 @@ export const translations = {
     helpL2Desc: 'Contextual layer analyzing the broader picture of the situation.',
     helpL2PE003: '003 - Context Assessment',
     helpL2PE003Desc: 'Comprehensive analysis of circumstances of information creation and functioning.',
+    helpL2PE004: '004 - Impact Assessment',
+    helpL2PE004Desc: 'Analysis of the impact and consequences of information dissemination.',
     
     helpSE003_1: 'Whether information is current, its publication date and potential updates.',
     helpSE003_2: "Author's intentions: to inform, persuade, manipulate or entertain.",
@@ -364,15 +399,21 @@ export const translations = {
     helpSE003_9: 'Scale of information dissemination and its impact.',
     helpSE003_10: 'Technical aspects of the message: format, quality, distribution channels.',
     
+    helpSE004_1: 'Reactions of official institutions, organizations and authorities to the message.',
+    helpSE004_2: 'Emotional impact on recipients, social reactions and behaviors.',
+    helpSE004_3: 'Spreading through social networks, viral effect.',
+    helpSE004_4: 'Information persistence, its copying and long-term storage.',
+    helpSE004_5: 'Whether information reinforces disinformation or serves its correction.',
+    
     // Help Content - L3
     helpL3Desc: 'Comparative layer analyzing differences and agreements between sources.',
-    helpL3PE004: '004 - Contrast Assessment',
-    helpL3PE004Desc: 'Comparison and verification of information from various sources.',
+    helpL3PE005: '005 - Contrast Assessment',
+    helpL3PE005Desc: 'Comparison and verification of information from various sources.',
     
-    helpSE004_1: 'Common points between different sources, fact confirmation.',
-    helpSE004_2: 'Differences in reports, conflicting information requiring clarification.',
-    helpSE004_3: 'Diversity of source types: media, experts, documents, witnesses.',
-    helpSE004_4: 'International dimension of sources, perspectives of different countries.',
+    helpSE005_1: 'Common points between different sources, fact confirmation.',
+    helpSE005_2: 'Differences in reports, conflicting information requiring clarification.',
+    helpSE005_3: 'Diversity of source types: media, experts, documents, witnesses.',
+    helpSE005_4: 'International dimension of sources, perspectives of different countries.',
     
     // Help Content - Usage
     helpUsageAddComments: 'Adding comments',
@@ -381,7 +422,9 @@ export const translations = {
     helpUsageAddStep3: 'In the dialog enter:',
     helpUsageAddTitle: 'Brief summary (e.g. "Unverified source")',
     helpUsageAddContent: 'Detailed analysis and conclusions',
+    helpUsageAddImage: 'Optionally: attach JPG/PNG image (max 5MB)',
     helpUsageAddStep4: 'Click "💾 Save"',
+    helpUsageImageNote: 'Comments with attachments have 💬📎 icon on the matrix',
     
     helpUsageEdit: 'Editing and deleting',
     helpUsageEditStep1: 'Click on SE with 💬 icon to edit comment',
@@ -389,11 +432,11 @@ export const translations = {
     helpUsageEditStep3: 'Use "🗑️ Delete" button to remove comment',
     
     helpUsagePDF: 'Export to PDF',
-    helpUsagePDFStep1: 'Click "📄 Export PDF" button',
-    helpUsagePDFStep2: 'Application will generate matrix visualization + all comments',
+    helpUsagePDFStep1: 'Click "📄 Generate PDF" button',
+    helpUsagePDFStep2: 'Application will generate report with all comments',
     helpUsagePDFStep3: 'PDF contains:',
-    helpUsagePDFItem1: 'Complete matrix with marked comments',
-    helpUsagePDFItem2: 'List of all comments grouped by layers',
+    helpUsagePDFItem1: 'List of all comments grouped by layers',
+    helpUsagePDFItem2: 'Attached images (if added to comments)',
     helpUsagePDFItem3: 'Date and time of report generation',
     
     helpUsageJSON: 'Export/Import JSON',
@@ -450,4 +493,3 @@ export const translations = {
 export const getTranslation = (lang, key) => {
   return translations[lang]?.[key] || translations['pl'][key] || key;
 };
-//test
