@@ -62,6 +62,13 @@ export default function App() {
       if (saved) {
         const parsed = JSON.parse(saved);
         console.log('✅ Verified in localStorage:', Object.keys(parsed).length, 'comments');
+        
+        // Sprawdź obrazy w każdym komentarzu
+        Object.keys(parsed).forEach(key => {
+          if (parsed[key].images && parsed[key].images.length > 0) {
+            console.log(`  📸 ${key}: ${parsed[key].images.length} images`);
+          }
+        });
       }
     } catch (err) {
       console.error('❌ Błąd zapisywania komentarzy:', err);
@@ -72,13 +79,16 @@ export default function App() {
     }
   }, [comments]);
 
-  const handleSaveComment = (id, title, content) => {
+  const handleSaveComment = (id, title, content, images = []) => {
+    console.log('💾 App.handleSaveComment called:', { id, title, content, imagesCount: images.length, images });
     setComments(prev => {
       const existingRating = prev[id]?.rating ?? null;
-      return {
+      const updated = {
         ...prev,
-        [id]: { title, content, rating: existingRating }
+        [id]: { title, content, images, rating: existingRating }
       };
+      console.log('💾 Updated comment:', updated[id]);
+      return updated;
     });
     showToast(t('commentSaved'));
   };
@@ -328,6 +338,39 @@ export default function App() {
                 checkPageBreak(5);
                 pdf.text(splitContent[i], margin + 10, yPosition);
                 yPosition += 5;
+              }
+            }
+
+            // Obrazy (jeśli istnieją)
+            if (item.comment.images && item.comment.images.length > 0) {
+              yPosition += 3;
+              pdf.setFontSize(9);
+              pdf.setFont('helvetica', 'bold');
+              pdf.text(encodeText(t('imagesLabel') || 'Obrazy') + ':', margin + 10, yPosition);
+              yPosition += 5;
+
+              for (const img of item.comment.images) {
+                const imgWidth = 60;
+                const imgHeight = 40;
+                
+                checkPageBreak(imgHeight + 10);
+                
+                try {
+                  pdf.addImage(img.data, 'JPEG', margin + 10, yPosition, imgWidth, imgHeight);
+                  yPosition += imgHeight + 3;
+                  
+                  // Nazwa pliku pod obrazem
+                  pdf.setFontSize(8);
+                  pdf.setFont('helvetica', 'italic');
+                  pdf.text(encodeText(img.name), margin + 10, yPosition);
+                  yPosition += 5;
+                } catch (imgErr) {
+                  console.error('Error adding image to PDF:', imgErr);
+                  pdf.setFontSize(8);
+                  pdf.setFont('helvetica', 'italic');
+                  pdf.text(encodeText('[Błąd wczytywania obrazu: ' + img.name + ']'), margin + 10, yPosition);
+                  yPosition += 5;
+                }
               }
             }
             

@@ -9,6 +9,7 @@ export default function CommentDialog({
   onDelete,
   initialTitle = '',
   initialContent = '',
+  initialImages = [],
   cellId,
   hasComment,
   language
@@ -17,15 +18,58 @@ export default function CommentDialog({
   
   const [title, setTitle] = useState(initialTitle);
   const [content, setContent] = useState(initialContent);
+  const [images, setImages] = useState(initialImages);
 
   useEffect(() => {
+    console.log('🔄 CommentDialog initialized:', { 
+      initialTitle, 
+      initialContent, 
+      initialImagesCount: initialImages?.length || 0,
+      initialImages 
+    });
     setTitle(initialTitle);
     setContent(initialContent);
-  }, [initialTitle, initialContent]);
+    setImages(initialImages);
+  }, [initialTitle, initialContent, initialImages]);
+
+  const handleImageUpload = (e) => {
+    const files = Array.from(e.target.files);
+    console.log('📸 Upload started:', files.length, 'files');
+    
+    files.forEach(file => {
+      console.log('📸 Processing file:', file.name, 'Size:', file.size);
+      if (file.size > 2 * 1024 * 1024) {
+        alert(t('imageTooLarge') || 'Obraz jest za duży (max 2MB)');
+        return;
+      }
+      
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        console.log('📸 Image loaded:', file.name, 'Base64 length:', event.target.result.length);
+        setImages(prev => {
+          const updated = [...prev, {
+            data: event.target.result, // Base64
+            name: file.name
+          }];
+          console.log('📸 Images state updated, total:', updated.length);
+          return updated;
+        });
+      };
+      reader.readAsDataURL(file);
+    });
+    
+    // Reset input po dodaniu
+    e.target.value = '';
+  };
+
+  const handleRemoveImage = (index) => {
+    setImages(prev => prev.filter((_, i) => i !== index));
+  };
 
   const handleSave = () => {
-    if (title.trim() || content.trim()) {
-      onSave(title, content);
+    console.log('💬 CommentDialog.handleSave:', { title, content, imagesCount: images.length, images });
+    if (title.trim() || content.trim() || images.length > 0) {
+      onSave(title, content, images);
     }
   };
 
@@ -74,6 +118,65 @@ export default function CommentDialog({
               rows={6}
             />
           </div>
+
+          <div className="form-group">
+            <label htmlFor="images">{t('imagesLabel') || '📷 Obrazy'}</label>
+            <input
+              id="images"
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={handleImageUpload}
+              className="form-input"
+            />
+            <small style={{ color: '#666', fontSize: '0.85em' }}>
+              {t('imagesHint') || 'Max 2MB na obraz'}
+            </small>
+          </div>
+
+          {images.length > 0 && (
+            <div className="form-group">
+              <label>{t('uploadedImages') || 'Dodane obrazy'} ({images.length})</label>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginTop: '10px' }}>
+                {images.map((img, index) => (
+                  <div key={index} style={{ position: 'relative', width: '100px', height: '100px' }}>
+                    <img 
+                      src={img.data} 
+                      alt={img.name}
+                      style={{ 
+                        width: '100%', 
+                        height: '100%', 
+                        objectFit: 'cover', 
+                        borderRadius: '4px',
+                        border: '1px solid #ddd'
+                      }}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveImage(index)}
+                      style={{
+                        position: 'absolute',
+                        top: '-5px',
+                        right: '-5px',
+                        background: '#e74c3c',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '50%',
+                        width: '24px',
+                        height: '24px',
+                        cursor: 'pointer',
+                        fontSize: '14px',
+                        lineHeight: '1',
+                        padding: '0'
+                      }}
+                    >
+                      ✕
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="dialog-footer">

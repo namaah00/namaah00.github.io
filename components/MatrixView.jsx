@@ -33,9 +33,10 @@ export default function MatrixView({ comments, onSave, onDelete, onSaveRating, o
     setSelectedRatingCell(null);
   };
 
-  const handleSave = (title, content) => {
+  const handleSave = (title, content, images) => {
+    console.log('🗂️ MatrixView.handleSave:', { selectedCell, title, content, imagesCount: images?.length, images });
     if (selectedCell) {
-      onSave(selectedCell, title, content);
+      onSave(selectedCell, title, content, images);
       setSelectedCell(null);
     }
   };
@@ -121,7 +122,9 @@ export default function MatrixView({ comments, onSave, onDelete, onSaveRating, o
                             onClick={() => handleCellClick(cellId)}
                             title={hasComment ? 'Edytuj komentarz' : 'Dodaj komentarz'}
                           >
-                            {hasComment ? '💬' : '+'}
+                            {hasComment ? (
+                              comments[cellId]?.images?.length > 0 ? '💬📎' : '💬'
+                            ) : '+'}
                           </button>
                         </div>
                       </div>
@@ -143,6 +146,7 @@ export default function MatrixView({ comments, onSave, onDelete, onSaveRating, o
           onDelete={handleDelete}
           initialTitle={comments[selectedCell]?.title || ''}
           initialContent={comments[selectedCell]?.content || ''}
+          initialImages={comments[selectedCell]?.images || []}
           cellId={selectedCell}
           hasComment={!!comments[selectedCell]}
           language={language}
