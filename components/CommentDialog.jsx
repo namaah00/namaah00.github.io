@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { translations } from './translations.js';
 import { getSEName } from './matrixData.js';
 
@@ -19,6 +19,8 @@ export default function CommentDialog({
   const [title, setTitle] = useState(initialTitle);
   const [content, setContent] = useState(initialContent);
   const [images, setImages] = useState(initialImages);
+  const [selectedFilesCount, setSelectedFilesCount] = useState(0);
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     console.log('🔄 CommentDialog initialized:', { 
@@ -35,6 +37,7 @@ export default function CommentDialog({
   const handleImageUpload = (e) => {
     const files = Array.from(e.target.files);
     console.log('📸 Upload started:', files.length, 'files');
+    setSelectedFilesCount(files.length);
     
     files.forEach(file => {
       console.log('📸 Processing file:', file.name, 'Size:', file.size);
@@ -60,6 +63,11 @@ export default function CommentDialog({
     
     // Reset input po dodaniu
     e.target.value = '';
+    setSelectedFilesCount(0);
+  };
+
+  const handleChooseFiles = () => {
+    fileInputRef.current?.click();
   };
 
   const handleRemoveImage = (index) => {
@@ -120,16 +128,31 @@ export default function CommentDialog({
           </div>
 
           <div className="form-group">
-            <label htmlFor="images">{t('imagesLabel') || '📷 Obrazy'}</label>
+            <label>{t('imagesLabel') || '📷 Obrazy'}</label>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <button
+                type="button"
+                onClick={handleChooseFiles}
+                className="btn btn-secondary"
+                style={{ margin: 0 }}
+              >
+                {t('chooseFiles')}
+              </button>
+              <span style={{ color: '#666', fontSize: '0.9em' }}>
+                {selectedFilesCount > 0 
+                  ? `${selectedFilesCount} ${t('filesSelected')}`
+                  : t('noFileChosen')}
+              </span>
+            </div>
             <input
-              id="images"
+              ref={fileInputRef}
               type="file"
               accept="image/*"
               multiple
               onChange={handleImageUpload}
-              className="form-input"
+              style={{ display: 'none' }}
             />
-            <small style={{ color: '#666', fontSize: '0.85em' }}>
+            <small style={{ color: '#666', fontSize: '0.85em', display: 'block', marginTop: '5px' }}>
               {t('imagesHint') || 'Max 2MB na obraz'}
             </small>
           </div>
