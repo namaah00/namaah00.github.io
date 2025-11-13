@@ -203,6 +203,36 @@ export default function App() {
       const contentWidth = pageWidth - 2 * margin;
       let yPosition = margin;
 
+      // Funkcja do obliczania wymiarów obrazu z zachowaniem proporcji
+      const getImageDimensions = (imgData) => {
+        return new Promise((resolve) => {
+          const img = new Image();
+          img.onload = () => {
+            const maxWidth = 80; // Maksymalna szerokość w mm
+            const aspectRatio = img.height / img.width;
+            
+            let finalWidth = maxWidth;
+            let finalHeight = maxWidth * aspectRatio;
+            
+            // Jeśli obraz jest bardzo wysoki, ogranicz wysokość
+            const maxHeight = 100;
+            if (finalHeight > maxHeight) {
+              finalHeight = maxHeight;
+              finalWidth = maxHeight / aspectRatio;
+            }
+            
+            console.log(`📐 Image dimensions: ${img.width}x${img.height}px → ${finalWidth.toFixed(1)}x${finalHeight.toFixed(1)}mm (ratio: ${aspectRatio.toFixed(2)})`);
+            resolve({ width: finalWidth, height: finalHeight });
+          };
+          img.onerror = () => {
+            // W razie błędu użyj domyślnych wymiarów
+            console.warn('⚠️ Image loading error, using default dimensions');
+            resolve({ width: 60, height: 40 });
+          };
+          img.src = imgData;
+        });
+      };
+
       // Funkcja konwertująca tekst z polskimi znakami
       const encodeText = (text) => {
         if (!text) return '';
@@ -352,12 +382,14 @@ export default function App() {
               yPosition += 5;
 
               for (const img of item.comment.images) {
-                const imgWidth = 60;
-                const imgHeight = 40;
-                
-                checkPageBreak(imgHeight + 10);
-                
                 try {
+                  // Oblicz wymiary obrazu zachowując proporcje
+                  const dimensions = await getImageDimensions(img.data);
+                  const imgWidth = dimensions.width;
+                  const imgHeight = dimensions.height;
+                  
+                  checkPageBreak(imgHeight + 10);
+                  
                   pdf.addImage(img.data, 'JPEG', margin + 10, yPosition, imgWidth, imgHeight);
                   yPosition += imgHeight + 3;
                   
