@@ -21,7 +21,6 @@ export const translations = {
     pe001: '001 Ocena treści',
     pe002: '002 Ocena Źródła',
     pe003: '003 Ocena kontekstu',
-    pe004: '004 Ocena skutków',
     pe005: '005 Ocena kontrastu',
     
     // Secondary Elements - Full names
@@ -47,12 +46,6 @@ export const translations = {
     se003_8: 'Kontekst geopolityczny',
     se003_9: 'Zasięg',
     se003_10: 'Spójność techniczna przekazu',
-    
-    se004_1: 'Reakcja instytucjonalna',
-    se004_2: 'Zasięg emocjonalny i reakcyjny',
-    se004_3: 'Efekt społeczny i sieciowy',
-    se004_4: 'Replikacja i trwałość',
-    se004_5: 'Efekt dezinformacyjny lub korekcyjny',
     
     se005_1: 'Zgodności',
     se005_2: 'Rozbieżności',
@@ -140,8 +133,6 @@ export const translations = {
     helpL2Desc: 'Warstwa kontekstowa analizująca szerszy obraz sytuacji.',
     helpL2PE003: '003 - Ocena kontekstu',
     helpL2PE003Desc: 'Kompleksowa analiza okoliczności powstania i funkcjonowania informacji.',
-    helpL2PE004: '004 - Ocena skutków',
-    helpL2PE004Desc: 'Analiza wpływu i konsekwencji rozprzestrzeniania się informacji.',
     
     helpSE003_1: 'Czy informacja jest aktualna, jej data publikacji i ewentualne uaktualnienia.',
     helpSE003_2: 'Intencje autora: informować, przekonywać, manipulować czy bawić.',
@@ -153,12 +144,6 @@ export const translations = {
     helpSE003_8: 'Międzynarodowe aspekty sytuacji, relacje między państwami.',
     helpSE003_9: 'Skala rozpowszechnienia informacji i jej wpływ.',
     helpSE003_10: 'Techniczne aspekty przekazu: format, jakość, kanały dystrybucji.',
-    
-    helpSE004_1: 'Reakcje oficjalnych instytucji, organizacji i władz na przekaz.',
-    helpSE004_2: 'Emocjonalny wpływ na odbiorców, reakcje społeczne i zachowania.',
-    helpSE004_3: 'Rozprzestrzenianie się w sieciach społecznych, efekt wirusowy.',
-    helpSE004_4: 'Trwałość informacji, jej kopiowanie i długoterminowe przechowywanie.',
-    helpSE004_5: 'Czy informacja wzmacnia dezinformację czy służy jej korekcji.',
     
     // Help Content - L3
     helpL3Desc: 'Warstwa porównawcza analizująca różnice i zgodności między źródłami.',
@@ -266,7 +251,6 @@ export const translations = {
     pe001: '001 Content Assessment',
     pe002: '002 Source Assessment',
     pe003: '003 Context Assessment',
-    pe004: '004 Impact Assessment',
     pe005: '005 Contrast Assessment',
     
     // Secondary Elements - Full names
@@ -292,12 +276,6 @@ export const translations = {
     se003_8: 'Geopolitical Context',
     se003_9: 'Reach',
     se003_10: 'Technical Message Coherence',
-    
-    se004_1: 'Institutional Response',
-    se004_2: 'Emotional and Reactive Reach',
-    se004_3: 'Social and Network Effect',
-    se004_4: 'Replication and Persistence',
-    se004_5: 'Disinformation or Corrective Effect',
     
     se005_1: 'Agreements',
     se005_2: 'Discrepancies',
@@ -385,8 +363,6 @@ export const translations = {
     helpL2Desc: 'Contextual layer analyzing the broader picture of the situation.',
     helpL2PE003: '003 - Context Assessment',
     helpL2PE003Desc: 'Comprehensive analysis of circumstances of information creation and functioning.',
-    helpL2PE004: '004 - Impact Assessment',
-    helpL2PE004Desc: 'Analysis of the impact and consequences of information dissemination.',
     
     helpSE003_1: 'Whether information is current, its publication date and potential updates.',
     helpSE003_2: "Author's intentions: to inform, persuade, manipulate or entertain.",
@@ -398,12 +374,6 @@ export const translations = {
     helpSE003_8: 'International aspects of the situation, relations between states.',
     helpSE003_9: 'Scale of information dissemination and its impact.',
     helpSE003_10: 'Technical aspects of the message: format, quality, distribution channels.',
-    
-    helpSE004_1: 'Reactions of official institutions, organizations and authorities to the message.',
-    helpSE004_2: 'Emotional impact on recipients, social reactions and behaviors.',
-    helpSE004_3: 'Spreading through social networks, viral effect.',
-    helpSE004_4: 'Information persistence, its copying and long-term storage.',
-    helpSE004_5: 'Whether information reinforces disinformation or serves its correction.',
     
     // Help Content - L3
     helpL3Desc: 'Comparative layer analyzing differences and agreements between sources.',

@@ -22,11 +22,6 @@ export const SE_NAMES = {
   '003.8': 'Kontekst geopolityczny',
   '003.9': 'Zasięg',
   '003.10': 'Spójność techniczna przekazu',
-  '004.1': 'Reakcja instytucjonalna',
-  '004.2': 'Zasięg emocjonalny i reakcyjny',
-  '004.3': 'Efekt społeczny i sieciowy',
-  '004.4': 'Replikacja i trwałość',
-  '004.5': 'Efekt dezinformacyjny lub korekcyjny',
   '005.1': 'Zgodności',
   '005.2': 'Rozbieżności',
   '005.3': 'Różnorodność',
@@ -57,11 +52,6 @@ export const MATRIX_DATA = {
         id: '003', 
         name: 'Ocena kontekstu', 
         secondary: ['003.1', '003.2', '003.3', '003.4', '003.5', '003.6', '003.7', '003.8', '003.9', '003.10'] 
-      },
-      { 
-        id: '004', 
-        name: 'Ocena skutków', 
-        secondary: ['004.1', '004.2', '004.3', '004.4', '004.5'] 
       }
     ]
   },

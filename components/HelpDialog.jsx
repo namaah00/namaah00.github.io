@@ -121,10 +121,10 @@ export default function HelpDialog({ isOpen, onClose, language }) {
           <p>{t('helpL3Desc')}</p>
           
           <div className="help-pe-section">
-            <h4>{t('helpL3PE004')}</h4>
-            <p>{t('helpL3PE004Desc')}</p>
+            <h4>{t('helpL3PE005')}</h4>
+            <p>{t('helpL3PE005Desc')}</p>
             <div className="help-se-list">
-              {['004.1', '004.2', '004.3', '004.4'].map(id => (
+              {['005.1', '005.2', '005.3', '005.4'].map(id => (
                 <div key={id} className="help-se-item">
                   <strong>{id} - {getSEName(id, language)}</strong>
                   <p>{t(`helpSE${id.replace('.', '_')}`)}</p>
@@ -147,10 +147,14 @@ export default function HelpDialog({ isOpen, onClose, language }) {
               <ul>
                 <li><strong>{t('titleLabel')}:</strong> {t('helpUsageAddTitle')}</li>
                 <li><strong>{t('contentLabel')}:</strong> {t('helpUsageAddContent')}</li>
+                <li><strong>{t('imageLabel')}:</strong> {t('helpUsageAddImage')}</li>
               </ul>
             </li>
             <li>{t('helpUsageAddStep4')}</li>
           </ol>
+          <p style={{ fontSize: '0.9em', fontStyle: 'italic', color: '#667eea', marginTop: '10px' }}>
+            💡 {t('helpUsageImageNote')}
+          </p>
 
           <h4>{t('helpUsageEdit')}</h4>
           <ul>
