@@ -172,6 +172,7 @@ export default function HelpDialog({ isOpen, onClose, language }) {
                 <li>{t('helpUsagePDFItem1')}</li>
                 <li>{t('helpUsagePDFItem2')}</li>
                 <li>{t('helpUsagePDFItem3')}</li>
+                <li>{t('helpUsagePDFItem4')}</li>
               </ul>
             </li>
           </ol>

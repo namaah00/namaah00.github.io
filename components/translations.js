@@ -181,7 +181,8 @@ export const translations = {
     helpUsagePDFStep3: 'PDF zawiera:',
     helpUsagePDFItem1: 'Listę wszystkich komentarzy pogrupowanych wg warstw',
     helpUsagePDFItem2: 'Załączone obrazy (jeśli dodane do komentarzy)',
-    helpUsagePDFItem3: 'Datę i godzinę generowania raportu',
+    helpUsagePDFItem3: 'Podpisy pod obrazami (nazwa pliku JPG/PNG)',
+    helpUsagePDFItem4: 'Datę i godzinę generowania raportu',
     
     helpUsageJSON: 'Eksport/Import JSON',
     helpUsageJSONExport: 'Eksport:',
@@ -415,7 +416,8 @@ export const translations = {
     helpUsagePDFStep3: 'PDF contains:',
     helpUsagePDFItem1: 'List of all comments grouped by layers',
     helpUsagePDFItem2: 'Attached images (if added to comments)',
-    helpUsagePDFItem3: 'Date and time of report generation',
+    helpUsagePDFItem3: 'Image captions (JPG/PNG filename)',
+    helpUsagePDFItem4: 'Date and time of report generation',
     
     helpUsageJSON: 'Export/Import JSON',
     helpUsageJSONExport: 'Export:',

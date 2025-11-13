@@ -346,7 +346,9 @@ export default function App() {
               yPosition += 3;
               pdf.setFontSize(9);
               pdf.setFont('helvetica', 'bold');
-              pdf.text(encodeText(t('imagesLabel') || 'Obrazy') + ':', margin + 10, yPosition);
+              // Użyj prostego tekstu bez emoji dla PDF
+              const imagesText = language === 'pl' ? 'Obrazy' : 'Images';
+              pdf.text(encodeText(imagesText) + ':', margin + 10, yPosition);
               yPosition += 5;
 
               for (const img of item.comment.images) {
