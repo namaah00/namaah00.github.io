@@ -22,10 +22,10 @@ export const SE_NAMES = {
   '003.8': 'Kontekst geopolityczny',
   '003.9': 'Zasięg',
   '003.10': 'Spójność techniczna przekazu',
-  '005.1': 'Zgodności',
-  '005.2': 'Rozbieżności',
-  '005.3': 'Różnorodność',
-  '005.4': 'Kontekst międzynarodowy'
+  '004.1': 'Zgodności',
+  '004.2': 'Rozbieżności',
+  '004.3': 'Różnorodność',
+  '004.4': 'Kontekst międzynarodowy'
 };
 
 // Główna struktura danych matrycy
@@ -59,9 +59,9 @@ export const MATRIX_DATA = {
     name: 'Zestawienie źródeł',
     primary: [
       { 
-        id: '005', 
+        id: '004', 
         name: 'Ocena kontrastu', 
-        secondary: ['005.1', '005.2', '005.3', '005.4'] 
+        secondary: ['004.1', '004.2', '004.3', '004.4'] 
       }
     ]
   }

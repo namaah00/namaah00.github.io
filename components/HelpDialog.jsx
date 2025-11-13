@@ -121,10 +121,10 @@ export default function HelpDialog({ isOpen, onClose, language }) {
           <p>{t('helpL3Desc')}</p>
           
           <div className="help-pe-section">
-            <h4>{t('helpL3PE005')}</h4>
-            <p>{t('helpL3PE005Desc')}</p>
+            <h4>{t('helpL3PE004')}</h4>
+            <p>{t('helpL3PE004Desc')}</p>
             <div className="help-se-list">
-              {['005.1', '005.2', '005.3', '005.4'].map(id => (
+              {['004.1', '004.2', '004.3', '004.4'].map(id => (
                 <div key={id} className="help-se-item">
                   <strong>{id} - {getSEName(id, language)}</strong>
                   <p>{t(`helpSE${id.replace('.', '_')}`)}</p>

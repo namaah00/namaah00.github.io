@@ -21,7 +21,7 @@ export const translations = {
     pe001: '001 Ocena treści',
     pe002: '002 Ocena Źródła',
     pe003: '003 Ocena kontekstu',
-    pe005: '005 Ocena kontrastu',
+    pe004: '004 Ocena kontrastu',
     
     // Secondary Elements - Full names
     se001_1: 'Spójność logiczna',
@@ -47,10 +47,10 @@ export const translations = {
     se003_9: 'Zasięg',
     se003_10: 'Spójność techniczna przekazu',
     
-    se005_1: 'Zgodności',
-    se005_2: 'Rozbieżności',
-    se005_3: 'Różnorodność',
-    se005_4: 'Kontekst międzynarodowy',
+    se004_1: 'Zgodności',
+    se004_2: 'Rozbieżności',
+    se004_3: 'Różnorodność',
+    se004_4: 'Kontekst międzynarodowy',
     
     // Comment Dialog
     commentTitle: 'Komentarz',
@@ -147,13 +147,13 @@ export const translations = {
     
     // Help Content - L3
     helpL3Desc: 'Warstwa porównawcza analizująca różnice i zgodności między źródłami.',
-    helpL3PE005: '005 - Ocena kontrastu',
-    helpL3PE005Desc: 'Porównanie i weryfikacja informacji z różnych źródeł.',
+    helpL3PE004: '004 - Ocena kontrastu',
+    helpL3PE004Desc: 'Porównanie i weryfikacja informacji z różnych źródeł.',
     
-    helpSE005_1: 'Punkty wspólne między różnymi źródłami, potwierdzenie faktów.',
-    helpSE005_2: 'Różnice w relacjach, sprzeczne informacje wymagające wyjaśnienia.',
-    helpSE005_3: 'Zróżnicowanie typów źródeł: media, eksperci, dokumenty, świadkowie.',
-    helpSE005_4: 'Międzynarodowy wymiar źródeł, perspektywy różnych krajów.',
+    helpSE004_1: 'Punkty wspólne między różnymi źródłami, potwierdzenie faktów.',
+    helpSE004_2: 'Różnice w relacjach, sprzeczne informacje wymagające wyjaśnienia.',
+    helpSE004_3: 'Zróżnicowanie typów źródeł: media, eksperci, dokumenty,świadkowie.',
+    helpSE004_4: 'Międzynarodowy wymiar źródeł, perspektywy różnych krajów.',
     
     // Help Content - Usage
     helpUsageAddComments: 'Dodawanie komentarzy',
@@ -251,7 +251,7 @@ export const translations = {
     pe001: '001 Content Assessment',
     pe002: '002 Source Assessment',
     pe003: '003 Context Assessment',
-    pe005: '005 Contrast Assessment',
+    pe004: '004 Contrast Assessment',
     
     // Secondary Elements - Full names
     se001_1: 'Logical Consistency',
@@ -277,10 +277,10 @@ export const translations = {
     se003_9: 'Reach',
     se003_10: 'Technical Message Coherence',
     
-    se005_1: 'Agreements',
-    se005_2: 'Discrepancies',
-    se005_3: 'Diversity',
-    se005_4: 'International Context',
+    se004_1: 'Agreements',
+    se004_2: 'Discrepancies',
+    se004_3: 'Diversity',
+    se004_4: 'International Context',
     
     // Comment Dialog
     commentTitle: 'Comment',
@@ -377,13 +377,13 @@ export const translations = {
     
     // Help Content - L3
     helpL3Desc: 'Comparative layer analyzing differences and agreements between sources.',
-    helpL3PE005: '005 - Contrast Assessment',
-    helpL3PE005Desc: 'Comparison and verification of information from various sources.',
+    helpL3PE004: '004 - Contrast Assessment',
+    helpL3PE004Desc: 'Comparison and verification of information from various sources.',
     
-    helpSE005_1: 'Common points between different sources, fact confirmation.',
-    helpSE005_2: 'Differences in reports, conflicting information requiring clarification.',
-    helpSE005_3: 'Diversity of source types: media, experts, documents, witnesses.',
-    helpSE005_4: 'International dimension of sources, perspectives of different countries.',
+    helpSE004_1: 'Common points between different sources, fact confirmation.',
+    helpSE004_2: 'Differences in reports, conflicting information requiring clarification.',
+    helpSE004_3: 'Diversity of source types: media, experts, documents, witnesses.',
+    helpSE004_4: 'International dimension of sources, perspectives of different countries.',
     
     // Help Content - Usage
     helpUsageAddComments: 'Adding comments',
