@@ -176,8 +176,6 @@ export const translations = {
 - Obraz 1920×1080px (16:9) → **80mm × 45mm** w PDF
 - Obraz 1080×1920px (9:16) → **56mm × 100mm** w PDF
 
-Więcej informacji: [README-IMAGES.md](README-IMAGES.md)
-
 ---
 
 ## 🔧 Rozwój
