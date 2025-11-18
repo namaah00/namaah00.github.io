@@ -120,6 +120,8 @@ disarm-navigator/
 │   ├── MatrixView.jsx            # Wizualizacja matrycy
 │   ├── RatingDialog.jsx          # Dialog oceniania
 │   ├── Toast.jsx                 # Powiadomienia
+│   ├── SourceDialog.jsx          # Dialog dodawania źródeł (PE 004)
+│   ├── SourcesView.jsx           # Widok źródeł dla PE 004
 │   ├── matrixData.js             # Dane matrycy L1-L3
 │   └── translations.js           # Tłumaczenia PL/EN
 ├── dist/                         # Build output (generowany)
