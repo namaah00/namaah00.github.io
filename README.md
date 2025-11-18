@@ -4,7 +4,7 @@ Interaktywna aplikacja webowa do analizy i dokumentacji taktyk oraz technik cybe
 
 [![React](https://img.shields.io/badge/React-18.3.1-61DAFB?logo=react)](https://reactjs.org/)
 [![Vite](https://img.shields.io/badge/Vite-5.4.11-646CFF?logo=vite)](https://vitejs.dev/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE.txt)
 
 ---
 
@@ -131,7 +131,7 @@ disarm-navigator/
 ├── .gitignore                    # Git ignore
 ├── App.jsx                       # Główna aplikacja (JS)
 ├── index.html                    # HTML template
-├── LICENSE.txt                   # Licencja MIT
+├── LICENSE.txt                   # Licencja Apache 2.0
 ├── main.jsx                      # Entry point
 ├── package.json                  # NPM config
 ├── package-lock.json             # NPM lock
@@ -193,7 +193,9 @@ npm run preview   # Podgląd buildu
 
 ## 📝 Licencja
 
-MIT License - Copyright (c) 2025
+Apache License 2.0 - Copyright (c) 2025 DISARM Navigator Contributors
+
+Zobacz plik [LICENSE.txt](LICENSE.txt) dla szczegółów.
 
 ---
 
