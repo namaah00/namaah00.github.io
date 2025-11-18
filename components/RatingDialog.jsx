@@ -16,16 +16,14 @@ export default function RatingDialog({
   const [rating, setRating] = useState(initialRating);
 
   useEffect(() => {
-    console.log('⭐ RatingDialog received:', { rating: initialRating });
     setRating(initialRating);
   }, [initialRating]);
 
   const handleSave = () => {
-    console.log('⭐ RatingDialog.handleSave:', { rating, hasOnSave: !!onSave, onSaveType: typeof onSave });
     if (onSave && typeof onSave === 'function') {
       onSave(rating);
     } else {
-      console.error('❌ RatingDialog: onSave is not a function!', onSave);
+      console.error('RatingDialog: onSave is not a function!', onSave);
     }
   };
 
@@ -59,7 +57,6 @@ export default function RatingDialog({
               value={rating === null ? '' : rating}
               onChange={(e) => {
                 const newRating = e.target.value === '' ? null : parseInt(e.target.value);
-                console.log('⭐ Rating changed:', { from: rating, to: newRating });
                 setRating(newRating);
               }}
               autoFocus

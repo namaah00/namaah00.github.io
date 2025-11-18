@@ -22,25 +22,18 @@ export default function CommentDialog({
   const [selectedFilesCount, setSelectedFilesCount] = useState(0);
   const fileInputRef = useRef(null);
 
+  // Reset form when cellId changes
   useEffect(() => {
-    console.log('🔄 CommentDialog initialized:', { 
-      initialTitle, 
-      initialContent, 
-      initialImagesCount: initialImages?.length || 0,
-      initialImages 
-    });
     setTitle(initialTitle);
     setContent(initialContent);
-    setImages(initialImages);
-  }, [initialTitle, initialContent, initialImages]);
+    setImages(initialImages || []);
+  }, [cellId]); // Only re-run when cellId changes
 
   const handleImageUpload = (e) => {
     const files = Array.from(e.target.files);
-    console.log('📸 Upload started:', files.length, 'files');
     setSelectedFilesCount(files.length);
     
     files.forEach(file => {
-      console.log('📸 Processing file:', file.name, 'Size:', file.size);
       if (file.size > 2 * 1024 * 1024) {
         alert(t('imageTooLarge') || 'Obraz jest za duży (max 2MB)');
         return;
@@ -48,13 +41,11 @@ export default function CommentDialog({
       
       const reader = new FileReader();
       reader.onload = (event) => {
-        console.log('📸 Image loaded:', file.name, 'Base64 length:', event.target.result.length);
         setImages(prev => {
           const updated = [...prev, {
             data: event.target.result, // Base64
             name: file.name
           }];
-          console.log('📸 Images state updated, total:', updated.length);
           return updated;
         });
       };
@@ -75,7 +66,6 @@ export default function CommentDialog({
   };
 
   const handleSave = () => {
-    console.log('💬 CommentDialog.handleSave:', { title, content, imagesCount: images.length, images });
     if (title.trim() || content.trim() || images.length > 0) {
       onSave(title, content, images);
     }
@@ -87,10 +77,10 @@ export default function CommentDialog({
     }
   };
 
-  if (!isOpen) return null;
+  if (!isOpen || !cellId) return null;
 
   // Wyciągnij tylko ID elementu (bez warstwy)
-  const elementId = cellId.split('-')[1];
+  const elementId = cellId.split('-')[1] || cellId;
   const elementName = getSEName(elementId, language);
   const displayName = `${elementId} - ${elementName}`;
 

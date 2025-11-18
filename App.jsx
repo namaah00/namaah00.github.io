@@ -3,23 +3,41 @@ import MatrixView from './components/MatrixView.jsx';
 import Toast from './components/Toast.jsx';
 import HelpDialog from './components/HelpDialog.jsx';
 import { translations } from './components/translations.js';
-import { MATRIX_DATA, getSEName, getLayerName, getRatingDescription } from './components/matrixData.js';
+import { MATRIX_DATA, getSEName, getLayerName, getRatingDescription, getPEName } from './components/matrixData.js';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 
-// Version: Separated rating system v2
+// Version: Separated rating system v2 + Sources + PDF L3 FIX v3
 export default function App() {
   // Language management
   const [language, setLanguage] = useState(() => {
     return localStorage.getItem('app-language') || 'pl';
   });
   
+  // Dark mode management
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    return localStorage.getItem('app-theme') === 'dark';
+  });
+  
   useEffect(() => {
     localStorage.setItem('app-language', language);
   }, [language]);
   
+  useEffect(() => {
+    localStorage.setItem('app-theme', isDarkMode ? 'dark' : 'light');
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [isDarkMode]);
+  
   const toggleLanguage = () => {
     setLanguage(prev => prev === 'pl' ? 'en' : 'pl');
+  };
+  
+  const toggleDarkMode = () => {
+    setIsDarkMode(prev => !prev);
   };
   
   const t = (key) => translations[language][key] || key;
@@ -30,14 +48,27 @@ export default function App() {
       const saved = localStorage.getItem('matrix-comments');
       if (saved) {
         const parsed = JSON.parse(saved);
-        console.log('🔄 Loading from localStorage:', Object.keys(parsed).length, 'comments');
         return parsed;
       }
-      console.log('📭 No saved comments in localStorage');
       return {};
     } catch (err) {
-      console.error('❌ Błąd ładowania komentarzy:', err);
+      console.error('Błąd ładowania komentarzy:', err);
       return {};
+    }
+  });
+
+  // Inicjalizuj źródła dla PE 004 z localStorage
+  const [sources, setSources] = useState(() => {
+    try {
+      const saved = localStorage.getItem('pe004-sources');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        return parsed;
+      }
+      return [];
+    } catch (err) {
+      console.error('Błąd ładowania źródeł:', err);
+      return [];
     }
   });
   
@@ -55,23 +86,8 @@ export default function App() {
     try {
       const jsonString = JSON.stringify(comments);
       localStorage.setItem('matrix-comments', jsonString);
-      console.log('💿 Saved to localStorage:', Object.keys(comments).length, 'comments, size:', (jsonString.length / 1024).toFixed(2), 'KB');
-      
-      // Debug: Sprawdź czy localStorage faktycznie zawiera dane
-      const saved = localStorage.getItem('matrix-comments');
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        console.log('✅ Verified in localStorage:', Object.keys(parsed).length, 'comments');
-        
-        // Sprawdź obrazy w każdym komentarzu
-        Object.keys(parsed).forEach(key => {
-          if (parsed[key].images && parsed[key].images.length > 0) {
-            console.log(`  📸 ${key}: ${parsed[key].images.length} images`);
-          }
-        });
-      }
     } catch (err) {
-      console.error('❌ Błąd zapisywania komentarzy:', err);
+      console.error('Błąd zapisywania komentarzy:', err);
       // Jeśli localStorage jest pełny, pokaż ostrzeżenie
       if (err.name === 'QuotaExceededError') {
         showToast('Przekroczono limit pamięci. Usuń stare komentarze.', 'error');
@@ -79,36 +95,40 @@ export default function App() {
     }
   }, [comments]);
 
+  // Zapisuj źródła do localStorage przy każdej zmianie
+  useEffect(() => {
+    try {
+      localStorage.setItem('pe004-sources', JSON.stringify(sources));
+    } catch (err) {
+      console.error('Błąd zapisywania źródeł:', err);
+    }
+  }, [sources]);
+
   const handleSaveComment = (id, title, content, images = []) => {
-    console.log('💾 App.handleSaveComment called:', { id, title, content, imagesCount: images.length, images });
     setComments(prev => {
       const existingRating = prev[id]?.rating ?? null;
       const updated = {
         ...prev,
         [id]: { title, content, images, rating: existingRating }
       };
-      console.log('💾 Updated comment:', updated[id]);
       return updated;
     });
     showToast(t('commentSaved'));
   };
 
   const handleSaveRating = (id, rating) => {
-    console.log('⭐ App.handleSaveRating called:', { id, rating });
     setComments(prev => {
       const existing = prev[id] || { title: '', content: '' };
       const updated = {
         ...prev,
         [id]: { ...existing, rating }
       };
-      console.log('⭐ Updated comments:', updated[id]);
       return updated;
     });
     showToast(t('ratingSaved'));
   };
 
   const handleDeleteRating = (id) => {
-    console.log('⭐ App.handleDeleteRating called:', id);
     setComments(prev => {
       if (!prev[id]) return prev;
       const { rating, ...rest } = prev[id];
@@ -119,8 +139,6 @@ export default function App() {
     });
     showToast(t('ratingDeleted'));
   };
-  
-  console.log('🔄 App render - handleSaveRating exists:', typeof handleSaveRating);
 
   const handleDeleteComment = (id) => {
     setComments(prev => {
@@ -131,13 +149,58 @@ export default function App() {
     showToast(t('commentDeleted'));
   };
 
+  // Obsługa źródeł dla PE 004
+  const handleAddSource = (title) => {
+    setSources(prev => {
+      const nextNumber = prev.length + 1;
+      const newSource = {
+        id: `004.${nextNumber}`,
+        title: title,
+        createdAt: new Date().toISOString()
+      };
+      return [...prev, newSource];
+    });
+    showToast(language === 'pl' ? 'Źródło dodane' : 'Source added');
+  };
+
+  const handleDeleteSource = (sourceId) => {
+    // Usuń źródło
+    setSources(prev => {
+      const filtered = prev.filter(s => s.id !== sourceId);
+      // Przenumeruj źródła
+      return filtered.map((source, index) => ({
+        ...source,
+        id: `004.${index + 1}`
+      }));
+    });
+
+    // Usuń wszystkie komentarze powiązane ze źródłem
+    setComments(prev => {
+      const updated = { ...prev };
+      Object.keys(updated).forEach(key => {
+        if (key.startsWith(sourceId + '.')) {
+          delete updated[key];
+        }
+      });
+      return updated;
+    });
+
+    showToast(language === 'pl' ? 'Źródło usunięte' : 'Source deleted');
+  };
+
   const handleExportJSON = () => {
-    const dataStr = JSON.stringify(comments, null, 2);
+    const exportData = {
+      comments: comments,
+      sources: sources,
+      version: '2.0',
+      exportDate: new Date().toISOString()
+    };
+    const dataStr = JSON.stringify(exportData, null, 2);
     const blob = new Blob([dataStr], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = 'comments.json';
+    link.download = 'matrix-data.json';
     link.click();
     URL.revokeObjectURL(url);
     showToast(t('exportSuccess'));
@@ -151,7 +214,17 @@ export default function App() {
     reader.onload = (event) => {
       try {
         const imported = JSON.parse(event.target.result);
-        setComments(imported);
+        
+        // Nowy format z sources
+        if (imported.version === '2.0' && imported.comments) {
+          setComments(imported.comments || {});
+          setSources(imported.sources || []);
+        } 
+        // Stary format - tylko komentarze
+        else {
+          setComments(imported);
+        }
+        
         showToast(t('importSuccess'));
       } catch (err) {
         showToast(t('importError'), 'error');
@@ -184,16 +257,13 @@ export default function App() {
   const handleClearAll = () => {
     if (window.confirm(t('confirmClear'))) {
       setComments({});
+      setSources([]);
       showToast(t('clearSuccess'));
     }
   };
 
   const handleGeneratePDF = async () => {
     try {
-      console.log('📄 Starting PDF generation...');
-      console.log('📊 Comments data:', comments);
-      console.log('📊 Number of comments:', Object.keys(comments).length);
-      
       showToast(t('generatePDF') + '...', 'info');
       
       const pdf = new jsPDF('p', 'mm', 'a4');
@@ -221,12 +291,10 @@ export default function App() {
               finalWidth = maxHeight / aspectRatio;
             }
             
-            console.log(`📐 Image dimensions: ${img.width}x${img.height}px → ${finalWidth.toFixed(1)}x${finalHeight.toFixed(1)}mm (ratio: ${aspectRatio.toFixed(2)})`);
             resolve({ width: finalWidth, height: finalHeight });
           };
           img.onerror = () => {
             // W razie błędu użyj domyślnych wymiarów
-            console.warn('⚠️ Image loading error, using default dimensions');
             resolve({ width: 60, height: 40 });
           };
           img.src = imgData;
@@ -279,41 +347,149 @@ export default function App() {
       pdf.text(encodeText(commentCountStr), margin, yPosition);
       yPosition += 15;
 
+      // Funkcja sprawdzająca czy komentarz ma treść
+      const hasCommentContent = (comment) => {
+        return comment && (
+          (comment.title && comment.title.trim()) || 
+          (comment.content && comment.content.trim()) || 
+          (comment.images && comment.images.length > 0) ||
+          (comment.rating !== null && comment.rating !== undefined)
+        );
+      };
+
+      // Funkcja renderująca pojedynczy komentarz
+      const renderComment = async (item, indentLevel = 5) => {
+        const indent = margin + indentLevel;
+        const seDisplayName = `${item.seId} - ${item.seName}`;
+        
+        checkPageBreak(20);
+
+        // ID i nazwa elementu
+        pdf.setFontSize(11);
+        pdf.setFont('helvetica', 'bold');
+        pdf.text(encodeText(seDisplayName), indent, yPosition);
+        yPosition += 6;
+
+        // Ocena (jeśli istnieje)
+        if (item.comment.rating !== null && item.comment.rating !== undefined) {
+          pdf.setFontSize(9);
+          pdf.setFont('helvetica', 'bold');
+          const ratingText = `${t('ratingLabel')}: ${item.comment.rating}/5 - ${getRatingDescription(item.seId, item.comment.rating, language)}`;
+          const splitRating = pdf.splitTextToSize(encodeText(ratingText), contentWidth - indentLevel - 10);
+          for (let i = 0; i < splitRating.length; i++) {
+            checkPageBreak(5);
+            pdf.text(splitRating[i], indent + 5, yPosition);
+            yPosition += 5;
+          }
+          yPosition += 2;
+        }
+
+        // Tytuł komentarza (tylko jeśli istnieje)
+        if (item.comment.title) {
+          pdf.setFontSize(9);
+          pdf.setFont('helvetica', 'bold');
+          const titleText = `${t('titleLabel')}: ${item.comment.title}`;
+          pdf.text(encodeText(titleText), indent + 5, yPosition);
+          yPosition += 5;
+        }
+
+        // Treść komentarza (tylko jeśli istnieje)
+        if (item.comment.content) {
+          pdf.setFont('helvetica', 'normal');
+          const contentText = `${t('contentLabel')}: ${item.comment.content}`;
+          const splitContent = pdf.splitTextToSize(encodeText(contentText), contentWidth - indentLevel - 10);
+          
+          for (let i = 0; i < splitContent.length; i++) {
+            checkPageBreak(5);
+            pdf.text(splitContent[i], indent + 5, yPosition);
+            yPosition += 5;
+          }
+        }
+
+        // Obrazy (jeśli istnieją)
+        if (item.comment.images && item.comment.images.length > 0) {
+          yPosition += 3;
+          pdf.setFontSize(9);
+          pdf.setFont('helvetica', 'bold');
+          const imagesText = language === 'pl' ? 'Obrazy' : 'Images';
+          pdf.text(encodeText(imagesText) + ':', indent + 5, yPosition);
+          yPosition += 5;
+
+          for (const img of item.comment.images) {
+            try {
+              const dimensions = await getImageDimensions(img.data);
+              const imgWidth = dimensions.width;
+              const imgHeight = dimensions.height;
+              
+              checkPageBreak(imgHeight + 10);
+              
+              pdf.addImage(img.data, 'JPEG', indent + 5, yPosition, imgWidth, imgHeight);
+              yPosition += imgHeight + 3;
+              
+              pdf.setFontSize(8);
+              pdf.setFont('helvetica', 'italic');
+              pdf.text(encodeText(img.name), indent + 5, yPosition);
+              yPosition += 5;
+            } catch (imgErr) {
+              console.error('Error adding image to PDF:', imgErr);
+              pdf.setFontSize(8);
+              pdf.setFont('helvetica', 'italic');
+              pdf.text(encodeText('[Błąd wczytywania obrazu: ' + img.name + ']'), indent + 5, yPosition);
+              yPosition += 5;
+            }
+          }
+        }
+        
+        yPosition += 6;
+      };
+
       // Dodaj zawartość komentarzy
       let hasComments = false;
       
       for (const [layerId, layer] of Object.entries(MATRIX_DATA)) {
         let layerHasComments = false;
-        const layerComments = [];
 
-        // Zbierz komentarze dla tej warstwy
-        layer.primary.forEach((pe) => {
-          pe.secondary.forEach((seId) => {
+        // Sprawdź czy warstwa ma komentarze z treścią
+        for (const pe of layer.primary) {
+          // Specjalna obsługa dla PE 004 - pomiń sprawdzanie pe.secondary
+          if (pe.id === '004') {
+            // PE 004 będzie sprawdzone poniżej w sekcji dynamicznych źródeł
+            continue;
+          }
+          
+          for (const seId of pe.secondary) {
             const cellId = `${layerId}-${seId}`;
-            const seComment = comments[cellId];
-
-            if (seComment) {
-              console.log(`📝 Found comment for ${cellId}:`, seComment);
-              hasComments = true;
+            if (hasCommentContent(comments[cellId])) {
               layerHasComments = true;
-              const seName = getSEName(seId, language);
-              layerComments.push({
-                seId,
-                seName,
-                comment: seComment
-              });
+              break;
             }
-          });
-        });
+          }
+          if (layerHasComments) break;
+        }
 
+        // Sprawdź dynamiczne źródła dla PE 004 w L3
+        if (layerId === 'L3' && sources.length > 0) {
+          for (const source of sources) {
+            for (let i = 1; i <= 4; i++) {
+              const cellId = `${source.id}.${i}`;  // Format: 004.1.1 (bez prefiksu L3-)
+              const comment = comments[cellId];
+              if (hasCommentContent(comment)) {
+                layerHasComments = true;
+                break;
+              }
+            }
+            if (layerHasComments) break;
+          }
+        }
+        
         if (layerHasComments) {
-          console.log(`📋 Adding layer ${layerId} with ${layerComments.length} comments`);
+          hasComments = true;
+          
           // Nagłówek warstwy
           checkPageBreak(15);
           pdf.setFontSize(14);
           pdf.setFont('helvetica', 'bold');
           const layerName = encodeText(getLayerName(layerId, language));
-          console.log(`  Layer name: ${layerName} at position ${yPosition}`);
           pdf.text(layerName, margin, yPosition);
           yPosition += 8;
           
@@ -323,104 +499,115 @@ export default function App() {
           pdf.line(margin, yPosition, pageWidth - margin, yPosition);
           yPosition += 8;
 
-          // Komentarze w tej warstwie
-          for (const item of layerComments) {
-            const seDisplayName = `${item.seId} - ${item.seName}`;
-            
-            checkPageBreak(20);
+          // Przetwarzaj każdy PE w warstwie
+          for (const pe of layer.primary) {
+            // Specjalna obsługa dla PE 004 z dynamicznymi źródłami
+            if (pe.id === '004' && sources.length > 0) {
+              let peHasComments = false;
 
-            // ID i nazwa elementu
-            pdf.setFontSize(11);
-            pdf.setFont('helvetica', 'bold');
-            pdf.text(encodeText(seDisplayName), margin + 5, yPosition);
-            yPosition += 6;
-
-            // Ocena (jeśli istnieje)
-            if (item.comment.rating !== null && item.comment.rating !== undefined) {
-              pdf.setFontSize(9);
-              pdf.setFont('helvetica', 'bold');
-              const ratingText = `${t('ratingLabel')}: ${item.comment.rating}/5 - ${getRatingDescription(item.seId, item.comment.rating, language)}`;
-              const splitRating = pdf.splitTextToSize(encodeText(ratingText), contentWidth - 15);
-              for (let i = 0; i < splitRating.length; i++) {
-                checkPageBreak(5);
-                pdf.text(splitRating[i], margin + 10, yPosition);
-                yPosition += 5;
+              // Sprawdź czy PE 004 ma jakiekolwiek komentarze z treścią
+              for (const source of sources) {
+                for (let i = 1; i <= 4; i++) {
+                  const cellId = `${source.id}.${i}`;  // Format: 004.1.1 (bez prefiksu L3-)
+                  if (hasCommentContent(comments[cellId])) {
+                    peHasComments = true;
+                    break;
+                  }
+                }
+                if (peHasComments) break;
               }
-              yPosition += 2;
-            }
-
-            // Tytuł komentarza (tylko jeśli istnieje)
-            if (item.comment.title) {
-              pdf.setFontSize(9);
-              pdf.setFont('helvetica', 'bold');
-              const titleText = `${t('titleLabel')}: ${item.comment.title}`;
-              pdf.text(encodeText(titleText), margin + 10, yPosition);
-              yPosition += 5;
-            }
-
-            // Treść komentarza (tylko jeśli istnieje)
-            if (item.comment.content) {
-              pdf.setFont('helvetica', 'normal');
-              const contentText = `${t('contentLabel')}: ${item.comment.content}`;
-              const splitContent = pdf.splitTextToSize(encodeText(contentText), contentWidth - 15);
               
-              for (let i = 0; i < splitContent.length; i++) {
-                checkPageBreak(5);
-                pdf.text(splitContent[i], margin + 10, yPosition);
-                yPosition += 5;
+              if (peHasComments) {
+                // Nagłówek PE 004
+                checkPageBreak(12);
+                pdf.setFontSize(12);
+                pdf.setFont('helvetica', 'bold');
+                const peName = encodeText(`PE ${pe.id} - ${getPEName(pe.id, language)}`);
+                pdf.text(peName, margin + 3, yPosition);
+                yPosition += 8;
+
+                // Iteruj przez każde źródło
+                for (const source of sources) {
+                  let sourceHasComments = false;
+                  const sourceComments = [];
+
+                  // Zbierz komentarze dla tego źródła
+                  for (let i = 1; i <= 4; i++) {
+                    const seId = `${source.id}.${i}`;  // Format: 004.1.1 (bez prefiksu L3-)
+                    const seComment = comments[seId];
+
+                    if (hasCommentContent(seComment)) {
+                      sourceHasComments = true;
+                      const seName = getSEName(seId, language);
+                      sourceComments.push({
+                        seId,
+                        seName,
+                        comment: seComment
+                      });
+                    }
+                  }
+
+                  if (sourceHasComments) {
+                    // Nagłówek źródła
+                    checkPageBreak(10);
+                    pdf.setFontSize(11);
+                    pdf.setFont('helvetica', 'bold');
+                    const sourceTitle = encodeText(`${source.id} - ${source.title}`);
+                    pdf.text(sourceTitle, margin + 8, yPosition);
+                    yPosition += 7;
+
+                    // Komentarze dla SE w tym źródle
+                    for (const item of sourceComments) {
+                      await renderComment(item, 13);
+                    }
+                  }
+                }
               }
-            }
+            } else {
+              // Standardowe PE (nie 004)
+              const peComments = [];
 
-            // Obrazy (jeśli istnieją)
-            if (item.comment.images && item.comment.images.length > 0) {
-              yPosition += 3;
-              pdf.setFontSize(9);
-              pdf.setFont('helvetica', 'bold');
-              // Użyj prostego tekstu bez emoji dla PDF
-              const imagesText = language === 'pl' ? 'Obrazy' : 'Images';
-              pdf.text(encodeText(imagesText) + ':', margin + 10, yPosition);
-              yPosition += 5;
+              // Zbierz komentarze dla standardowych SE
+              for (const seId of pe.secondary) {
+                const cellId = `${layerId}-${seId}`;
+                const seComment = comments[cellId];
 
-              for (const img of item.comment.images) {
-                try {
-                  // Oblicz wymiary obrazu zachowując proporcje
-                  const dimensions = await getImageDimensions(img.data);
-                  const imgWidth = dimensions.width;
-                  const imgHeight = dimensions.height;
-                  
-                  checkPageBreak(imgHeight + 10);
-                  
-                  pdf.addImage(img.data, 'JPEG', margin + 10, yPosition, imgWidth, imgHeight);
-                  yPosition += imgHeight + 3;
-                  
-                  // Nazwa pliku pod obrazem
-                  pdf.setFontSize(8);
-                  pdf.setFont('helvetica', 'italic');
-                  pdf.text(encodeText(img.name), margin + 10, yPosition);
-                  yPosition += 5;
-                } catch (imgErr) {
-                  console.error('Error adding image to PDF:', imgErr);
-                  pdf.setFontSize(8);
-                  pdf.setFont('helvetica', 'italic');
-                  pdf.text(encodeText('[Błąd wczytywania obrazu: ' + img.name + ']'), margin + 10, yPosition);
-                  yPosition += 5;
+                if (hasCommentContent(seComment)) {
+                  const seName = getSEName(seId, language);
+                  peComments.push({
+                    seId,
+                    seName,
+                    comment: seComment
+                  });
+                }
+              }
+              
+              if (peComments.length > 0) {
+                // Nagłówek PE
+                checkPageBreak(12);
+                pdf.setFontSize(12);
+                pdf.setFont('helvetica', 'bold');
+                const peName = encodeText(`PE ${pe.id} - ${getPEName(pe.id, language)}`);
+                pdf.text(peName, margin + 3, yPosition);
+                yPosition += 8;
+
+                // Komentarze w tym PE
+                for (const item of peComments) {
+                  await renderComment(item, 8);
                 }
               }
             }
-            
-            yPosition += 8;
           }
+
+          yPosition += 5;
         }
       }
 
       // Jeśli brak komentarzy
       if (!hasComments) {
-        console.log('⚠️ No comments found in PDF generation');
         pdf.setFontSize(12);
         pdf.setFont('helvetica', 'italic');
         pdf.text(encodeText(t('pdfNoComments')), margin, yPosition);
-      } else {
-        console.log('✅ PDF generated with comments');
       }
 
       pdf.save('raport.pdf');
@@ -438,6 +625,9 @@ export default function App() {
       <header className="header">
         <h1>{t('appTitle')}</h1>
         <div className="header-info">
+          <button className="btn btn-theme" onClick={toggleDarkMode} title={isDarkMode ? 'Jasny motyw' : 'Ciemny motyw'}>
+            {isDarkMode ? '☀️' : '🌙'}
+          </button>
           <button className="btn btn-language" onClick={toggleLanguage}>
             🌐 {language === 'pl' ? 'EN' : 'PL'}
           </button>
@@ -484,6 +674,9 @@ export default function App() {
           onSaveRating={handleSaveRating}
           onDeleteRating={handleDeleteRating}
           language={language}
+          sources={sources}
+          onAddSource={handleAddSource}
+          onDeleteSource={handleDeleteSource}
         />
       </div>
 

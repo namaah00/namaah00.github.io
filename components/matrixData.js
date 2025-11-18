@@ -69,7 +69,27 @@ export const MATRIX_DATA = {
 
 // Helper function to get SE name by language
 export const getSEName = (id, lang = 'pl') => {
-  const key = `se${id.replace('.', '_')}`;
+  // Handle undefined or null id
+  if (!id) return '';
+  
+  // Check if this is a dynamic PE 004 source (format: 004.n.x)
+  if (id.startsWith('004.') && id.split('.').length === 3) {
+    const parts = id.split('.');
+    const seNumber = parts[2]; // Get the SE number (1-4)
+    
+    // Map SE numbers to their names
+    const seNames = {
+      '1': { pl: 'Zgodności', en: 'Consistencies' },
+      '2': { pl: 'Rozbieżności', en: 'Inconsistencies' },
+      '3': { pl: 'Różnorodność', en: 'Diversity' },
+      '4': { pl: 'Kontekst międzynarodowy', en: 'International context' }
+    };
+    
+    return seNames[seNumber]?.[lang] || id;
+  }
+  
+  // Standard SE lookup
+  const key = `se${id.replace(/\./g, '_')}`;
   return translations[lang][key] || id;
 };
 

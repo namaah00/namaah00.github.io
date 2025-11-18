@@ -1,20 +1,22 @@
 import { useState } from 'react';
 import CommentDialog from './CommentDialog.jsx';
 import RatingDialog from './RatingDialog.jsx';
+import SourcesView from './SourcesView.jsx';
 import { MATRIX_DATA, getSEName, getPEName, getLayerName, hasRatingScale } from './matrixData.js';
 
-export default function MatrixView({ comments, onSave, onDelete, onSaveRating, onDeleteRating, language }) {
+export default function MatrixView({ 
+  comments, 
+  onSave, 
+  onDelete, 
+  onSaveRating, 
+  onDeleteRating, 
+  language,
+  sources,
+  onAddSource,
+  onDeleteSource
+}) {
   const [selectedCell, setSelectedCell] = useState(null);
   const [selectedRatingCell, setSelectedRatingCell] = useState(null);
-  
-  // Debug logging
-  console.log('🔍 MatrixView render - props check:', { 
-    hasOnSave: typeof onSave, 
-    hasOnDelete: typeof onDelete, 
-    hasOnSaveRating: typeof onSaveRating, 
-    hasOnDeleteRating: typeof onDeleteRating,
-    onSaveRating: onSaveRating
-  });
 
   const handleCellClick = (cellId) => {
     setSelectedCell(cellId);
@@ -34,7 +36,6 @@ export default function MatrixView({ comments, onSave, onDelete, onSaveRating, o
   };
 
   const handleSave = (title, content, images) => {
-    console.log('🗂️ MatrixView.handleSave:', { selectedCell, title, content, imagesCount: images?.length, images });
     if (selectedCell) {
       onSave(selectedCell, title, content, images);
       setSelectedCell(null);
@@ -42,12 +43,11 @@ export default function MatrixView({ comments, onSave, onDelete, onSaveRating, o
   };
 
   const handleSaveRating = (rating) => {
-    console.log('handleSaveRating called:', { rating, selectedRatingCell, hasOnSaveRating: !!onSaveRating });
     if (selectedRatingCell && onSaveRating) {
       onSaveRating(selectedRatingCell, rating);
       setSelectedRatingCell(null);
     } else if (!onSaveRating) {
-      console.error('❌ onSaveRating is not defined!');
+      console.error('onSaveRating is not defined!');
     }
   };
 
@@ -63,7 +63,7 @@ export default function MatrixView({ comments, onSave, onDelete, onSaveRating, o
       onDeleteRating(selectedRatingCell);
       setSelectedRatingCell(null);
     } else if (!onDeleteRating) {
-      console.error('❌ onDeleteRating is not defined!');
+      console.error('onDeleteRating is not defined!');
     }
   };
 
@@ -83,9 +83,21 @@ export default function MatrixView({ comments, onSave, onDelete, onSaveRating, o
                   <div className="element-name">{getPEName(pe.id, language)}</div>
                 </div>
                 
-                {/* Secondary Elements */}
-                <div className="secondary-elements">
-                  {pe.secondary.map((seId) => {
+                {/* Specjalna obsługa dla PE 004 - dynamiczne źródła */}
+                {pe.id === '004' && layerId === 'L3' ? (
+                  <SourcesView
+                    sources={sources || []}
+                    comments={comments}
+                    onAddSource={onAddSource}
+                    onDeleteSource={onDeleteSource}
+                    onSaveComment={onSave}
+                    onDeleteComment={onDelete}
+                    language={language}
+                  />
+                ) : (
+                  /* Secondary Elements - standardowa obsługa */
+                  <div className="secondary-elements">
+                    {pe.secondary.map((seId) => {
                     const cellId = `${layerId}-${seId}`;
                     const comment = comments[cellId];
                     const hasComment = !!comment;
@@ -130,7 +142,8 @@ export default function MatrixView({ comments, onSave, onDelete, onSaveRating, o
                       </div>
                     );
                   })}
-                </div>
+                  </div>
+                )}
               </div>
             ))}
           </div>
