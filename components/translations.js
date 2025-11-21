@@ -2,6 +2,7 @@ export const translations = {
   pl: {
     // Header
     appTitle: 'System Analizy Informacji',
+    appSubtitle: '„Punkt widzenia może być niebezpiecznym luksusem, gdy zastępuje wgląd i zrozumienie" — Marshall McLuhan',
     help: 'Pomoc',
     comments: 'Komentarzy',
     
@@ -19,7 +20,7 @@ export const translations = {
     
     // Primary Elements
     pe001: '001 Ocena treści',
-    pe002: '002 Ocena Źródła',
+    pe002: '002 Ocena źródła',
     pe003: '003 Ocena kontekstu',
     pe004: '004 Ocena kontrastu',
     
@@ -120,7 +121,7 @@ export const translations = {
     helpL1Desc: 'Warstwa podstawowa oceniająca fundamentalne aspekty informacji.',
     helpL1PE001: '001 - Ocena treści',
     helpL1PE001Desc: 'Analiza samej treści przekazu pod kątem jakości i rzetelności.',
-    helpL1PE002: '002 - Ocena Źródła',
+    helpL1PE002: '002 - Ocena źródła',
     helpL1PE002Desc: 'Analiza wiarygodności i reputacji źródła informacji.',
     
     // SE Descriptions
@@ -240,6 +241,7 @@ export const translations = {
   en: {
     // Header
     appTitle: 'Information Analysis System',
+    appSubtitle: '"Point of view can be a dangerous luxury when substituted for insight and understanding" — Marshall McLuhan',
     help: 'Help',
     comments: 'Comments',
     

@@ -623,7 +623,10 @@ export default function App() {
   return (
     <div className="app">
       <header className="header">
-        <h1>{t('appTitle')}</h1>
+        <div className="header-title">
+          <h1>{t('appTitle')}</h1>
+          <p className="header-subtitle">{t('appSubtitle')}</p>
+        </div>
         <div className="header-info">
           <button className="btn btn-theme" onClick={toggleDarkMode} title={isDarkMode ? 'Jasny motyw' : 'Ciemny motyw'}>
             {isDarkMode ? '☀️' : '🌙'}
