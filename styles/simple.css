@@ -211,10 +211,10 @@ body {
   position: relative;
   min-height: 80px;
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0.5rem;
 }
 
 /* Primary Element Header (PE) - nie klikalne */
@@ -257,6 +257,7 @@ body {
   flex-direction: column;
   gap: 0.25rem;
   min-width: 0;
+  padding-right: 5rem;
 }
 
 .element-id {
@@ -313,6 +314,9 @@ body {
 
 /* Element Actions */
 .element-actions {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
   display: flex;
   gap: 0.5rem;
   opacity: 0;
