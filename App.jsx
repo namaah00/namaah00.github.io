@@ -330,10 +330,10 @@ export default function App() {
             const container = document.createElement('div');
             container.style.position = 'absolute';
             container.style.left = '-9999px';
-            container.style.width = '400px';
-            container.style.height = '400px';
+            container.style.width = '800px';
+            container.style.height = '800px';
             container.style.background = 'white';
-            container.style.padding = '20px';
+            container.style.padding = '40px';
             document.body.appendChild(container);
             
             // Import dynamiczny Recharts
@@ -348,19 +348,19 @@ export default function App() {
             
             root.render(
               React.createElement('div', { style: { width: '100%', height: '100%', background: 'white' } },
-                React.createElement('h4', { style: { textAlign: 'center', marginBottom: '10px', fontSize: '14px' } }, peTitle),
-                React.createElement('div', { style: { width: '400px', height: '350px' } },
-                  React.createElement(RadarChart, { width: 400, height: 350, data: chartData },
-                    React.createElement(PolarGrid, { stroke: '#cbd5e1', strokeWidth: 1.5 }),
+                React.createElement('h4', { style: { textAlign: 'center', marginBottom: '20px', fontSize: '24px', fontWeight: 'bold' } }, peTitle),
+                React.createElement('div', { style: { width: '800px', height: '720px' } },
+                  React.createElement(RadarChart, { width: 800, height: 720, data: chartData },
+                    React.createElement(PolarGrid, { stroke: '#cbd5e1', strokeWidth: 2 }),
                     React.createElement(PolarAngleAxis, { 
                       dataKey: 'subject',
-                      tick: { fill: '#000', fontSize: 11, fontWeight: 500 },
+                      tick: { fill: '#000', fontSize: 18, fontWeight: 600 },
                       stroke: '#cbd5e1'
                     }),
                     React.createElement(PolarRadiusAxis, { 
                       angle: 90,
                       domain: [0, 5],
-                      tick: { fill: '#666', fontSize: 10 },
+                      tick: { fill: '#666', fontSize: 16 },
                       stroke: '#cbd5e1',
                       tickCount: 6
                     }),
@@ -369,8 +369,8 @@ export default function App() {
                       stroke: '#667eea',
                       fill: '#667eea',
                       fillOpacity: 0.5,
-                      strokeWidth: 2,
-                      dot: { fill: '#667eea', r: 4 }
+                      strokeWidth: 3,
+                      dot: { fill: '#667eea', r: 6 }
                     })
                   )
                 )
@@ -378,7 +378,7 @@ export default function App() {
             );
             
             // Czekaj na renderowanie
-            await new Promise(r => setTimeout(r, 500));
+            await new Promise(r => setTimeout(r, 1000));
             
             // Zrzut do canvas
             const canvas = await html2canvas(container, {
