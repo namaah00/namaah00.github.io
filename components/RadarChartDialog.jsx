@@ -182,8 +182,8 @@ export default function RadarChartDialog({ isOpen, onClose, language, ratings, s
                 <ResponsiveContainer width="100%" height={500}>
                   <RadarChart data={chartData}>
                     <PolarGrid 
-                      stroke="var(--border)" 
-                      strokeWidth={1}
+                      stroke="#cbd5e1" 
+                      strokeWidth={1.5}
                     />
                     <PolarAngleAxis 
                       dataKey="subject" 
@@ -192,7 +192,7 @@ export default function RadarChartDialog({ isOpen, onClose, language, ratings, s
                         fontSize: 13,
                         fontWeight: 500
                       }}
-                      stroke="var(--border)"
+                      stroke="#cbd5e1"
                     />
                     <PolarRadiusAxis 
                       angle={90} 
@@ -201,7 +201,7 @@ export default function RadarChartDialog({ isOpen, onClose, language, ratings, s
                         fill: 'var(--muted-foreground)',
                         fontSize: 12
                       }}
-                      stroke="var(--border)"
+                      stroke="#cbd5e1"
                       tickCount={6}
                     />
                     <Radar 
