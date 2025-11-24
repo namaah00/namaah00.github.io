@@ -632,13 +632,12 @@ export default function App() {
             const chart002 = await generateRadarChartImage('002');
             
             if (chart001 || chart002) {
-              checkPageBreak(80);
-              
-              const chartWidth = 70; // szerokość wykresu w mm
-              const chartHeight = 70; // wysokość wykresu w mm
               
               if (chart001 && chart002) {
-                // Oba wykresy - renderuj obok siebie
+                // Oba wykresy - renderuj obok siebie, większy rozmiar
+                checkPageBreak(110);
+                const chartWidth = 80; // szerokość wykresu w mm (zwiększone z 70)
+                const chartHeight = 80; // wysokość wykresu w mm (zwiększone z 70)
                 const spacing = 10;
                 const totalWidth = 2 * chartWidth + spacing;
                 const startX = margin + (contentWidth - totalWidth) / 2;
@@ -647,12 +646,18 @@ export default function App() {
                 pdf.addImage(chart002, 'PNG', startX + chartWidth + spacing, yPosition, chartWidth, chartHeight);
                 yPosition += chartHeight + 10;
               } else if (chart001) {
-                // Tylko PE 001
+                // Tylko PE 001 - większy wykres (jeden na stronę)
+                checkPageBreak(140);
+                const chartWidth = 120; // szerokość wykresu w mm (zwiększone z 70)
+                const chartHeight = 120; // wysokość wykresu w mm (zwiększone z 70)
                 const centerX = margin + (contentWidth - chartWidth) / 2;
                 pdf.addImage(chart001, 'PNG', centerX, yPosition, chartWidth, chartHeight);
                 yPosition += chartHeight + 10;
               } else if (chart002) {
-                // Tylko PE 002
+                // Tylko PE 002 - większy wykres (jeden na stronę)
+                checkPageBreak(140);
+                const chartWidth = 120; // szerokość wykresu w mm (zwiększone z 70)
+                const chartHeight = 120; // wysokość wykresu w mm (zwiększone z 70)
                 const centerX = margin + (contentWidth - chartWidth) / 2;
                 pdf.addImage(chart002, 'PNG', centerX, yPosition, chartWidth, chartHeight);
                 yPosition += chartHeight + 10;
