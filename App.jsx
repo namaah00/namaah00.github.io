@@ -703,6 +703,7 @@ export default function App() {
         isOpen={isRadarChartOpen} 
         onClose={() => setIsRadarChartOpen(false)}
         language={language}
+        ratings={comments}
         showToast={showToast}
       />
     </div>
