@@ -7,6 +7,7 @@ import { translations } from './components/translations.js';
 import { MATRIX_DATA, getSEName, getLayerName, getRatingDescription, getPEName } from './components/matrixData.js';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import React from 'react';
 
 // Version: Separated rating system v2 + Sources + PDF L3 FIX v3
 export default function App() {
@@ -275,6 +276,130 @@ export default function App() {
       const contentWidth = pageWidth - 2 * margin;
       let yPosition = margin;
 
+      // Funkcja generująca wykres radarowy jako obraz
+      const generateRadarChartImage = async (peId) => {
+        return new Promise(async (resolve) => {
+          try {
+            // Sprawdź kompletność danych
+            const seCount = peId === '001' ? 6 : 4;
+            let complete = true;
+            
+            for (let i = 1; i <= seCount; i++) {
+              const seId = `${peId}.${i}`;
+              const rating = comments[`L1-${seId}`]?.rating;
+              if (rating === undefined || rating === null) {
+                complete = false;
+                break;
+              }
+            }
+            
+            if (!complete) {
+              resolve(null);
+              return;
+            }
+            
+            // Przygotuj dane
+            const chartData = [];
+            const seNames = {
+              '001': {
+                1: language === 'pl' ? 'Spójność logiczna' : 'Logical Consistency',
+                2: language === 'pl' ? 'Forma przekazu' : 'Message Format',
+                3: language === 'pl' ? 'Transparentność' : 'Transparency',
+                4: language === 'pl' ? 'Rzetelność' : 'Reliability',
+                5: language === 'pl' ? 'Obiektywność' : 'Objectivity',
+                6: language === 'pl' ? 'Autentyczność cyfrowa' : 'Digital Authenticity',
+              },
+              '002': {
+                1: language === 'pl' ? 'Autorytet' : 'Authority',
+                2: language === 'pl' ? 'Reputacja' : 'Reputation',
+                3: language === 'pl' ? 'Afiliacja' : 'Affiliation',
+                4: language === 'pl' ? 'Historia Wiarygodności' : 'Credibility History',
+              }
+            };
+            
+            for (let i = 1; i <= seCount; i++) {
+              const seId = `${peId}.${i}`;
+              const rating = comments[`L1-${seId}`]?.rating || 0;
+              chartData.push({
+                subject: seNames[peId][i],
+                value: rating,
+              });
+            }
+            
+            // Stwórz tymczasowy kontener
+            const container = document.createElement('div');
+            container.style.position = 'absolute';
+            container.style.left = '-9999px';
+            container.style.width = '400px';
+            container.style.height = '400px';
+            container.style.background = 'white';
+            container.style.padding = '20px';
+            document.body.appendChild(container);
+            
+            // Import dynamiczny Recharts
+            const { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis } = await import('recharts');
+            const { createRoot } = await import('react-dom/client');
+            
+            // Renderuj wykres
+            const root = createRoot(container);
+            const peTitle = peId === '001' 
+              ? (language === 'pl' ? 'PE 001 - Ocena treści' : 'PE 001 - Content Assessment')
+              : (language === 'pl' ? 'PE 002 - Ocena źródła' : 'PE 002 - Source Assessment');
+            
+            root.render(
+              React.createElement('div', { style: { width: '100%', height: '100%', background: 'white' } },
+                React.createElement('h4', { style: { textAlign: 'center', marginBottom: '10px', fontSize: '14px' } }, peTitle),
+                React.createElement('div', { style: { width: '400px', height: '350px' } },
+                  React.createElement(RadarChart, { width: 400, height: 350, data: chartData },
+                    React.createElement(PolarGrid, { stroke: '#cbd5e1', strokeWidth: 1.5 }),
+                    React.createElement(PolarAngleAxis, { 
+                      dataKey: 'subject',
+                      tick: { fill: '#000', fontSize: 11, fontWeight: 500 },
+                      stroke: '#cbd5e1'
+                    }),
+                    React.createElement(PolarRadiusAxis, { 
+                      angle: 90,
+                      domain: [0, 5],
+                      tick: { fill: '#666', fontSize: 10 },
+                      stroke: '#cbd5e1',
+                      tickCount: 6
+                    }),
+                    React.createElement(Radar, {
+                      dataKey: 'value',
+                      stroke: '#667eea',
+                      fill: '#667eea',
+                      fillOpacity: 0.5,
+                      strokeWidth: 2,
+                      dot: { fill: '#667eea', r: 4 }
+                    })
+                  )
+                )
+              )
+            );
+            
+            // Czekaj na renderowanie
+            await new Promise(r => setTimeout(r, 500));
+            
+            // Zrzut do canvas
+            const canvas = await html2canvas(container, {
+              backgroundColor: '#ffffff',
+              scale: 2,
+            });
+            
+            const imgData = canvas.toDataURL('image/png');
+            
+            // Usuń kontener
+            root.unmount();
+            document.body.removeChild(container);
+            
+            resolve(imgData);
+          } catch (error) {
+            console.error('Error generating radar chart:', error);
+            resolve(null);
+          }
+        });
+      };
+
       // Funkcja do obliczania wymiarów obrazu z zachowaniem proporcji
       const getImageDimensions = (imgData) => {
         return new Promise((resolve) => {
@@ -501,6 +626,40 @@ export default function App() {
           pdf.line(margin, yPosition, pageWidth - margin, yPosition);
           yPosition += 8;
 
+          // Dodaj wykresy radarowe dla L1
+          if (layerId === 'L1') {
+            const chart001 = await generateRadarChartImage('001');
+            const chart002 = await generateRadarChartImage('002');
+            
+            if (chart001 || chart002) {
+              checkPageBreak(80);
+              
+              const chartWidth = 70; // szerokość wykresu w mm
+              const chartHeight = 70; // wysokość wykresu w mm
+              
+              if (chart001 && chart002) {
+                // Oba wykresy - renderuj obok siebie
+                const spacing = 10;
+                const totalWidth = 2 * chartWidth + spacing;
+                const startX = margin + (contentWidth - totalWidth) / 2;
+                
+                pdf.addImage(chart001, 'PNG', startX, yPosition, chartWidth, chartHeight);
+                pdf.addImage(chart002, 'PNG', startX + chartWidth + spacing, yPosition, chartWidth, chartHeight);
+                yPosition += chartHeight + 10;
+              } else if (chart001) {
+                // Tylko PE 001
+                const centerX = margin + (contentWidth - chartWidth) / 2;
+                pdf.addImage(chart001, 'PNG', centerX, yPosition, chartWidth, chartHeight);
+                yPosition += chartHeight + 10;
+              } else if (chart002) {
+                // Tylko PE 002
+                const centerX = margin + (contentWidth - chartWidth) / 2;
+                pdf.addImage(chart002, 'PNG', centerX, yPosition, chartWidth, chartHeight);
+                yPosition += chartHeight + 10;
+              }
+            }
+          }
+
           // Przetwarzaj każdy PE w warstwie
           for (const pe of layer.primary) {
             // Specjalna obsługa dla PE 004 z dynamicznymi źródłami
@@ -638,9 +797,6 @@ export default function App() {
           </button>
           <button className="btn btn-help" onClick={() => setIsHelpOpen(true)}>
             ❓ {t('help')}
-          </button>
-          <button className="btn btn-radar-chart" onClick={() => setIsRadarChartOpen(true)}>
-            📈 {t('radarChart')}
           </button>
           <span className="comment-count">
             📝 {t('comments')}: {commentCount}
