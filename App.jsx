@@ -75,7 +75,6 @@ export default function App() {
   
   const [toast, setToast] = useState(null);
   const [isHelpOpen, setIsHelpOpen] = useState(false);
-  const [isNetworkGraphOpen, setIsNetworkGraphOpen] = useState(false);
   const [isRadarChartOpen, setIsRadarChartOpen] = useState(false);
   const matrixRef = useRef(null);
 
@@ -640,9 +639,6 @@ export default function App() {
           <button className="btn btn-help" onClick={() => setIsHelpOpen(true)}>
             ❓ {t('help')}
           </button>
-          <button className="btn btn-network-graph" onClick={() => setIsNetworkGraphOpen(true)}>
-            🧠 {t('networkGraph')}
-          </button>
           <button className="btn btn-radar-chart" onClick={() => setIsRadarChartOpen(true)}>
             📈 {t('radarChart')}
           </button>
@@ -701,13 +697,6 @@ export default function App() {
         isOpen={isHelpOpen} 
         onClose={() => setIsHelpOpen(false)}
         language={language}
-      />
-      
-      <NetworkGraphDialog 
-        isOpen={isNetworkGraphOpen} 
-        onClose={() => setIsNetworkGraphOpen(false)}
-        language={language}
-        showToast={showToast}
       />
       
       <RadarChartDialog 
