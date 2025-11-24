@@ -9,8 +9,9 @@ export const translations = {
     // Toolbar
     exportJPEG: 'Eksport JPEG',
     generatePDF: 'Generuj PDF',
+    radarChart: 'Wykres radarowy',
     exportJSON: 'Eksport JSON',
-    importJSON: 'Import JSON',
+    importJSON: 'Importuj JSON',
     clearAll: 'Wyczyść wszystko',
     
     // Layers
@@ -248,6 +249,7 @@ export const translations = {
     // Toolbar
     exportJPEG: 'Export JPEG',
     generatePDF: 'Generate PDF',
+    radarChart: 'Radar Chart',
     exportJSON: 'Export JSON',
     importJSON: 'Import JSON',
     clearAll: 'Clear All',
