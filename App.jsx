@@ -2,7 +2,6 @@ import { useState, useRef, useEffect } from 'react';
 import MatrixView from './components/MatrixView.jsx';
 import Toast from './components/Toast.jsx';
 import HelpDialog from './components/HelpDialog.jsx';
-import NetworkGraphDialog from './components/NetworkGraphDialog.jsx';
 import RadarChartDialog from './components/RadarChartDialog.jsx';
 import { translations } from './components/translations.js';
 import { MATRIX_DATA, getSEName, getLayerName, getRatingDescription, getPEName } from './components/matrixData.js';
