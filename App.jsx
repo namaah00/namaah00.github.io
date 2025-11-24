@@ -2,6 +2,8 @@ import { useState, useRef, useEffect } from 'react';
 import MatrixView from './components/MatrixView.jsx';
 import Toast from './components/Toast.jsx';
 import HelpDialog from './components/HelpDialog.jsx';
+import NetworkGraphDialog from './components/NetworkGraphDialog.jsx';
+import RadarChartDialog from './components/RadarChartDialog.jsx';
 import { translations } from './components/translations.js';
 import { MATRIX_DATA, getSEName, getLayerName, getRatingDescription, getPEName } from './components/matrixData.js';
 import html2canvas from 'html2canvas';
@@ -74,6 +76,8 @@ export default function App() {
   
   const [toast, setToast] = useState(null);
   const [isHelpOpen, setIsHelpOpen] = useState(false);
+  const [isNetworkGraphOpen, setIsNetworkGraphOpen] = useState(false);
+  const [isRadarChartOpen, setIsRadarChartOpen] = useState(false);
   const matrixRef = useRef(null);
 
   const showToast = (message, type = 'success') => {
@@ -637,6 +641,12 @@ export default function App() {
           <button className="btn btn-help" onClick={() => setIsHelpOpen(true)}>
             ❓ {t('help')}
           </button>
+          <button className="btn btn-network-graph" onClick={() => setIsNetworkGraphOpen(true)}>
+            🧠 {t('networkGraph')}
+          </button>
+          <button className="btn btn-radar-chart" onClick={() => setIsRadarChartOpen(true)}>
+            📈 {t('radarChart')}
+          </button>
           <span className="comment-count">
             📝 {t('comments')}: {commentCount}
           </span>
@@ -644,6 +654,9 @@ export default function App() {
       </header>
 
       <div className="toolbar">
+        <button className="btn btn-primary" onClick={() => setIsRadarChartOpen(true)}>
+          📊 {t('radarChart')}
+        </button>
         <button className="btn btn-primary" onClick={handleExportImage}>
           📷 {t('exportJPEG')}
         </button>
@@ -689,6 +702,20 @@ export default function App() {
         isOpen={isHelpOpen} 
         onClose={() => setIsHelpOpen(false)}
         language={language}
+      />
+      
+      <NetworkGraphDialog 
+        isOpen={isNetworkGraphOpen} 
+        onClose={() => setIsNetworkGraphOpen(false)}
+        language={language}
+        showToast={showToast}
+      />
+      
+      <RadarChartDialog 
+        isOpen={isRadarChartOpen} 
+        onClose={() => setIsRadarChartOpen(false)}
+        language={language}
+        showToast={showToast}
       />
     </div>
   );
