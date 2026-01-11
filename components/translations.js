@@ -5,6 +5,25 @@ export const translations = {
     appSubtitle: '„Punkt widzenia może być niebezpiecznym luksusem, gdy zastępuje wgląd i zrozumienie" — Marshall McLuhan',
     help: 'Pomoc',
     comments: 'Komentarzy',
+    changeLanguage: 'Zmień język',
+    toggleTheme: 'Przełącz motyw',
+    
+    // Landing Page
+    welcomeTitle: 'Witaj w Systemie Analizy Informacji',
+    welcomeSubtitle: 'Wybierz jedną z opcji, aby rozpocząć pracę z systemem',
+    newProject: 'Nowy projekt',
+    newProjectDescription: 'Rozpocznij nową analizę od pustej matrycy',
+    importProject: 'Importuj projekt',
+    importProjectDescription: 'Wczytaj wcześniej zapisany projekt z pliku JSON',
+    dragDropHint: 'Lub przeciągnij i upuść plik JSON tutaj',
+    aboutSystem: 'O systemie',
+    feature1: 'Trzywarstwowa analiza informacji (L1-L3) z hierarchiczną strukturą',
+    feature2: 'System ocen (0-5) dla PE 001 i PE 002 z wykresami radarowymi',
+    feature3: 'Dynamiczne źródła dla PE 004 z możliwością dodawania komentarzy',
+    feature4: 'Eksport do PDF i JSON z pełnym wsparciem dla obrazów i ciemnego motywu',
+    footerText: 'System Analizy Taktyk i Technik Cyberbezpieczeństwa © 2026',
+    invalidFileType: 'Nieprawidłowy typ pliku. Wybierz plik JSON.',
+    invalidJSON: 'Błąd odczytu pliku JSON. Upewnij się, że plik jest prawidłowy.',
     
     // Toolbar
     exportJPEG: 'Eksport JPEG',
@@ -13,6 +32,8 @@ export const translations = {
     exportJSON: 'Eksport JSON',
     importJSON: 'Importuj JSON',
     clearAll: 'Wyczyść wszystko',
+    backToHome: 'Powrót do strony głównej',
+    confirmBackToHome: 'Czy na pewno chcesz wrócić do strony głównej? Niezapisane zmiany zostaną zachowane w pamięci przeglądarki.',
     
     // Layers
     layer1: 'L1 - Jakość Informacji',
@@ -245,6 +266,25 @@ export const translations = {
     appSubtitle: '"Point of view can be a dangerous luxury when substituted for insight and understanding" — Marshall McLuhan',
     help: 'Help',
     comments: 'Comments',
+    changeLanguage: 'Change Language',
+    toggleTheme: 'Toggle Theme',
+    
+    // Landing Page
+    welcomeTitle: 'Welcome to Information Analysis System',
+    welcomeSubtitle: 'Choose one of the options to start working with the system',
+    newProject: 'New Project',
+    newProjectDescription: 'Start a new analysis from an empty matrix',
+    importProject: 'Import Project',
+    importProjectDescription: 'Load a previously saved project from a JSON file',
+    dragDropHint: 'Or drag and drop a JSON file here',
+    aboutSystem: 'About the System',
+    feature1: 'Three-layer information analysis (L1-L3) with hierarchical structure',
+    feature2: 'Rating system (0-5) for PE 001 and PE 002 with radar charts',
+    feature3: 'Dynamic sources for PE 004 with the ability to add comments',
+    feature4: 'Export to PDF and JSON with full support for images and dark theme',
+    footerText: 'Cybersecurity Tactics and Techniques Analysis System © 2026',
+    invalidFileType: 'Invalid file type. Select a JSON file.',
+    invalidJSON: 'JSON file read error. Make sure the file is valid.',
     
     // Toolbar
     exportJPEG: 'Export JPEG',
@@ -253,6 +293,8 @@ export const translations = {
     exportJSON: 'Export JSON',
     importJSON: 'Import JSON',
     clearAll: 'Clear All',
+    backToHome: 'Back to Home',
+    confirmBackToHome: 'Are you sure you want to go back to the home page? Unsaved changes will be retained in browser memory.',
     
     // Layers
     layer1: 'L1 - Information Quality',

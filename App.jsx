@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import LandingPage from './components/LandingPage.jsx';
 import MatrixView from './components/MatrixView.jsx';
 import Toast from './components/Toast.jsx';
 import HelpDialog from './components/HelpDialog.jsx';
@@ -9,8 +10,11 @@ import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import React from 'react';
 
-// Version: Separated rating system v2 + Sources + PDF L3 FIX v3
+// Version: Separated rating system v2 + Sources + PDF L3 FIX v3 + Landing Page
 export default function App() {
+  // View state: 'landing' or 'matrix'
+  const [currentView, setCurrentView] = useState('landing');
+
   // Language management
   const [language, setLanguage] = useState(() => {
     return localStorage.getItem('app-language') || 'pl';
@@ -261,6 +265,8 @@ export default function App() {
     if (window.confirm(t('confirmClear'))) {
       setComments({});
       setSources([]);
+      localStorage.removeItem('matrix-comments');
+      localStorage.removeItem('pe004-sources');
       showToast(t('clearSuccess'));
     }
   };
@@ -786,6 +792,56 @@ export default function App() {
 
   const commentCount = Object.keys(comments).length;
 
+  // Handler for new project - clears all data and shows matrix
+  const handleNewProject = () => {
+    setComments({});
+    setSources([]);
+    localStorage.removeItem('matrix-comments');
+    localStorage.removeItem('pe004-sources');
+    setCurrentView('matrix');
+    showToast(language === 'pl' ? 'Nowy projekt utworzony' : 'New project created');
+  };
+
+  // Handler for going back to landing page
+  const handleBackToHome = () => {
+    setCurrentView('landing');
+  };
+
+  // Handler for import project from landing page
+  const handleImportFromLanding = (data) => {
+    try {
+      // New format with sources
+      if (data.version === '2.0' && data.comments) {
+        setComments(data.comments || {});
+        setSources(data.sources || []);
+      } 
+      // Old format - only comments
+      else {
+        setComments(data);
+      }
+      setCurrentView('matrix');
+      showToast(t('importSuccess'));
+    } catch (err) {
+      showToast(t('importError'), 'error');
+    }
+  };
+
+  // Show landing page
+  if (currentView === 'landing') {
+    return (
+      <LandingPage
+        onNewProject={handleNewProject}
+        onImportProject={handleImportFromLanding}
+        language={language}
+        toggleLanguage={toggleLanguage}
+        isDarkMode={isDarkMode}
+        toggleDarkMode={toggleDarkMode}
+        t={t}
+      />
+    );
+  }
+
+  // Show matrix view
   return (
     <div className="app">
       <header className="header">
@@ -806,6 +862,9 @@ export default function App() {
           <span className="comment-count">
             📝 {t('comments')}: {commentCount}
           </span>
+          <button className="btn btn-secondary" onClick={handleBackToHome}>
+            🏠 {t('backToHome')}
+          </button>
         </div>
       </header>
 
