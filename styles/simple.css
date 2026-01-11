@@ -1798,7 +1798,7 @@ select.rating-select option {
 }
 
 .landing-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #667eea 0%, #361bb1 100%);
   color: white;
   padding: 1.5rem 2rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -1945,7 +1945,7 @@ select.rating-select option {
 }
 
 .landing-card-icon-blue {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #667eea 0%, #361bb1 100%);
 }
 
 .landing-card-icon-green {
