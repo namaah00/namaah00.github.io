@@ -8,7 +8,7 @@ export default function Toast({ message, type = 'success' }) {
     <div className={`toast toast-${type}`}>
       {type === 'success' && '✅ '}
       {type === 'error' && '❌ '}
-      {type === 'info' && 'ℹ️ '}
+      {type === 'info' && '⁇ '}
       {message}
     </div>
   );
