@@ -1,34 +1,20 @@
-import React, { useRef, useState } from 'react';
+import { useRef } from 'react';
 
-export default function LandingPage({ onNewProject, onImportProject, language, toggleLanguage, isDarkMode, toggleDarkMode, t }) {
+export default function LandingPage({ 
+  onNewProject, 
+  onImportProject, 
+  language, 
+  toggleLanguage, 
+  isDarkMode, 
+  toggleDarkMode,
+  t 
+}) {
   const fileInputRef = useRef(null);
-  const [dragActive, setDragActive] = useState(false);
 
-  const handleFileSelect = (event) => {
-    const file = event.target.files?.[0];
+  const handleFileChange = (e) => {
+    const file = e.target.files?.[0];
     if (file) {
       processFile(file);
-    }
-  };
-
-  const handleDrop = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    setDragActive(false);
-    
-    const file = event.dataTransfer.files?.[0];
-    if (file) {
-      processFile(file);
-    }
-  };
-
-  const handleDrag = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    if (event.type === "dragenter" || event.type === "dragover") {
-      setDragActive(true);
-    } else if (event.type === "dragleave") {
-      setDragActive(false);
     }
   };
 
@@ -95,32 +81,23 @@ export default function LandingPage({ onNewProject, onImportProject, language, t
             </button>
 
             {/* Import Project Card */}
-            <div
-              className={`landing-card landing-import ${dragActive ? 'drag-active' : ''}`}
-              onDragEnter={handleDrag}
-              onDragLeave={handleDrag}
-              onDragOver={handleDrag}
-              onDrop={handleDrop}
+            <button
+              onClick={() => fileInputRef.current?.click()}
+              className="landing-card"
             >
-              <button
-                onClick={() => fileInputRef.current?.click()}
-                className="landing-card-button"
-              >
-                <div className="landing-card-icon landing-card-icon-green">
-                  📥
-                </div>
-                <h3>{t('importProject')}</h3>
-                <p>{t('importProjectDescription')}</p>
-                <p className="landing-drag-hint">{t('dragDropHint')}</p>
-              </button>
+              <div className="landing-card-icon landing-card-icon-green">
+                📥
+              </div>
+              <h3>{t('importProject')}</h3>
+              <p>{t('importProjectDescription')}</p>
               <input
                 ref={fileInputRef}
                 type="file"
                 accept=".json"
-                onChange={handleFileSelect}
+                onChange={handleFileChange}
                 style={{ display: 'none' }}
               />
-            </div>
+            </button>
           </div>
 
           {/* Info Section */}
