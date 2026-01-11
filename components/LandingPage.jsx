@@ -70,9 +70,12 @@ export default function LandingPage({
           </div>
 
           {/* Options Grid */}
-          <div className="landing-options">
+          <div className="landing-cards">
             {/* New Project Card */}
-            <button onClick={onNewProject} className="landing-card">
+            <button
+              onClick={onNewProject}
+              className="landing-card"
+            >
               <div className="landing-card-icon landing-card-icon-blue">
                 📄
               </div>
@@ -98,17 +101,6 @@ export default function LandingPage({
                 style={{ display: 'none' }}
               />
             </button>
-          </div>
-
-          {/* Info Section */}
-          <div className="landing-info">
-            <h4>{t('aboutSystem')}</h4>
-            <ul>
-              <li>{t('feature1')}</li>
-              <li>{t('feature2')}</li>
-              <li>{t('feature3')}</li>
-              <li>{t('feature4')}</li>
-            </ul>
           </div>
         </div>
       </main>
