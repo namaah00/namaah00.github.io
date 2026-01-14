@@ -2,7 +2,7 @@ import { useState } from 'react';
 import CommentDialog from './CommentDialog.jsx';
 import RatingDialog from './RatingDialog.jsx';
 import SourcesView from './SourcesView.jsx';
-import { MATRIX_DATA, getSEName, getPEName, getLayerName, hasRatingScale } from './matrixData.js';
+import { MATRIX_DATA, getSEName, getPEName, getLayerName, hasRatingScale, getSEDescription, getSEHints } from './matrixData.js';
 
 export default function MatrixView({ 
   comments, 
@@ -17,9 +17,23 @@ export default function MatrixView({
 }) {
   const [selectedCell, setSelectedCell] = useState(null);
   const [selectedRatingCell, setSelectedRatingCell] = useState(null);
+  const [expandedCells, setExpandedCells] = useState(new Set());
 
   const handleCellClick = (cellId) => {
     setSelectedCell(cellId);
+  };
+
+  const handleToggleExpand = (seId, e) => {
+    e.stopPropagation();
+    setExpandedCells(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(seId)) {
+        newSet.delete(seId);
+      } else {
+        newSet.add(seId);
+      }
+      return newSet;
+    });
   };
 
   const handleRatingClick = (id, e) => {
@@ -79,8 +93,10 @@ export default function MatrixView({
               <div key={pe.id} className="primary-element">
                 {/* PE Header - nie klikalne */}
                 <div className="element-card pe-header">
-                  <div className="element-id">{pe.id}</div>
-                  <div className="element-name">{getPEName(pe.id, language)}</div>
+                  <div className="element-content">
+                    <div className="element-id">{pe.id}</div>
+                    <div className="element-name">{getPEName(pe.id, language)}</div>
+                  </div>
                 </div>
                 
                 {/* Specjalna obsługa dla PE 004 - dynamiczne źródła */}
@@ -95,7 +111,7 @@ export default function MatrixView({
                     language={language}
                   />
                 ) : (
-                  /* Secondary Elements - standardowa obsługa */
+                  /* Elementy podrzędne - standardowa obsługa */
                   <div className="secondary-elements">
                     {pe.secondary.map((seId) => {
                     const cellId = `${layerId}-${seId}`;
@@ -104,40 +120,78 @@ export default function MatrixView({
                     const currentRating = comment?.rating;
                     const hasCurrentRating = currentRating !== null && currentRating !== undefined;
                     const canRate = hasRatingScale(seId);
+                    const isExpanded = expandedCells.has(seId);
+                    const description = getSEDescription(seId, language);
+                    const hints = getSEHints(seId, language);
                     
                     return (
                       <div
                         key={seId}
-                        className={`element-card secondary ${hasComment ? 'has-comment' : ''}`}
+                        className={`element-card secondary ${hasComment ? 'has-comment' : ''} ${isExpanded ? 'expanded' : ''}`}
                       >
-                        <div className="element-id">{seId}</div>
-                        <div className="element-name">{getSEName(seId, language)}</div>
-                        
                         {/* Rating Badge */}
                         {hasCurrentRating && (
                           <div className="rating-badge">⭐ {currentRating}/5</div>
                         )}
                         
-                        {/* Action Buttons */}
-                        <div className="element-actions">
-                          {canRate && (
-                            <button 
-                              className="action-btn rating-btn"
-                              onClick={(e) => handleRatingClick(cellId, e)}
-                              title={hasCurrentRating ? `Ocena: ${currentRating}/5` : 'Dodaj ocenę'}
-                            >
-                              ⭐
-                            </button>
+                        <div className="element-content">
+                          <div className="element-header-row">
+                            <div className="element-main-info">
+                              <div className="element-id">{seId}</div>
+                              <div className="element-name">{getSEName(seId, language)}</div>
+                            </div>
+                            
+                            {/* Action Buttons */}
+                            <div className="element-actions">
+                              <button
+                                className="action-btn expand-btn"
+                                onClick={(e) => handleToggleExpand(seId, e)}
+                                title={isExpanded ? 'Zwiń' : 'Rozwiń podpowiedzi'}
+                              >
+                                {isExpanded ? '🔼' : '🔽'}
+                              </button>
+                              {canRate && (
+                                <button 
+                                  className="action-btn rating-btn"
+                                  onClick={(e) => handleRatingClick(cellId, e)}
+                                  title={hasCurrentRating ? `Ocena: ${currentRating}/5` : 'Dodaj ocenę'}
+                                >
+                                  ⭐
+                                </button>
+                              )}
+                              <button 
+                                className="action-btn comment-btn"
+                                onClick={() => handleCellClick(cellId)}
+                                title={hasComment ? 'Edytuj komentarz' : 'Dodaj komentarz'}
+                              >
+                                {hasComment ? (
+                                  comments[cellId]?.images?.length > 0 ? '💬📎' : '💬'
+                                ) : '+'}
+                              </button>
+                            </div>
+                          </div>
+                          
+                          {/* Rozwijany panel z opisem i wskazówkami */}
+                          {isExpanded && (
+                            <div className="element-expanded-content">
+                              {description && (
+                                <div className="element-description">
+                                  <strong>📋 Co oceniamy:</strong>
+                                  <p>{description}</p>
+                                </div>
+                              )}
+                              {hints && hints.length > 0 && (
+                                <div className="element-hints">
+                                  <strong>⚠️ Sygnały, na które warto zwrócić uwagę:</strong>
+                                  <ul>
+                                    {hints.map((hint, index) => (
+                                      <li key={index}>{hint}</li>
+                                    ))}
+                                  </ul>
+                                </div>
+                              )}
+                            </div>
                           )}
-                          <button 
-                            className="action-btn comment-btn"
-                            onClick={() => handleCellClick(cellId)}
-                            title={hasComment ? 'Edytuj komentarz' : 'Dodaj komentarz'}
-                          >
-                            {hasComment ? (
-                              comments[cellId]?.images?.length > 0 ? '💬📎' : '💬'
-                            ) : '+'}
-                          </button>
                         </div>
                       </div>
                     );

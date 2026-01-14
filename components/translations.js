@@ -30,17 +30,17 @@ export const translations = {
     confirmBackToHome: 'Czy na pewno chcesz wrócić do strony głównej? Niezapisane zmiany zostaną zachowane w pamięci przeglądarki.',
     
     // Layers
-    layer1: 'L1 - Jakość Informacji',
-    layer2: 'L2 - Szersze tło',
-    layer3: 'L3 - Zestawienie źródeł',
+    layer1: 'Warstwa I - Jakość Informacji',
+    layer2: 'Warstwa II - Szersze tło',
+    layer3: 'Warstwa III - Zestawienie źródeł',
     
-    // Primary Elements
-    pe001: '001 Ocena treści',
-    pe002: '002 Ocena źródła',
-    pe003: '003 Ocena kontekstu',
-    pe004: '004 Ocena kontrastu',
+    // Elementy nadrzędne (Primary Elements)
+    pe001: 'Ocena treści',
+    pe002: 'Ocena źródła',
+    pe003: 'Ocena kontekstu',
+    pe004: 'Ocena kontrastu',
     
-    // Secondary Elements - Full names
+    // Elementy podrzędne (Secondary Elements) - pełne nazwy
     se001_1: 'Spójność logiczna',
     se001_2: 'Forma przekazu',
     se001_3: 'Transparentność',
@@ -68,6 +68,64 @@ export const translations = {
     se004_2: 'Rozbieżności',
     se004_3: 'Różnorodność',
     se004_4: 'Kontekst międzynarodowy',
+    
+    // Opisy Secondary Elements - co oceniamy
+    seDesc_001_1: 'Ocenia, czy przekaz jest logicznie uporządkowany, a fakty są ze sobą zgodne',
+    seDesc_001_2: 'Ocenia sposób prezentacji informacji i jej dostosowanie do tematu',
+    seDesc_001_3: 'Ocenia, czy źródła danych i metody są jasno przedstawione',
+    seDesc_001_4: 'Ocenia dokładność faktów i możliwość ich weryfikacji',
+    seDesc_001_5: 'Ocenia, czy przekaz jest bezstronny i wolny od manipulacji',
+    seDesc_001_6: 'Ocenia autentyczność dokumentów i metadanych cyfrowych',
+    
+    seDesc_002_1: 'Ocenia poziom kompetencji i uznania źródła w danej dziedzinie',
+    seDesc_002_2: 'Ocenia historię publikacji i oceny społeczne źródła',
+    seDesc_002_3: 'Ocenia powiązania organizacyjne, finansowe i polityczne źródła',
+    seDesc_002_4: 'Ocenia wcześniejsze publikacje źródła i ich trafność',
+    
+    seDesc_003_1: 'Ocenia aktualność informacji i jej datę publikacji',
+    seDesc_003_2: 'Ocenia intencje autora - informowanie, przekonywanie, czy manipulacja',
+    seDesc_003_3: 'Ocenia grupę docelową i dostosowanie treści do odbiorcy',
+    seDesc_003_4: 'Ocenia kontekst społeczny, kulturowy i ekonomiczny publikacji',
+    seDesc_003_5: 'Ocenia interesy finansowe, polityczne lub osobiste związane z przekazem',
+    seDesc_003_6: 'Ocenia warunki i okoliczności powstania informacji',
+    seDesc_003_7: 'Ocenia zmienność sytuacji i tempo wydarzeń',
+    seDesc_003_8: 'Ocenia międzynarodowe aspekty sytuacji i relacje między państwami',
+    seDesc_003_9: 'Ocenia skalę rozpowszechnienia informacji i jej wpływ',
+    seDesc_003_10: 'Ocenia techniczne aspekty przekazu: format, jakość, kanały',
+    
+    seDesc_004_1: 'Ocenia punkty wspólne między różnymi źródłami',
+    seDesc_004_2: 'Ocenia różnice w relacjach i sprzeczne informacje',
+    seDesc_004_3: 'Ocenia zróżnicowanie typów źródeł informacji',
+    seDesc_004_4: 'Ocenia międzynarodowy wymiar źródeł i perspektywy różnych krajów',
+    
+    // Wskazówki dla Secondary Elements - sygnały ostrzegawcze
+    seHints_001_1: ['Wnioski nie wynikają z przedstawionych faktów', 'Autor myli przyczynę ze skutkiem', 'Wybiera tylko wygodne fakty („cherry-picking")', 'Są wewnętrzne sprzeczności', 'Brakuje kroków rozumowania („skacze" od tezy do tezy)'],
+    seHints_001_2: ['Format nie pasuje do treści (np. clickbait)', 'Nadmierne użycie emocjonalnych słów', 'Zbyt wiele wielkich liter lub wykrzykników', 'Niska jakość grafiki lub wideo', 'Chaotyczna struktura tekstu'],
+    seHints_001_3: ['Brak informacji o autorze', 'Nie podano źródeł danych', 'Ukryte sponsorowanie lub konflikt interesów', 'Metodologia badań jest niejasna', 'Brak dat publikacji lub aktualizacji'],
+    seHints_001_4: ['Błędy faktyczne możliwe do sprawdzenia', 'Brak konkretnych danych i liczb', 'Opiera się głównie na anegdotach', 'Cytaty bez źródeł', 'Nie ma możliwości weryfikacji twierdzeń'],
+    seHints_001_5: ['Jednostronny opis sytuacji', 'Pomija istotne fakty lub konteksty', 'Używa stronniczego języka', 'Przedstawia opinie jako fakty', 'Brak alternatywnych punktów widzenia'],
+    seHints_001_6: ['Podejrzane metadane plików', 'Ślady edycji w dokumentach cyfrowych', 'Niezgodność dat utworzenia/modyfikacji', 'Brak cyfrowych sygnatur lub certyfikatów', 'Manipulacja obrazów (deepfake, photoshop)'],
+    
+    seHints_002_1: ['Brak wykształcenia lub doświadczenia w temacie', 'Nie jest rozpoznawalny w branży', 'Samozwańczy „ekspert" bez kwalifikacji', 'Pseudonaukowe stopnie lub tytuły', 'Znany z kontrowersyjnych poglądów'],
+    seHints_002_2: ['Historia publikowania fake newsów', 'Wielokrotne korekty i przeprosiny', 'Negatywne oceny fact-checkerów', 'Znany z sensacyjnego dziennikarstwa', 'Blokowany lub oznaczony przez platformy'],
+    seHints_002_3: ['Ukryte powiązania z grupami interesu', 'Finansowanie z nieprzejrzystych źródeł', 'Związki z partiami politycznymi lub lobbystami', 'Zależność od sponsorów', 'Konflikt interesów'],
+    seHints_002_4: ['Częste publikacje nieprawdziwych informacji', 'Brak korekty wcześniejszych błędów', 'Historia usuwanych treści', 'Zmiana linii narracyjnej bez wyjaśnienia', 'Unikanie odpowiedzialności za błędy'],
+    
+    seHints_003_1: ['Stare informacje przedstawiane jako nowe', 'Pominięto najnowsze wydarzenia', 'Brak dat w kluczowych miejscach', 'Przestarzałe statystyki', 'Nie uwzględnia aktualnego kontekstu'],
+    seHints_003_2: ['Ukryty cel perswazyjny', 'Wyraźna agenda polityczna lub ideologiczna', 'Próba wywołania określonych emocji', 'Marketingowa lub reklamowa natura', 'Propaganda lub dezinformacja'],
+    seHints_003_3: ['Manipulacyjne dostosowanie do grupy docelowej', 'Różne wersje tej samej informacji dla różnych odbiorców', 'Wykorzystanie stereotypów lub uprzedzeń', 'Język dostosowany do wywołania emocji', 'Pomija informacje niewygodne dla odbiorcy'],
+    seHints_003_4: ['Ignoruje kontekst społeczny', 'Nie uwzględnia nastrojów społecznych', 'Pomija istotnekwestie kulturowe', 'Brak związku z aktualną sytuacją społeczną', 'Niezrozumienie lokalnego kontekstu'],
+    seHints_003_5: ['Ukryte korzyści finansowe', 'Promuje określone produkty lub usługi', 'Zyski polityczne lub wizerunkowe', 'Wpływ na decyzje gospodarcze', 'Osobiste korzyści autora'],
+    seHints_003_6: ['Powstało w wyniku presji zewnętrznej', 'Opublikowano w podejrzanym momencie', 'Nietypowe okoliczności ujawnienia', 'Wymuszona publikacja', 'Brak naturalnego kontekstu powstania'],
+    seHints_003_7: ['Pomija szybko zmieniającą się sytuację', 'Statyczny obraz dynamicznych wydarzeń', 'Brak aktualizacji pomimo nowych faktów', 'Nie uwzględnia tempa zmian', 'Przestarzała analiza'],
+    seHints_003_8: ['Ignoruje międzynarodowy kontekst', 'Jednostronna perspektywa geopolityczna', 'Pomija istotne relacje między państwami', 'Brak globalnego spojrzenia', 'Nacjonalistyczne uprzedzenia'],
+    seHints_003_9: ['Lokalny incydent przedstawiony jako globalny', 'Przesadzona skala wpływu', 'Ignorowanie rzeczywistego zasięgu', 'Sztuczne pompowanie znaczenia', 'Brak danych o rzeczywistym oddziaływaniu'],
+    seHints_003_10: ['Techniczne niezgodności', 'Format nieodpowiedni dla treści', 'Problemy z jakością nagrania/obrazu', 'Nietypowe kanały dystrybucji', 'Ślady manipulacji technicznej'],
+    
+    seHints_004_1: ['Tylko jedno źródło podaje informację', 'Brak potwierdzenia w innych źródłach', 'Zgodność tylko w nieistotnych szczegółach', 'Wzajemne cytowanie tych samych źródeł', 'Echo chamber'],
+    seHints_004_2: ['Sprzeczne fakty w różnych źródłach', 'Różne daty lub liczby', 'Odmienne interpretacje tych samych wydarzeń', 'Wykluczające się wersje', 'Niemożliwe do pogodzenia relacje'],
+    seHints_004_3: ['Tylko jeden typ źródeł (np. tylko media)', 'Brak perspektywy ekspertów', 'Brak dokumentów pierwotnych', 'Tylko źródła z jednej strony', 'Homogeniczna grupa źródeł'],
+    seHints_004_4: ['Tylko krajowe źródła', 'Brak międzynarodowej perspektywy', 'Ignorowanie zagranicznych źródeł', 'Jednostronna narracja geopolityczna', 'Brak globalnego kontekstu'],
     
     // Comment Dialog
     commentTitle: 'Komentarz',
@@ -113,9 +171,9 @@ export const translations = {
     
     // Help Sections
     helpIntroTitle: '📖 Wprowadzenie',
-    helpL1Title: 'L1 - Jakość Informacji',
-    helpL2Title: 'L2 - Szersze tło',
-    helpL3Title: 'L3 - Zestawienie źródeł',
+    helpL1Title: 'Warstwa I - Jakość Informacji',
+    helpL2Title: 'Warstwa II - Szersze tło',
+    helpL3Title: 'Warstwa III - Zestawienie źródeł',
     helpUsageTitle: '🔧 Funkcje aplikacji',
     helpTipsTitle: '💡 Wskazówki',
     
@@ -126,12 +184,12 @@ export const translations = {
     helpIntroL2: 'Analiza kontekstu społecznego i geopolitycznego',
     helpIntroL3: 'Porównanie różnych źródeł informacji',
     helpHowToUse: 'Jak używać aplikacji:',
-    helpStep1: 'Kliknij na dowolny Secondary Element (SE) z przyciskiem "+"',
+    helpStep1: 'Kliknij na dowolny Element podrzędny (EP) z przyciskiem \"+\"',
     helpStep2: 'Dodaj tytuł i treść komentarza',
     helpStep3: 'Zapisz komentarz - zostanie oznaczony ikoną 💬',
     helpStep4: 'Eksportuj analizę do PDF lub JSON',
     helpStep5: 'Importuj wcześniej zapisane analizy z JSON',
-    helpNote: 'Tylko Secondary Elements (SE) są klikalne i mogą zawierać komentarze. Primary Elements (PE) służą jako nagłówki kategorii.',
+    helpNote: 'Tylko Elementy podrzędne (EP) są klikalne i mogą zawierać komentarze. Elementy nadrzędne (EN) służą jako nagłówki kategorii.',
     
     // Help Content - L1
     helpL1Desc: 'Warstwa podstawowa oceniająca fundamentalne aspekty informacji.',
@@ -181,17 +239,17 @@ export const translations = {
     
     // Help Content - Usage
     helpUsageAddComments: 'Dodawanie komentarzy',
-    helpUsageAddStep1: 'Znajdź Secondary Element (SE), który chcesz przeanalizować',
-    helpUsageAddStep2: 'Kliknij na kartę SE z przyciskiem "+"',
+    helpUsageAddStep1: 'Znajdź Element podrzędny (EP), który chcesz przeanalizować',
+    helpUsageAddStep2: 'Kliknij na kartę EP z przyciskiem "+"',
     helpUsageAddStep3: 'W oknie dialogowym wprowadź:',
     helpUsageAddTitle: 'Krótkie podsumowanie (np. "Źródło niezweryfikowane")',
     helpUsageAddContent: 'Szczegółowa analiza i wnioski',
     helpUsageAddImage: 'Opcjonalnie: załącz obraz JPG/PNG (max 5MB)',
-    helpUsageAddStep4: 'Kliknij "💾 Zapisz"',
+    helpUsageAddStep4: 'Kliknij " Zapisz"',
     helpUsageImageNote: 'Komentarze z załącznikami mają ikonę 💬📎 na matrycy',
     
     helpUsageEdit: 'Edycja i usuwanie',
-    helpUsageEditStep1: 'Kliknij na SE z ikoną 💬 aby edytować komentarz',
+    helpUsageEditStep1: 'Kliknij na EP z ikoną 💬 aby edytować komentarz',
     helpUsageEditStep2: 'W oknie dialogowym możesz zmienić tytuł i treść',
     helpUsageEditStep3: 'Użyj przycisku "🗑️ Usuń" aby usunąć komentarz',
     
@@ -285,17 +343,17 @@ export const translations = {
     confirmBackToHome: 'Are you sure you want to go back to the home page? Unsaved changes will be retained in browser memory.',
     
     // Layers
-    layer1: 'L1 - Information Quality',
-    layer2: 'L2 - Broader Context',
-    layer3: 'L3 - Source Comparison',
+    layer1: 'Layer I - Information Quality',
+    layer2: 'Layer II - Broader Context',
+    layer3: 'Layer III - Source Comparison',
     
-    // Primary Elements
-    pe001: '001 Content Assessment',
-    pe002: '002 Source Assessment',
-    pe003: '003 Context Assessment',
-    pe004: '004 Contrast Assessment',
+    // Elementy nadrzędne (Primary Elements)
+    pe001: 'Content Assessment',
+    pe002: 'Source Assessment',
+    pe003: 'Context Assessment',
+    pe004: 'Contrast Assessment',
     
-    // Secondary Elements - Full names
+    // Elementy podrzędne (Secondary Elements) - pełne nazwy
     se001_1: 'Logical Consistency',
     se001_2: 'Message Format',
     se001_3: 'Transparency',
@@ -323,6 +381,64 @@ export const translations = {
     se004_2: 'Discrepancies',
     se004_3: 'Diversity',
     se004_4: 'International Context',
+    
+    // Opisy Secondary Elements - co oceniamy
+    seDesc_001_1: 'Evaluates whether the message is logically structured and facts are consistent with each other',
+    seDesc_001_2: 'Evaluates the method of information presentation and its adaptation to the topic',
+    seDesc_001_3: 'Evaluates whether data sources and methods are clearly presented',
+    seDesc_001_4: 'Evaluates the accuracy of facts and their verifiability',
+    seDesc_001_5: 'Evaluates whether the message is unbiased and free from manipulation',
+    seDesc_001_6: 'Evaluates the authenticity of documents and digital metadata',
+    
+    seDesc_002_1: 'Evaluates the level of competence and recognition of the source in the field',
+    seDesc_002_2: 'Evaluates the publication history and social ratings of the source',
+    seDesc_002_3: 'Evaluates organizational, financial, and political connections of the source',
+    seDesc_002_4: 'Evaluates previous publications of the source and their accuracy',
+    
+    seDesc_003_1: 'Evaluates the timeliness of the information and its publication date',
+    seDesc_003_2: 'Evaluates the author\'s intentions - to inform, persuade, manipulate, or entertain',
+    seDesc_003_3: 'Evaluates the target audience and content adaptation to the recipient',
+    seDesc_003_4: 'Evaluates the social, cultural, and economic context at the time of publication',
+    seDesc_003_5: 'Evaluates financial, political, or personal interests related to the message',
+    seDesc_003_6: 'Evaluates the conditions and circumstances of information creation',
+    seDesc_003_7: 'Evaluates the variability of the situation and the pace of events',
+    seDesc_003_8: 'Evaluates international aspects of the situation and relations between states',
+    seDesc_003_9: 'Evaluates the scale of information dissemination and its impact',
+    seDesc_003_10: 'Evaluates technical aspects of the message: format, quality, channels',
+    
+    seDesc_004_1: 'Evaluates common points between different sources',
+    seDesc_004_2: 'Evaluates differences in relations and conflicting information',
+    seDesc_004_3: 'Evaluates the diversity of information source types',
+    seDesc_004_4: 'Evaluates the international dimension of sources and perspectives of different countries',
+    
+    // Wskazówki dla Secondary Elements - sygnały ostrzegawcze
+    seHints_001_1: ['Conclusions do not follow from presented facts', 'Author confuses cause with effect', 'Selects only convenient facts („cherry-picking")', 'Internal contradictions exist', 'Steps of reasoning are missing („jumps" from thesis to thesis)'],
+    seHints_001_2: ['Format does not match the content (e.g., clickbait)', 'Excessive use of emotional words', 'Too many capital letters or exclamation marks', 'Low quality graphics or video', 'Chaotic text structure'],
+    seHints_001_3: ['No information about the author', 'Data sources are not provided', 'Hidden sponsorship or conflict of interest', 'Research methodology is unclear', 'No publication or update dates'],
+    seHints_001_4: ['Factual errors that can be checked', 'Lack of specific data and numbers', 'Relies mainly on anecdotes', 'Quotes without sources', 'No way to verify statements'],
+    seHints_001_5: ['One-sided description of the situation', 'Omits important facts or contexts', 'Uses biased language', 'Presents opinions as facts', 'Lacks alternative viewpoints'],
+    seHints_001_6: ['Suspicious file metadata', 'Editing traces in digital documents', 'Creation/modification date mismatch', 'Lack of digital signatures or certificates', 'Image manipulation (deepfake, photoshop)'],
+    
+    seHints_002_1: ['Lack of education or experience in the topic', 'Not recognizable in the industry', 'Self-proclaimed "expert" without qualifications', 'Pseudoscientific degrees or titles', 'Known for controversial views'],
+    seHints_002_2: ['History of publishing fake news', 'Multiple corrections and apologies', 'Negative ratings from fact-checkers', 'Known for sensational journalism', 'Blocked or flagged by platforms'],
+    seHints_002_3: ['Hidden connections with interest groups', 'Funding from opaque sources', 'Connections with political parties or lobbyists', 'Dependency on sponsors', 'Conflict of interest'],
+    seHints_002_4: ['Frequent publication of false information', 'Lack of correction of previous errors', 'History of removed content', 'Change in narrative line without explanation', 'Avoidance of responsibility for errors'],
+    
+    seHints_003_1: ['Old information presented as new', 'Latest events are omitted', 'No dates in key places', 'Outdated statistics', 'Does not consider the current context'],
+    seHints_003_2: ['Hidden persuasive intent', 'Explicit political or ideological agenda', 'Attempt to evoke specific emotions', 'Marketing or advertising nature', 'Propaganda or disinformation'],
+    seHints_003_3: ['Manipulative adaptation to the target audience', 'Different versions of the same information for different recipients', 'Use of stereotypes or preconceptions', 'Language adapted to evoke emotions', 'Omits information uncomfortable for the recipient'],
+    seHints_003_4: ['Ignores social context', 'Does not consider social moods', 'Omits important cultural issues', 'Lack of connection with the current social situation', 'Lack of understanding of the local context'],
+    seHints_003_5: ['Hidden financial benefits', 'Promotes specific products or services', 'Political or reputational gains', 'Impact on economic decisions', 'Personal benefits of the author'],
+    seHints_003_6: ['Created under external pressure', 'Published at a suspicious time', 'Unusual circumstances of disclosure', 'Forced publication', 'Lack of natural context of creation'],
+    seHints_003_7: ['Omits rapidly changing situations', 'Static image of dynamic events', 'No updates despite new facts', 'Does not consider the pace of change', 'Outdated analysis'],
+    seHints_003_8: ['Ignores international context', 'One-sided geopolitical perspective', 'Omits important relations between states', 'Lack of global view', 'Nationalist preconceptions'],
+    seHints_003_9: ['Local incident presented as global', 'Exaggerated scale of impact', 'Ignores the real reach', 'Artificially inflates significance', 'Lack of data on real impact'],
+    seHints_003_10: ['Technical inconsistencies', 'Format not suitable for content', 'Quality issues with recording/image', 'Unusual distribution channels', 'Traces of technical manipulation'],
+    
+    seHints_004_1: ['Only one source provides information', 'No confirmation in other sources', 'Agreement only in minor details', 'Mutual citation of the same sources', 'Echo chamber'],
+    seHints_004_2: ['Contradictory facts in different sources', 'Different dates or numbers', 'Different interpretations of the same events', 'Mutually exclusive versions', 'Impossible to reconcile relations'],
+    seHints_004_3: ['Only one type of source (e.g., only media)', 'Lack of expert perspective', 'Lack of original documents', 'Sources from only one side', 'Homogeneous group of sources'],
+    seHints_004_4: ['Only domestic sources', 'Lack of international perspective', 'Ignoring foreign sources', 'One-sided geopolitical narrative', 'Lack of global context'],
     
     // Comment Dialog
     commentTitle: 'Comment',
@@ -368,9 +484,9 @@ export const translations = {
     
     // Help Sections
     helpIntroTitle: '📖 Introduction',
-    helpL1Title: 'L1 - Information Quality',
-    helpL2Title: 'L2 - Broader Context',
-    helpL3Title: 'L3 - Source Comparison',
+    helpL1Title: 'Layer I - Information Quality',
+    helpL2Title: 'Layer II - Broader Context',
+    helpL3Title: 'Layer III - Source Comparison',
     helpUsageTitle: '🔧 Application Features',
     helpTipsTitle: '💡 Tips',
     

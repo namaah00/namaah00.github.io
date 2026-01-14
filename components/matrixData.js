@@ -105,6 +105,18 @@ export const getPEName = (peId, lang = 'pl') => {
   return translations[lang][key] || peId;
 };
 
+// Helper function to get SE description
+export const getSEDescription = (seId, lang = 'pl') => {
+  const key = `seDesc_${seId.replace(/\./g, '_')}`;
+  return translations[lang][key] || '';
+};
+
+// Helper function to get SE hints
+export const getSEHints = (seId, lang = 'pl') => {
+  const key = `seHints_${seId.replace(/\./g, '_')}`;
+  return translations[lang][key] || [];
+};
+
 // Rating scales for PE 001 and 002 (0-5 scale with descriptions)
 export const RATING_SCALES = {
   '001.1': {
