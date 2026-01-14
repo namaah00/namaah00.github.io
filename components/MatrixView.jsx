@@ -18,6 +18,7 @@ export default function MatrixView({
   const [selectedCell, setSelectedCell] = useState(null);
   const [selectedRatingCell, setSelectedRatingCell] = useState(null);
   const [expandedCells, setExpandedCells] = useState(new Set());
+  const [isPE004HelpExpanded, setIsPE004HelpExpanded] = useState(false);
 
   const handleCellClick = (cellId) => {
     setSelectedCell(cellId);
@@ -34,6 +35,10 @@ export default function MatrixView({
       }
       return newSet;
     });
+  };
+  
+  const handleTogglePE004Help = () => {
+    setIsPE004HelpExpanded(prev => !prev);
   };
 
   const handleRatingClick = (id, e) => {
@@ -94,8 +99,60 @@ export default function MatrixView({
                 {/* PE Header - nie klikalne */}
                 <div className="element-card pe-header">
                   <div className="element-content">
-                    <div className="element-id">{pe.id}</div>
-                    <div className="element-name">{getPEName(pe.id, language)}</div>
+                    <div className="element-header-row" style={{ width: '100%' }}>
+                      <div className="element-main-info">
+                        <div className="element-id">{pe.id}</div>
+                        <div className="element-name">{getPEName(pe.id, language)}</div>
+                      </div>
+                      {/* Przycisk pomocy tylko dla PE 004 */}
+                      {pe.id === '004' && layerId === 'L3' && (
+                        <div className="element-actions" style={{ position: 'relative', opacity: 1 }}>
+                          <button
+                            className="action-btn expand-btn"
+                            onClick={handleTogglePE004Help}
+                            title={isPE004HelpExpanded ? 'Zwiń podpowiedzi' : 'Pokaż podpowiedzi dla wszystkich elementów'}
+                          >
+                            {isPE004HelpExpanded ? '🔼' : '🔽'}
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                    
+                    {/* Rozwijany panel pomocy dla PE 004 */}
+                    {pe.id === '004' && layerId === 'L3' && isPE004HelpExpanded && (
+                      <div className="pe004-help-panel">
+                        {['004.1', '004.2', '004.3', '004.4'].map((seId) => {
+                          const description = getSEDescription(seId, language);
+                          const hints = getSEHints(seId, language);
+                          const seName = getSEName(seId, language);
+                          
+                          return (
+                            <div key={seId} className="pe004-help-item">
+                              <div className="pe004-help-title">
+                                <span className="pe004-help-id">{seId}</span>
+                                <span className="pe004-help-name">{seName}</span>
+                              </div>
+                              {description && (
+                                <div className="pe004-help-description">
+                                  <strong>Co oceniamy:</strong>
+                                  <p>{description}</p>
+                                </div>
+                              )}
+                              {hints && hints.length > 0 && (
+                                <div className="pe004-help-hints">
+                                  <strong>⚠️ Sygnały ostrzegawcze:</strong>
+                                  <ul>
+                                    {hints.map((hint, index) => (
+                                      <li key={index}>{hint}</li>
+                                    ))}
+                                  </ul>
+                                </div>
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
                   </div>
                 </div>
                 

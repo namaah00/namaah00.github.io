@@ -411,6 +411,116 @@ body {
   color: white;
 }
 
+.action-btn.help-btn {
+  background: #f0f4ff;
+  color: #667eea;
+  font-size: 1.1rem;
+}
+
+.action-btn.help-btn:hover {
+  background: #667eea;
+  color: white;
+}
+
+/* PE 004 Help Panel */
+.pe004-help-panel {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 2px solid rgba(255, 255, 255, 0.3);
+  animation: expandPanel 0.3s ease-out;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+/* Na wąskich ekranach - 1 kolumna */
+@media (max-width: 768px) {
+  .pe004-help-panel {
+    grid-template-columns: 1fr;
+  }
+}
+
+.pe004-help-item {
+  padding: 1.25rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.pe004-help-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.pe004-help-id {
+  background: white;
+  color: #667eea;
+  padding: 0.35rem 0.65rem;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.pe004-help-name {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: white;
+}
+
+.pe004-help-description {
+  margin-bottom: 1rem;
+}
+
+.pe004-help-description strong {
+  display: block;
+  color: white;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.pe004-help-description p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.pe004-help-hints strong {
+  display: block;
+  color: #fbbf24;
+  font-size: 0.9rem;
+  margin-bottom: 0.75rem;
+}
+
+.pe004-help-hints ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.pe004-help-hints li {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.8rem;
+  line-height: 1.4;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.pe004-help-hints li:before {
+  content: "⚠";
+  position: absolute;
+  left: 0;
+  color: #fbbf24;
+  font-size: 1rem;
+}
+
 /* Rating Badge */
 .rating-badge {
   background: #fbbf24;
@@ -2183,6 +2293,56 @@ select.rating-select option {
   color: white;
 }
 
+.dark .action-btn.help-btn {
+  background: #2d2640;
+  color: #8b7dd8;
+}
+
+.dark .action-btn.help-btn:hover {
+  background: #8b7dd8;
+  color: white;
+}
+
+/* Dark mode - PE 004 Help Panel */
+.dark .pe004-help-panel {
+  border-top-color: rgba(139, 125, 216, 0.3);
+}
+
+.dark .pe004-help-item {
+  background: rgba(139, 125, 216, 0.1);
+  border-color: rgba(139, 125, 216, 0.2);
+}
+
+.dark .pe004-help-title {
+  border-bottom-color: rgba(139, 125, 216, 0.2);
+}
+
+.dark .pe004-help-id {
+  background: #8b7dd8;
+  color: white;
+}
+
+.dark .pe004-help-name {
+  color: white;
+}
+
+.dark .pe004-help-description strong {
+  color: white;
+}
+
+.dark .pe004-help-description p {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.dark .pe004-help-hints strong {
+  color: #fbbf24;
+}
+
+.dark .pe004-help-hints li {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* Dark mode - Element Expanded Content */
 .dark .element-expanded-content {
   border-top-color: #404040;
 }
@@ -2201,6 +2361,7 @@ select.rating-select option {
 
 .dark .element-hints li {
   color: #a3a3a3;
+
 }
 
 .dark .btn-secondary {
