@@ -412,13 +412,12 @@ body {
 }
 
 .action-btn.help-btn {
-  background: #f0f4ff;
-  color: #667eea;
-  font-size: 1.1rem;
+  background: #2d2640;
+  color: #8b7dd8;
 }
 
 .action-btn.help-btn:hover {
-  background: #667eea;
+  background: #8b7dd8;
   color: white;
 }
 
@@ -2371,4 +2370,75 @@ select.rating-select option {
 
 .dark .btn-secondary:hover {
   background: #525252;
+}
+
+/* ===== PDF CONFIG DIALOG ===== */
+.pdf-config-dialog {
+  max-width: 550px;
+  width: 90%;
+}
+
+.pdf-config-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 2rem;
+}
+
+.pdf-config-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.pdf-config-form label {
+  font-weight: 600;
+  color: #333;
+  font-size: 0.95rem;
+}
+
+.dark .pdf-config-form label {
+  color: #d4d4d4;
+}
+
+.pdf-config-form .required {
+  color: #e74c3c;
+  margin-left: 0.25rem;
+}
+
+.pdf-config-form input {
+  padding: 0.75rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+  font-family: inherit;
+}
+
+.pdf-config-form input:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.dark .pdf-config-form input {
+  background: #1a1a1a;
+  border-color: #404040;
+  color: #e5e5e5;
+}
+
+.dark .pdf-config-form input:focus {
+  border-color: #8b7dd8;
+}
+
+.pdf-config-form .dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e0e0e0;
+}
+
+.dark .pdf-config-form .dialog-footer {
+  border-top-color: #404040;
 }
