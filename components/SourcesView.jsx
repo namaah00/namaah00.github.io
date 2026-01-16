@@ -2,38 +2,19 @@ import { useState } from 'react';
 import SourceDialog from './SourceDialog.jsx';
 import CommentDialog from './CommentDialog.jsx';
 import { getSEName } from './matrixData.js';
+import { getTranslation } from './translations.js';
 
 export default function SourcesView({ sources, comments, onAddSource, onDeleteSource, onSaveComment, onDeleteComment, language }) {
   const [isAddingSource, setIsAddingSource] = useState(false);
   const [selectedCell, setSelectedCell] = useState(null);
 
-  // Secondary Elements dla każdego źródła (stałe)
+  // Elementy podrzędne dla każdego źródła (stałe)
   const SE_ITEMS = [
     { id: 1, key: 'se004_1' },
-    { id: 2, key: 'se004_2' },
-    { id: 3, key: 'se004_3' },
-    { id: 4, key: 'se004_4' }
+    { id: 2, key: 'se004_2' }
   ];
 
-  const t = (key) => {
-    const translations = {
-      pl: {
-        addSourceBtn: '➕ Dodaj źródło',
-        noSources: 'Brak źródeł. Kliknij "Dodaj źródło" aby rozpocząć.',
-        deleteSource: 'Usuń źródło',
-        confirmDelete: 'Czy na pewno chcesz usunąć to źródło?',
-        sourceWillBeDeleted: 'Zostanie usunięte wraz ze wszystkimi komentarzami.'
-      },
-      en: {
-        addSourceBtn: '➕ Add source',
-        noSources: 'No sources. Click "Add source" to begin.',
-        deleteSource: 'Delete source',
-        confirmDelete: 'Are you sure you want to delete this source?',
-        sourceWillBeDeleted: 'It will be deleted along with all comments.'
-      }
-    };
-    return translations[language]?.[key] || key;
-  };
+  const t = (key) => getTranslation(language, key);
 
   const handleAddSource = (title) => {
     if (onAddSource) {
@@ -45,7 +26,7 @@ export default function SourcesView({ sources, comments, onAddSource, onDeleteSo
   };
 
   const handleDeleteSource = (sourceId) => {
-    if (confirm(`${t('confirmDelete')}\n${t('sourceWillBeDeleted')}`)) {
+    if (confirm(`${t('sourcesConfirmDelete')}\n${t('sourcesWillBeDeleted')}`)) {
       if (onDeleteSource) {
         onDeleteSource(sourceId);
       } else {
@@ -76,13 +57,13 @@ export default function SourcesView({ sources, comments, onAddSource, onDeleteSo
     <div className="sources-container">
       <div className="sources-header">
         <button className="btn btn-primary" onClick={() => setIsAddingSource(true)}>
-          {t('addSourceBtn')}
+          {t('sourcesAddBtn')}
         </button>
       </div>
 
       {sources.length === 0 ? (
         <div className="no-sources-message">
-          <p>{t('noSources')}</p>
+          <p>{t('sourcesNoSources')}</p>
         </div>
       ) : (
         <div className="sources-grid">
@@ -96,7 +77,7 @@ export default function SourcesView({ sources, comments, onAddSource, onDeleteSo
                 <button
                   className="source-delete-btn"
                   onClick={() => handleDeleteSource(source.id)}
-                  title={t('deleteSource')}
+                  title={t('sourcesDeleteSource')}
                 >
                   🗑️
                 </button>
@@ -113,9 +94,11 @@ export default function SourcesView({ sources, comments, onAddSource, onDeleteSo
                       className={`source-element ${hasComment ? 'has-comment' : ''}`}
                       onClick={() => handleCellClick(seId)}
                     >
-                      <div className="source-element-id">{seId}</div>
-                      <div className="source-element-name">
-                        {getSEName(seId, language)}
+                      <div className="element-content">
+                        <div className="source-element-id">{seId}</div>
+                        <div className="source-element-name">
+                          {getSEName(seId, language)}
+                        </div>
                       </div>
                       {hasComment && <span className="comment-indicator">💬</span>}
                       {!hasComment && <span className="add-comment-hint">+</span>}

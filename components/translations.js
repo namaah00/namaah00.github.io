@@ -29,6 +29,43 @@ export const translations = {
     backToHome: 'Powrót do strony głównej',
     confirmBackToHome: 'Czy na pewno chcesz wrócić do strony głównej? Niezapisane zmiany zostaną zachowane w pamięci przeglądarki.',
     
+    // PDF Configuration Dialog
+    pdfDialogTitle: 'Konfiguracja raportu PDF',
+    pdfReportTitleLabel: 'Tytuł raportu',
+    pdfReportTitlePlaceholder: 'np. Analiza kampanii dezinformacyjnej XYZ',
+    pdfAuthorLabel: 'Autor raportu',
+    pdfAuthorPlaceholder: 'np. Jan Kowalski',
+    pdfGenerateButton: 'Generuj PDF',
+    pdfCancelButton: 'Anuluj',
+    pdfValidationError: 'Proszę wypełnić wszystkie pola',
+    
+    // Radar Chart Dialog
+    radarTitle: 'Wykres radarowy ocen',
+    radarSelectPE: 'Wybierz element:',
+    radarPE001: '001 - Ocena treści',
+    radarPE002: '002 - Ocena źródła',
+    radarExportPNG: 'Eksport PNG',
+    radarClose: 'Zamknij',
+    radarNoData: 'Brak kompletnych danych',
+    radarNoDataDesc: 'Aby wygenerować wykres, wszystkie Elementy podrzędne w wybranym Elemencie nadrzędnym muszą mieć oceny (0-5).',
+    radarMissingRatings: 'Brakujące oceny w',
+    radarExportSuccess: 'Wykres wyeksportowany do PNG',
+    radarExportError: 'Błąd podczas eksportu',
+    
+    // Sources View
+    sourcesAddBtn: '➕ Dodaj źródło',
+    sourcesNoSources: 'Brak źródeł. Kliknij "Dodaj źródło" aby rozpocząć.',
+    sourcesDeleteSource: 'Usuń źródło',
+    sourcesConfirmDelete: 'Czy na pewno chcesz usunąć to źródło?',
+    sourcesWillBeDeleted: 'Zostanie usunięte wraz ze wszystkimi komentarzami.',
+    
+    // Source Dialog
+    sourceDialogTitle: 'Dodaj nowe źródło',
+    sourceDialogNameLabel: 'Nazwa źródła',
+    sourceDialogNamePlaceholder: 'Wpisz nazwę źródła (np. "Reuters", "TVN24", "BBC News")',
+    sourceDialogCancel: 'Anuluj',
+    sourceDialogAdd: 'Dodaj źródło',
+    
     // Layers
     layer1: 'Warstwa I - Jakość Informacji',
     layer2: 'Warstwa II - Szersze tło',
@@ -341,6 +378,43 @@ export const translations = {
     clearAll: 'Clear All',
     backToHome: 'Back to Home',
     confirmBackToHome: 'Are you sure you want to go back to the home page? Unsaved changes will be retained in browser memory.',
+    
+    // PDF Configuration Dialog
+    pdfDialogTitle: 'PDF Report Configuration',
+    pdfReportTitleLabel: 'Report Title',
+    pdfReportTitlePlaceholder: 'e.g. XYZ Disinformation Campaign Analysis',
+    pdfAuthorLabel: 'Report Author',
+    pdfAuthorPlaceholder: 'e.g. John Doe',
+    pdfGenerateButton: 'Generate PDF',
+    pdfCancelButton: 'Cancel',
+    pdfValidationError: 'Please fill in all fields',
+    
+    // Radar Chart Dialog
+    radarTitle: 'Radar Chart of Ratings',
+    radarSelectPE: 'Select element:',
+    radarPE001: '001 - Content Assessment',
+    radarPE002: '002 - Source Assessment',
+    radarExportPNG: 'Export PNG',
+    radarClose: 'Close',
+    radarNoData: 'Incomplete data',
+    radarNoDataDesc: 'To generate the chart, all Secondary Elements in the selected Primary Element must have ratings (0-5).',
+    radarMissingRatings: 'Missing ratings in',
+    radarExportSuccess: 'Chart exported to PNG',
+    radarExportError: 'Export error',
+    
+    // Sources View
+    sourcesAddBtn: '➕ Add Source',
+    sourcesNoSources: 'No sources. Click "Add Source" to start.',
+    sourcesDeleteSource: 'Delete Source',
+    sourcesConfirmDelete: 'Are you sure you want to delete this source?',
+    sourcesWillBeDeleted: 'Will be deleted along with all comments.',
+    
+    // Source Dialog
+    sourceDialogTitle: 'Add New Source',
+    sourceDialogNameLabel: 'Source Name',
+    sourceDialogNamePlaceholder: 'Enter source name (e.g. "Reuters", "TVN24", "BBC News")',
+    sourceDialogCancel: 'Cancel',
+    sourceDialogAdd: 'Add Source',
     
     // Layers
     layer1: 'Layer I - Information Quality',

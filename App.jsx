@@ -4,13 +4,14 @@ import MatrixView from './components/MatrixView.jsx';
 import Toast from './components/Toast.jsx';
 import HelpDialog from './components/HelpDialog.jsx';
 import RadarChartDialog from './components/RadarChartDialog.jsx';
+import PDFConfigDialog from './components/PDFConfigDialog.jsx';
 import { translations } from './components/translations.js';
 import { MATRIX_DATA, getSEName, getLayerName, getRatingDescription, getPEName } from './components/matrixData.js';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import React from 'react';
 
-// Version: Separated rating system v2 + Sources + PDF L3 FIX v3 + Landing Page
+// Version: Separated rating system v2 + Sources + PDF L3 FIX v3 + Landing Page + Enhanced PDF
 export default function App() {
   // View state: 'landing' or 'matrix'
   const [currentView, setCurrentView] = useState('landing');
@@ -24,6 +25,9 @@ export default function App() {
   const [isDarkMode, setIsDarkMode] = useState(() => {
     return localStorage.getItem('app-theme') === 'dark';
   });
+  
+  // PDF Config Dialog
+  const [showPDFConfig, setShowPDFConfig] = useState(false);
   
   useEffect(() => {
     localStorage.setItem('app-language', language);
@@ -271,7 +275,7 @@ export default function App() {
     }
   };
 
-  const handleGeneratePDF = async () => {
+  const handleGeneratePDF = async (title, author) => {
     try {
       showToast(t('generatePDF') + '...', 'info');
       
@@ -281,6 +285,82 @@ export default function App() {
       const margin = 20;
       const contentWidth = pageWidth - 2 * margin;
       let yPosition = margin;
+
+      // === FUNKCJE POMOCNICZE ===
+      
+      // Funkcja konwertująca tekst z polskimi znakami
+      const encodeText = (text) => {
+        if (!text) return '';
+        // Mapa polskich znaków na bezpieczne odpowiedniki
+        const polishChars = {
+          'ą': 'a', 'ć': 'c', 'ę': 'e', 'ł': 'l', 'ń': 'n', 'ó': 'o', 'ś': 's', 'ź': 'z', 'ż': 'z',
+          'Ą': 'A', 'Ć': 'C', 'Ę': 'E', 'Ł': 'L', 'Ń': 'N', 'Ó': 'O', 'Ś': 'S', 'Ź': 'Z', 'Ż': 'Z'
+        };
+        return text.split('').map(char => polishChars[char] || char).join('');
+      };
+
+      // === JEŚLI PODANO TYTUŁ I AUTORA - STRONA TYTUŁOWA ===
+      if (title && author) {
+        // Tytuł raportu
+        pdf.setTextColor(0, 0, 0);
+        pdf.setFontSize(24);
+        pdf.setFont('helvetica', 'bold');
+        const titleLines = pdf.splitTextToSize(encodeText(title), pageWidth - 40);
+        let titleY = 40;
+        titleLines.forEach(line => {
+          pdf.text(line, pageWidth / 2, titleY, { align: 'center' });
+          titleY += 10;
+        });
+        
+        // Separator line
+        pdf.setDrawColor(102, 126, 234);
+        pdf.setLineWidth(1);
+        pdf.line(margin, titleY + 10, pageWidth - margin, titleY + 10);
+        
+        // Autor (czarny, normalny font)
+        pdf.setTextColor(0, 0, 0);
+        pdf.setFontSize(14);
+        pdf.setFont('helvetica', 'bold');
+        pdf.text(encodeText(language === 'pl' ? 'Autor:' : 'Author:'), pageWidth / 2, titleY + 25, { align: 'center' });
+        pdf.setFont('helvetica', 'normal');
+        pdf.text(encodeText(author), pageWidth / 2, titleY + 33, { align: 'center' });
+        
+        // Data generowania
+        pdf.setFontSize(11);
+        pdf.setTextColor(100, 100, 100);
+        const locale = language === 'pl' ? 'pl-PL' : 'en-US';
+        const titleDateStr = new Date().toLocaleDateString(locale, {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+        pdf.text(encodeText(titleDateStr), pageWidth / 2, titleY + 45, { align: 'center' });
+        
+        // Model info
+        pdf.setFontSize(10);
+        pdf.setTextColor(120, 120, 120);
+        const modelText = language === 'pl' 
+          ? 'Model weryfikacji informacji OSINT' 
+          : 'OSINT Information Verification Model';
+        pdf.text(encodeText(modelText), pageWidth / 2, titleY + 55, { align: 'center' });
+        
+        // Liczba komentarzy (metryki)
+        pdf.setFontSize(12);
+        pdf.setTextColor(0, 0, 0);
+        const commentsText = `${t('comments')}: ${Object.keys(comments).length}`;
+        const sourcesText = language === 'pl' ? `Zrodla: ${sources.length}` : `Sources: ${sources.length}`;
+        pdf.text(encodeText(commentsText), pageWidth / 2 - 30, titleY + 70, { align: 'left' });
+        pdf.text(encodeText(sourcesText), pageWidth / 2 + 10, titleY + 70, { align: 'left' });
+        
+        // Resetuj kolor tekstu
+        pdf.setTextColor(0, 0, 0);
+        
+        // Nowa strona dla treści
+        pdf.addPage();
+        yPosition = margin;
+      }
 
       // Funkcja generująca wykres radarowy jako obraz
       const generateRadarChartImage = async (peId) => {
@@ -432,17 +512,6 @@ export default function App() {
           };
           img.src = imgData;
         });
-      };
-
-      // Funkcja konwertująca tekst z polskimi znakami
-      const encodeText = (text) => {
-        if (!text) return '';
-        // Mapa polskich znaków na bezpieczne odpowiedniki
-        const polishChars = {
-          'ą': 'a', 'ć': 'c', 'ę': 'e', 'ł': 'l', 'ń': 'n', 'ó': 'o', 'ś': 's', 'ź': 'z', 'ż': 'z',
-          'Ą': 'A', 'Ć': 'C', 'Ę': 'E', 'Ł': 'L', 'Ń': 'N', 'Ó': 'O', 'Ś': 'S', 'Ź': 'Z', 'Ż': 'Z'
-        };
-        return text.split('').map(char => polishChars[char] || char).join('');
       };
 
       // Funkcja dodająca nową stronę jeśli potrzeba
@@ -782,6 +851,43 @@ export default function App() {
         pdf.text(encodeText(t('pdfNoComments')), margin, yPosition);
       }
 
+      // === NUMERACJA STRON I STOPKA ===
+      const pageCount = pdf.internal.getNumberOfPages();
+      const footerTitle = title || t('pdfTitle'); // Użyj podanego tytułu lub domyślnego
+
+      for (let i = 1; i <= pageCount; i++) {
+        pdf.setPage(i);
+        
+        // Linia nad stopką
+        pdf.setDrawColor(200, 200, 200);
+        pdf.setLineWidth(0.3);
+        pdf.line(margin, pageHeight - 15, pageWidth - margin, pageHeight - 15);
+        
+        // Stopka - lewa strona (skrócony tytuł)
+        pdf.setFontSize(8);
+        pdf.setTextColor(120, 120, 120);
+        pdf.setFont('helvetica', 'italic');
+        const shortTitle = footerTitle.length > 60 ? footerTitle.substring(0, 57) + '...' : footerTitle;
+        pdf.text(encodeText(shortTitle), margin, pageHeight - 10);
+        
+        // Stopka - środek (autor jeśli podano)
+        if (author) {
+          pdf.text(encodeText(author), pageWidth / 2, pageHeight - 10, { align: 'center' });
+        }
+        
+        // Stopka - prawa strona (numer strony)
+        pdf.setFont('helvetica', 'normal');
+        pdf.text(
+          `${language === 'pl' ? 'Strona' : 'Page'} ${i}/${pageCount}`, 
+          pageWidth - margin, 
+          pageHeight - 10, 
+          { align: 'right' }
+        );
+      }
+
+      // Resetuj kolor
+      pdf.setTextColor(0, 0, 0);
+
       pdf.save('raport.pdf');
       showToast(t('generatePDF') + ' ✓');
     } catch (err) {
@@ -875,7 +981,7 @@ export default function App() {
         <button className="btn btn-primary" onClick={handleExportImage}>
           📷 {t('exportJPEG')}
         </button>
-        <button className="btn btn-primary" onClick={handleGeneratePDF}>
+        <button className="btn btn-primary" onClick={() => setShowPDFConfig(true)}>
           📄 {t('generatePDF')}
         </button>
         <button className="btn btn-secondary" onClick={handleExportJSON}>
@@ -925,6 +1031,16 @@ export default function App() {
         language={language}
         ratings={comments}
         showToast={showToast}
+      />
+      
+      <PDFConfigDialog
+        isOpen={showPDFConfig}
+        onClose={() => setShowPDFConfig(false)}
+        onGenerate={(config) => {
+          setShowPDFConfig(false);
+          handleGeneratePDF(config.title, config.author);
+        }}
+        language={language}
       />
     </div>
   );

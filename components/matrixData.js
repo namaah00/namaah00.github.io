@@ -77,15 +77,9 @@ export const getSEName = (id, lang = 'pl') => {
     const parts = id.split('.');
     const seNumber = parts[2]; // Get the SE number (1-4)
     
-    // Map SE numbers to their names
-    const seNames = {
-      '1': { pl: 'Zgodności', en: 'Consistencies' },
-      '2': { pl: 'Rozbieżności', en: 'Inconsistencies' },
-      '3': { pl: 'Różnorodność', en: 'Diversity' },
-      '4': { pl: 'Kontekst międzynarodowy', en: 'International context' }
-    };
-    
-    return seNames[seNumber]?.[lang] || id;
+    // Map SE numbers to translation keys
+    const seKey = `se004_${seNumber}`;
+    return translations[lang][seKey] || id;
   }
   
   // Standard SE lookup
