@@ -1761,6 +1761,259 @@ select.rating-select option {
   background: #525252;
 }
 
+/* ===== DARK MODE - CORE ELEMENTS ===== */
+.dark body {
+  background: #1a1a1a;
+  color: #e5e5e5;
+}
+
+.dark .app {
+  background: #1a1a1a;
+}
+
+.dark .toolbar {
+  background: #262626;
+  border-bottom-color: #404040;
+}
+
+.dark .content {
+  background: #1a1a1a;
+}
+
+.dark .layer {
+  background: #262626;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.dark .layer-header {
+  border-bottom-color: #8b7dd8;
+}
+
+.dark .layer-header h2 {
+  color: #8b7dd8;
+}
+
+.dark .element-card {
+  background: #2a2a2a;
+  border-color: #404040;
+}
+
+.dark .element-card.pe-header {
+  background: #8b7dd8;
+  border-color: #7a6bc7;
+}
+
+.dark .element-card.secondary:hover {
+  border-color: #8b7dd8;
+  box-shadow: 0 4px 12px rgba(139, 125, 216, 0.25);
+}
+
+.dark .element-card.has-comment {
+  background: #2d2640;
+  border-color: #8b7dd8;
+}
+
+.dark .element-id {
+  color: #8b7dd8;
+}
+
+.dark .element-name {
+  color: #d4d4d4;
+}
+
+.dark .element-name-small {
+  color: #a3a3a3;
+}
+
+.dark .element-card.secondary {
+  background: #1f1f1f;
+}
+
+.dark .add-comment-hint {
+  color: #666;
+}
+
+.dark .element-card.secondary:hover .add-comment-hint {
+  color: #8b7dd8;
+}
+
+.dark .action-btn {
+  background: #2a2a2a;
+  color: #8b7dd8;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.dark .action-btn:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.dark .action-btn.rating-btn {
+  background: #3d3314;
+  color: #fbbf24;
+}
+
+.dark .action-btn.rating-btn:hover {
+  background: #fbbf24;
+  color: #1a1a1a;
+}
+
+.dark .action-btn.comment-btn {
+  background: #1a2942;
+  color: #8b7dd8;
+}
+
+.dark .dialog {
+  background: #262626;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+}
+
+.dark .dialog-header {
+  border-bottom-color: #404040;
+}
+
+.dark .dialog-header h3 {
+  color: #e5e5e5;
+}
+
+.dark .close-btn {
+  color: #999;
+}
+
+.dark .close-btn:hover {
+  background: #404040;
+  color: #e5e5e5;
+}
+
+.dark .dialog-footer {
+  border-top-color: #404040;
+}
+
+.dark .form-group label {
+  color: #d4d4d4;
+}
+
+.dark .form-input,
+.dark .form-textarea,
+.dark select.form-input {
+  background: #1a1a1a;
+  border-color: #404040;
+  color: #e5e5e5;
+}
+
+.dark .form-input:focus,
+.dark .form-textarea:focus,
+.dark select.form-input:focus {
+  border-color: #8b7dd8;
+}
+
+.dark .rating-description {
+  background: #3d3314;
+  border-left-color: #fbbf24;
+  color: #fbbf24;
+}
+
+.dark .rating-description strong {
+  color: #fef3c7;
+}
+
+.dark .image-preview-container {
+  border-color: #8b7dd8;
+  background: #2d2640;
+}
+
+.dark .image-preview-label {
+  color: #8b7dd8;
+}
+
+.dark .toast-success {
+  background: #1a2e1a;
+  border-left-color: #10b981;
+  color: #86efac;
+}
+
+.dark .toast-error {
+  background: #2e1a1a;
+  border-left-color: #ef4444;
+  color: #fca5a5;
+}
+
+.dark .toast-info {
+  background: #1a2742;
+  border-left-color: #3b82f6;
+  color: #93c5fd;
+}
+
+.dark .help-dialog {
+  background: #262626;
+}
+
+.dark .help-content {
+  border-top-color: #404040;
+  border-bottom-color: #404040;
+}
+
+.dark .help-sidebar {
+  background: #1a1a1a;
+  border-right-color: #404040;
+}
+
+.dark .help-nav-btn {
+  color: #a3a3a3;
+}
+
+.dark .help-nav-btn:hover {
+  background: #2a2a2a;
+  color: #e5e5e5;
+}
+
+.dark .help-nav-btn.active {
+  background: #8b7dd8;
+  color: white;
+}
+
+.dark .help-main {
+  background: #262626;
+}
+
+.dark .help-section-content h3 {
+  color: #8b7dd8;
+}
+
+.dark .help-section-content h4 {
+  color: #e5e5e5;
+}
+
+.dark .help-section-content p,
+.dark .help-section-content li {
+  color: #a3a3a3;
+}
+
+.dark .help-section-content strong {
+  color: #d4d4d4;
+}
+
+.dark .help-pe-section {
+  background: #1a1a1a;
+  border-left-color: #8b7dd8;
+}
+
+.dark .help-pe-section h4 {
+  color: #8b7dd8;
+}
+
+.dark .help-se-item {
+  background: #262626;
+  border-color: #404040;
+}
+
+.dark .help-se-item strong {
+  color: #8b7dd8;
+}
+
+.dark .help-se-item p {
+  color: #a3a3a3;
+}
+
 /* ===== PDF CONFIG DIALOG ===== */
 .pdf-config-dialog {
   max-width: 550px;
