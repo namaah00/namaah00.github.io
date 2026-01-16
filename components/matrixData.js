@@ -1,33 +1,5 @@
 import { translations } from './translations.js';
 
-// Legacy SE_NAMES for backward compatibility (Polish)
-export const SE_NAMES = {
-  '001.1': 'Spójność logiczna',
-  '001.2': 'Forma przekazu',
-  '001.3': 'Transparentność',
-  '001.4': 'Rzetelność',
-  '001.5': 'Obiektywność',
-  '001.6': 'Autentyczność cyfrowa',
-  '002.1': 'Autorytet',
-  '002.2': 'Reputacja',
-  '002.3': 'Afiliacja',
-  '002.4': 'Historia Wiarygodności',
-  '003.1': 'Aktualność',
-  '003.2': 'Cel przekazu',
-  '003.3': 'Odbiorca',
-  '003.4': 'Sytuacja społeczna',
-  '003.5': 'Interesy',
-  '003.6': 'Okoliczności powstania',
-  '003.7': 'Dynamika',
-  '003.8': 'Kontekst geopolityczny',
-  '003.9': 'Zasięg',
-  '003.10': 'Spójność techniczna przekazu',
-  '004.1': 'Zgodności',
-  '004.2': 'Rozbieżności',
-  '004.3': 'Różnorodność',
-  '004.4': 'Kontekst międzynarodowy'
-};
-
 // Główna struktura danych matrycy
 export const MATRIX_DATA = {
   L1: {
