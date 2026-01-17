@@ -205,7 +205,8 @@ export const translations = {
     
     // PDF
     pdfTitle: 'Raport Analizy Informacji',
-    pdfGenerated: 'Wygenerowano',
+    pdfGenerated: 'Raport PDF wygenerowany pomyślnie',
+    pdfGenerateError: 'Błąd podczas generowania PDF',
     pdfComments: 'Komentarze',
     pdfNoComments: 'Brak komentarzy w tej warstwie',
     
@@ -261,7 +262,7 @@ export const translations = {
     helpL2PE003Desc: 'Kompleksowa analiza okoliczności powstania i funkcjonowania informacji.',
     
     helpSE003_1: 'Czy informacja jest aktualna, jej data publikacji i ewentualne uaktualnienia.',
-    helpSE003_2: 'Intencje autora: informować, przekonywa��, manipulować czy bawić.',
+    helpSE003_2: 'Intencje autora: informować, przekonywa, manipulować czy bawić.',
     helpSE003_3: 'Grupa docelowa przekazu i dostosowanie treści do odbiorcy.',
     helpSE003_4: 'Kontekst społeczny, kulturowy i ekonomiczny w momencie publikacji.',
     helpSE003_5: 'Interesy finansowe, polityczne lub osobiste związane z przekazem.',
@@ -562,7 +563,8 @@ export const translations = {
     
     // PDF
     pdfTitle: 'Information Analysis Report',
-    pdfGenerated: 'Generated',
+    pdfGenerated: 'PDF report generated successfully',
+    pdfGenerateError: 'Error generating PDF',
     pdfComments: 'Comments',
     pdfNoComments: 'No comments in this layer',
     

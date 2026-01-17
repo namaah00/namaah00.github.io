@@ -288,10 +288,10 @@ export default function App() {
         author
       });
       
-      showToast(t('generatePDF') + ' ✓');
+      showToast(t('pdfGenerated'));
     } catch (err) {
       console.error(err);
-      showToast(t('generatePDF') + ' - błąd!', 'error');
+      showToast(t('pdfGenerateError'), 'error');
     }
   };
 

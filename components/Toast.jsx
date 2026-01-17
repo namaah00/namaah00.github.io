@@ -1,14 +1,11 @@
-//utworzenie funkcji, która ma domyślnie typ powiadomienia sukces
+import { CheckCircle2, XCircle, Info } from 'lucide-react';
+
 export default function Toast({ message, type = 'success' }) {
- 
-  //utworzenie kontenera powiadomienia
-  //do powiadomien pokazane są ikonki dla wizualnego efektu
-  //przykład: <Toast message="Dane zapisane pomyślnie!" type="success" />
   return (
     <div className={`toast toast-${type}`}>
-      {type === 'success' && '✅ '}
-      {type === 'error' && '❌ '}
-      {type === 'info' && '⁇ '}
+      {type === 'success' && <CheckCircle2 size={16} style={{ display: 'inline', marginRight: '6px', verticalAlign: 'middle' }} />}
+      {type === 'error' && <XCircle size={16} style={{ display: 'inline', marginRight: '6px', verticalAlign: 'middle' }} />}
+      {type === 'info' && <Info size={16} style={{ display: 'inline', marginRight: '6px', verticalAlign: 'middle' }} />}
       {message}
     </div>
   );
