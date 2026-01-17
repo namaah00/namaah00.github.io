@@ -62,7 +62,6 @@ export default function App() {
       }
       return {};
     } catch (err) {
-      console.error('Błąd ładowania komentarzy:', err);
       return {};
     }
   });
@@ -77,7 +76,6 @@ export default function App() {
       }
       return [];
     } catch (err) {
-      console.error('Błąd ładowania źródeł:', err);
       return [];
     }
   });
@@ -98,7 +96,6 @@ export default function App() {
       const jsonString = JSON.stringify(comments);
       localStorage.setItem('matrix-comments', jsonString);
     } catch (err) {
-      console.error('Błąd zapisywania komentarzy:', err);
       // Jeśli localStorage jest pełny, pokaż ostrzeżenie
       if (err.name === 'QuotaExceededError') {
         showToast('Przekroczono limit pamięci. Usuń stare komentarze.', 'error');
@@ -111,7 +108,7 @@ export default function App() {
     try {
       localStorage.setItem('pe004-sources', JSON.stringify(sources));
     } catch (err) {
-      console.error('Błąd zapisywania źródeł:', err);
+      // Ignore storage errors for sources
     }
   }, [sources]);
 

@@ -23,8 +23,6 @@ export default function RatingDialog({
   const handleSave = () => {
     if (onSave && typeof onSave === 'function') {
       onSave(rating);
-    } else {
-      console.error('RatingDialog: onSave is not a function!', onSave);
     }
   };
 

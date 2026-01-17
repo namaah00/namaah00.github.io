@@ -23,8 +23,6 @@ export default function SourcesView({ sources, comments, onAddSource, onDeleteSo
     if (onAddSource) {
       onAddSource(title);
       setIsAddingSource(false);
-    } else {
-      console.error('onAddSource is not defined!');
     }
   };
 
@@ -32,8 +30,6 @@ export default function SourcesView({ sources, comments, onAddSource, onDeleteSo
     if (confirm(`${t('sourcesConfirmDelete')}\n${t('sourcesWillBeDeleted')}`)) {
       if (onDeleteSource) {
         onDeleteSource(sourceId);
-      } else {
-        console.error('onDeleteSource is not defined!');
       }
     }
   };

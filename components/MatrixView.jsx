@@ -67,8 +67,6 @@ export default function MatrixView({
     if (selectedRatingCell && onSaveRating) {
       onSaveRating(selectedRatingCell, rating);
       setSelectedRatingCell(null);
-    } else if (!onSaveRating) {
-      console.error('onSaveRating is not defined!');
     }
   };
 
@@ -83,8 +81,6 @@ export default function MatrixView({
     if (selectedRatingCell && onDeleteRating) {
       onDeleteRating(selectedRatingCell);
       setSelectedRatingCell(null);
-    } else if (!onDeleteRating) {
-      console.error('onDeleteRating is not defined!');
     }
   };
 
