@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Sun, Moon, Camera, FileText, Save, Download, Trash2, Home, HelpCircle, BarChart3, Globe, MessageSquareText } from 'lucide-react';
+import { Sun, Moon, FileText, Save, Download, Trash2, Home, HelpCircle, BarChart3, Globe, MessageSquareText } from 'lucide-react';
 import LandingPage from './components/LandingPage.jsx';
 import MatrixView from './components/MatrixView.jsx';
 import Toast from './components/Toast.jsx';
@@ -9,7 +9,6 @@ import PDFConfigDialog from './components/PDFConfigDialog.jsx';
 import { translations } from './components/translations.js';
 import { MATRIX_DATA, getSEName, getLayerName, getRatingDescription, getPEName } from './components/matrixData.js';
 import { generatePDF } from './components/pdfGenerator.js';
-import html2canvas from 'html2canvas';
 
 // Version: Separated rating system v2 + Sources + PDF L3 FIX v3 + Landing Page + Enhanced PDF
 export default function App() {
@@ -242,26 +241,6 @@ export default function App() {
     e.target.value = '';
   };
 
-  const handleExportImage = async () => {
-    if (!matrixRef.current) return;
-    
-    try {
-      showToast('Generowanie obrazu...', 'info');
-      const canvas = await html2canvas(matrixRef.current, {
-        scale: 2,
-        backgroundColor: '#ffffff'
-      });
-      
-      const link = document.createElement('a');
-      link.download = 'matryca.jpg';
-      link.href = canvas.toDataURL('image/jpeg', 0.95);
-      link.click();
-      showToast('Obraz zapisany jako JPEG!');
-    } catch (err) {
-      showToast('Błąd eksportu obrazu!', 'error');
-    }
-  };
-
   const handleClearAll = () => {
     if (window.confirm(t('confirmClear'))) {
       setComments({});
@@ -373,9 +352,6 @@ export default function App() {
       <div className="toolbar">
         <button className="btn btn-primary" onClick={() => setIsRadarChartOpen(true)}>
           <BarChart3 /> {t('radarChart')}
-        </button>
-        <button className="btn btn-primary" onClick={handleExportImage}>
-          <Camera /> {t('exportJPEG')}
         </button>
         <button className="btn btn-primary" onClick={() => setShowPDFConfig(true)}>
           <FileText /> {t('generatePDF')}

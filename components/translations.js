@@ -20,7 +20,6 @@ export const translations = {
     invalidJSON: 'Błąd odczytu pliku JSON. Upewnij się, że plik jest prawidłowy.',
     
     // Toolbar
-    exportJPEG: 'Eksport JPEG',
     generatePDF: 'Generuj PDF',
     radarChart: 'Wykres radarowy',
     exportJSON: 'Eksport JSON',
@@ -378,7 +377,6 @@ export const translations = {
     invalidJSON: 'JSON file read error. Make sure the file is valid.',
     
     // Toolbar
-    exportJPEG: 'Export JPEG',
     generatePDF: 'Generate PDF',
     radarChart: 'Radar Chart',
     exportJSON: 'Export JSON',
