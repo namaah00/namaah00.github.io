@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { getTranslation } from './translations.js';
+import { FileText } from 'lucide-react';
+import { translations } from './translations.js';
 
 export default function PDFConfigDialog({ isOpen, onGenerate, onClose, language }) {
   const [reportTitle, setReportTitle] = useState('');
   const [authorName, setAuthorName] = useState('');
 
-  const t = (key) => getTranslation(language, key);
+  const t = (key) => translations[language][key];
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -64,7 +65,8 @@ export default function PDFConfigDialog({ isOpen, onGenerate, onClose, language 
               {t('pdfCancelButton')}
             </button>
             <button type="submit" className="btn btn-primary">
-              📄 {t('pdfGenerateButton')}
+              <FileText size={16} style={{ marginRight: '5px' }} />
+              {t('pdfGenerateButton')}
             </button>
           </div>
         </form>

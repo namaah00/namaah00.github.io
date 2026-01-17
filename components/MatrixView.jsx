@@ -1,8 +1,10 @@
 import { useState } from 'react';
+import { MessageSquare, Paperclip, Plus, ChevronUp, ChevronDown, Star, ClipboardList, AlertTriangle } from 'lucide-react';
 import CommentDialog from './CommentDialog.jsx';
 import RatingDialog from './RatingDialog.jsx';
 import SourcesView from './SourcesView.jsx';
 import { MATRIX_DATA, getSEName, getPEName, getLayerName, hasRatingScale, getSEDescription, getSEHints } from './matrixData.js';
+import { getTranslation } from './translations.js';
 
 export default function MatrixView({ 
   comments, 
@@ -112,7 +114,7 @@ export default function MatrixView({
                             onClick={handleTogglePE004Help}
                             title={isPE004HelpExpanded ? 'Zwiń podpowiedzi' : 'Pokaż podpowiedzi dla wszystkich elementów'}
                           >
-                            {isPE004HelpExpanded ? '🔼' : '🔽'}
+                            {isPE004HelpExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
                           </button>
                         </div>
                       )}
@@ -134,13 +136,13 @@ export default function MatrixView({
                               </div>
                               {description && (
                                 <div className="pe004-help-description">
-                                  <strong>Co oceniamy:</strong>
+                                  <strong><ClipboardList size={14} style={{verticalAlign: 'middle', marginRight: '4px'}} />{getTranslation(language, 'whatWeEvaluate')}</strong>
                                   <p>{description}</p>
                                 </div>
                               )}
                               {hints && hints.length > 0 && (
                                 <div className="pe004-help-hints">
-                                  <strong>⚠️ Sygnały ostrzegawcze:</strong>
+                                  <strong><AlertTriangle size={14} style={{verticalAlign: 'middle', marginRight: '4px'}} />{getTranslation(language, 'warningSignalsShort')}</strong>
                                   <ul>
                                     {hints.map((hint, index) => (
                                       <li key={index}>{hint}</li>
@@ -188,7 +190,7 @@ export default function MatrixView({
                       >
                         {/* Rating Badge */}
                         {hasCurrentRating && (
-                          <div className="rating-badge">⭐ {currentRating}/5</div>
+                          <div className="rating-badge"><Star size={14} fill="currentColor" style={{verticalAlign: 'middle', marginRight: '2px'}} />{currentRating}/5</div>
                         )}
                         
                         <div className="element-content">
@@ -205,7 +207,7 @@ export default function MatrixView({
                                 onClick={(e) => handleToggleExpand(seId, e)}
                                 title={isExpanded ? 'Zwiń' : 'Rozwiń podpowiedzi'}
                               >
-                                {isExpanded ? '🔼' : '🔽'}
+                                {isExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
                               </button>
                               {canRate && (
                                 <button 
@@ -213,7 +215,7 @@ export default function MatrixView({
                                   onClick={(e) => handleRatingClick(cellId, e)}
                                   title={hasCurrentRating ? `Ocena: ${currentRating}/5` : 'Dodaj ocenę'}
                                 >
-                                  ⭐
+                                  <Star size={16} />
                                 </button>
                               )}
                               <button 
@@ -222,8 +224,8 @@ export default function MatrixView({
                                 title={hasComment ? 'Edytuj komentarz' : 'Dodaj komentarz'}
                               >
                                 {hasComment ? (
-                                  comments[cellId]?.images?.length > 0 ? '💬📎' : '💬'
-                                ) : '+'}
+                                  comments[cellId]?.images?.length > 0 ? <><MessageSquare size={16} /><Paperclip size={12} /></> : <MessageSquare size={16} />
+                                ) : <Plus size={16} />}
                               </button>
                             </div>
                           </div>
@@ -233,13 +235,13 @@ export default function MatrixView({
                             <div className="element-expanded-content">
                               {description && (
                                 <div className="element-description">
-                                  <strong>📋 Co oceniamy:</strong>
+                                  <strong><ClipboardList size={14} style={{verticalAlign: 'middle', marginRight: '4px'}} />{getTranslation(language, 'whatWeEvaluate')}</strong>
                                   <p>{description}</p>
                                 </div>
                               )}
                               {hints && hints.length > 0 && (
                                 <div className="element-hints">
-                                  <strong>⚠️ Sygnały, na które warto zwrócić uwagę:</strong>
+                                  <strong><AlertTriangle size={14} style={{verticalAlign: 'middle', marginRight: '4px'}} />{getTranslation(language, 'warningSignals')}</strong>
                                   <ul>
                                     {hints.map((hint, index) => (
                                       <li key={index}>{hint}</li>

@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import SourceDialog from './SourceDialog.jsx';
+import { PlusCircle, Trash2, MessageSquare, Plus } from 'lucide-react';
 import CommentDialog from './CommentDialog.jsx';
 import { getSEName } from './matrixData.js';
-import { getTranslation } from './translations.js';
+import { translations } from './translations.js';
+import SourceDialog from './SourceDialog.jsx';
 
 export default function SourcesView({ sources, comments, onAddSource, onDeleteSource, onSaveComment, onDeleteComment, language }) {
   const [isAddingSource, setIsAddingSource] = useState(false);
@@ -16,7 +17,7 @@ export default function SourcesView({ sources, comments, onAddSource, onDeleteSo
     { id: 4, key: 'se004_4' }
   ];
 
-  const t = (key) => getTranslation(language, key);
+  const t = (key) => translations[language][key];
 
   const handleAddSource = (title) => {
     if (onAddSource) {
@@ -58,7 +59,11 @@ export default function SourcesView({ sources, comments, onAddSource, onDeleteSo
   return (
     <div className="sources-container">
       <div className="sources-header">
-        <button className="btn btn-primary" onClick={() => setIsAddingSource(true)}>
+        <button
+          className="btn btn-primary sources-add-btn"
+          onClick={() => setIsAddingSource(true)}
+        >
+          <PlusCircle size={16} style={{ marginRight: '5px' }} />
           {t('sourcesAddBtn')}
         </button>
       </div>
@@ -81,7 +86,7 @@ export default function SourcesView({ sources, comments, onAddSource, onDeleteSo
                   onClick={() => handleDeleteSource(source.id)}
                   title={t('sourcesDeleteSource')}
                 >
-                  🗑️
+                  <Trash2 size={16} />
                 </button>
               </div>
               
@@ -102,8 +107,11 @@ export default function SourcesView({ sources, comments, onAddSource, onDeleteSo
                           {getSEName(seId, language)}
                         </div>
                       </div>
-                      {hasComment && <span className="comment-indicator">💬</span>}
-                      {!hasComment && <span className="add-comment-hint">+</span>}
+                      {hasComment ? (
+                        <span className="comment-indicator"><MessageSquare size={14} /></span>
+                      ) : (
+                        <span className="add-comment-hint"><Plus size={14} /></span>
+                      )}
                     </div>
                   );
                 })}

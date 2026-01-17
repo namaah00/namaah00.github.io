@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import { Sun, Moon, FileText, Download, Globe } from 'lucide-react';
 
 export default function LandingPage({ 
   onNewProject, 
@@ -37,6 +38,10 @@ export default function LandingPage({
     reader.readAsText(file);
   };
 
+  const handleImportClick = () => {
+    fileInputRef.current?.click();
+  };
+
   return (
     <div className={`landing-page ${isDarkMode ? 'dark' : ''}`}>
       {/* Header */}
@@ -48,14 +53,14 @@ export default function LandingPage({
             className="btn btn-language"
             title={t('changeLanguage')}
           >
-            🌐 {language === 'pl' ? 'EN' : 'PL'}
+            <Globe size={16} /> {language === 'pl' ? 'EN' : 'PL'}
           </button>
           <button
             onClick={toggleDarkMode}
             className="btn btn-theme"
             title={t('toggleTheme')}
           >
-            {isDarkMode ? '☀️' : '🌙'}
+            {isDarkMode ? <Sun /> : <Moon />}
           </button>
         </div>
       </header>
@@ -72,35 +77,39 @@ export default function LandingPage({
           {/* Options Grid */}
           <div className="landing-cards">
             {/* New Project Card */}
-            <button
-              onClick={onNewProject}
+            <div
               className="landing-card"
+              onClick={onNewProject}
+              role="button"
+              tabIndex={0}
             >
               <div className="landing-card-icon landing-card-icon-blue">
-                📄
+                <FileText size={32} />
               </div>
               <h3>{t('newProject')}</h3>
               <p>{t('newProjectDescription')}</p>
-            </button>
+            </div>
 
             {/* Import Project Card */}
-            <button
-              onClick={() => fileInputRef.current?.click()}
+            <div
               className="landing-card"
+              onClick={handleImportClick}
+              role="button"
+              tabIndex={0}
             >
               <div className="landing-card-icon landing-card-icon-green">
-                📥
+                <Download size={32} />
               </div>
               <h3>{t('importProject')}</h3>
               <p>{t('importProjectDescription')}</p>
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept=".json"
-                onChange={handleFileChange}
-                style={{ display: 'none' }}
-              />
-            </button>
+            </div>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept=".json"
+              onChange={handleFileChange}
+              style={{ display: 'none' }}
+            />
           </div>
         </div>
       </main>

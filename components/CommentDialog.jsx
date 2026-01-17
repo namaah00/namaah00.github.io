@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { Save, Trash2, ImagePlus } from 'lucide-react';
 import { translations } from './translations.js';
 import { getSEName } from './matrixData.js';
 
@@ -118,7 +119,7 @@ export default function CommentDialog({
           </div>
 
           <div className="form-group">
-            <label>{t('imagesLabel') || '📷 Obrazy'}</label>
+            <label><ImagePlus size={16} style={{verticalAlign: 'middle', marginRight: '4px'}} />{t('imagesLabel')}</label>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               <button
                 type="button"
@@ -194,15 +195,17 @@ export default function CommentDialog({
 
         <div className="dialog-footer">
           <button className="btn btn-primary" onClick={handleSave}>
-            💾 {t('save')}
+            <Save size={16} style={{ marginRight: '5px' }} />
+            {t('save')}
           </button>
           {hasComment && (
             <button className="btn btn-danger" onClick={onDelete}>
-              🗑️ {t('delete')}
+              <Trash2 size={16} style={{ marginRight: '5px' }} />
+              {t('delete')}
             </button>
           )}
           <button className="btn btn-secondary" onClick={onClose}>
-            ✕ {t('cancel')}
+            {t('cancel')}
           </button>
         </div>
       </div>

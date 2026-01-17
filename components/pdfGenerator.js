@@ -30,6 +30,12 @@ export const generatePDF = async ({
   const safeLanguage = (language === 'pl' || language === 'en') ? language : 'pl';
   console.log('Using language:', safeLanguage);
   
+  // DEBUG - sprawdź co jest w translations
+  console.log('translations object:', translations);
+  console.log('translations[safeLanguage]:', translations[safeLanguage]);
+  console.log('translations.pl:', translations.pl);
+  console.log('translations.pl?.pdfPrimaryElement:', translations.pl?.pdfPrimaryElement);
+  
   // Lokalna funkcja tłumaczenia - używa zaimportowanego translations
   const t = (key) => {
     const translation = translations[safeLanguage]?.[key];

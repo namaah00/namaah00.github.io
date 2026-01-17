@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { BookOpen, Settings, Lightbulb, HelpCircle, Check } from 'lucide-react';
 import { translations } from './translations.js';
 import { getSEName } from './matrixData.js';
 
@@ -43,9 +44,9 @@ export default function HelpDialog({ isOpen, onClose, language }) {
           <h4>{t('helpIntroHeading')}</h4>
           <p>{t('helpIntroDesc')}</p>
           <ul>
-            <li><strong>L1:</strong> {t('helpIntroL1')}</li>
-            <li><strong>L2:</strong> {t('helpIntroL2')}</li>
-            <li><strong>L3:</strong> {t('helpIntroL3')}</li>
+            <li><strong>Warstwa I:</strong> {t('helpIntroL1')}</li>
+            <li><strong>Warstwa II:</strong> {t('helpIntroL2')}</li>
+            <li><strong>Warstwa III:</strong> {t('helpIntroL3')}</li>
           </ul>
           <h4>{t('helpHowToUse')}</h4>
           <ol>
@@ -153,7 +154,7 @@ export default function HelpDialog({ isOpen, onClose, language }) {
             <li>{t('helpUsageAddStep4')}</li>
           </ol>
           <p style={{ fontSize: '0.9em', fontStyle: 'italic', color: '#667eea', marginTop: '10px' }}>
-            💡 {t('helpUsageImageNote')}
+            <Lightbulb size={14} style={{ verticalAlign: 'middle', marginRight: '4px' }} /> {t('helpUsageImageNote')}
           </p>
 
           <h4>{t('helpUsageEdit')}</h4>
@@ -205,9 +206,9 @@ export default function HelpDialog({ isOpen, onClose, language }) {
         <div>
           <h4>{t('helpTipsAnalysis')}</h4>
           <ul>
-            <li><strong>L1:</strong> {t('helpTipsAnalysisL1')}</li>
-            <li><strong>L2:</strong> {t('helpTipsAnalysisL2')}</li>
-            <li><strong>L3:</strong> {t('helpTipsAnalysisL3')}</li>
+            <li><strong>Warstwa I:</strong> {t('helpTipsAnalysisL1')}</li>
+            <li><strong>Warstwa II:</strong> {t('helpTipsAnalysisL2')}</li>
+            <li><strong>Warstwa III:</strong> {t('helpTipsAnalysisL3')}</li>
           </ul>
 
           <h4>{t('helpTipsComments')}</h4>
@@ -248,7 +249,7 @@ export default function HelpDialog({ isOpen, onClose, language }) {
     <div className="dialog-backdrop help-backdrop" onClick={handleBackdropClick}>
       <div className="dialog help-dialog">
         <div className="dialog-header">
-          <h3>❓ {t('helpTitle')}</h3>
+          <h3><HelpCircle size={20} style={{ verticalAlign: 'middle', marginRight: '8px' }} />{t('helpTitle')}</h3>
           <button className="close-btn" onClick={onClose}>✕</button>
         </div>
 
@@ -277,7 +278,7 @@ export default function HelpDialog({ isOpen, onClose, language }) {
 
         <div className="dialog-footer">
           <button className="btn btn-secondary" onClick={onClose}>
-            ✓ {t('helpClose')}
+            <Check size={16} style={{ marginRight: '5px' }} /> {t('helpClose')}
           </button>
         </div>
       </div>

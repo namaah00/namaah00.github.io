@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Trash2 } from 'lucide-react';
 import { translations } from './translations.js';
 import { getSEName, getRatingDescription } from './matrixData.js';
 
@@ -78,11 +79,11 @@ export default function RatingDialog({
 
         <div className="dialog-footer">
           <button className="btn btn-primary" onClick={handleSave}>
-            ⭐ {t('save')}
+            {t('save')}
           </button>
           {hasRating && (
             <button className="btn btn-danger" onClick={onDelete}>
-              🗑️ {t('delete')}
+              <Trash2 size={16} style={{ marginRight: '5px' }} /> {t('delete')}
             </button>
           )}
           <button className="btn btn-secondary" onClick={onClose}>

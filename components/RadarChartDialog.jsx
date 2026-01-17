@@ -1,13 +1,15 @@
-import { useState, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { Camera } from 'lucide-react';
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from 'recharts';
 import html2canvas from 'html2canvas';
-import { getTranslation } from './translations.js';
+import { translations } from './translations.js';
+import { MATRIX_DATA } from './matrixData.js';
 
 export default function RadarChartDialog({ isOpen, onClose, language, ratings, showToast }) {
   const [selectedPE, setSelectedPE] = useState('001');
   const chartRef = useRef(null);
 
-  const t = (key) => getTranslation(language, key);
+  const t = (key) => translations[language][key];
 
   // Sprawdź czy wszystkie SE w danym PE mają oceny
   const checkCompleteness = (pe) => {
@@ -18,7 +20,7 @@ export default function RadarChartDialog({ isOpen, onClose, language, ratings, s
       const seId = `${pe}.${i}`;
       const rating = ratings[`L1-${seId}`]?.rating;
       if (rating === undefined || rating === null) {
-        missing.push(`SE ${seId}: ${t(`se${pe}_${i}`)}`);
+        missing.push(`${t('pdfSecondaryElement')} ${seId}: ${t(`se${pe}_${i}`)}`);
       }
     }
     
@@ -105,7 +107,7 @@ export default function RadarChartDialog({ isOpen, onClose, language, ratings, s
               <h4>{t('radarNoData')}</h4>
               <p>{t('radarNoDataDesc')}</p>
               <div className="radar-missing-list">
-                <strong>{t('radarMissingRatings')} PE {selectedPE}:</strong>
+                <strong>{t('radarMissingRatings')} {t('pdfPrimaryElement')} {selectedPE}:</strong>
                 <ul>
                   {missing.map((item, idx) => (
                     <li key={idx}>{item}</li>
@@ -160,7 +162,7 @@ export default function RadarChartDialog({ isOpen, onClose, language, ratings, s
               </div>
               <div className="radar-chart-footer">
                 <button className="btn btn-export-png" onClick={handleExportPNG}>
-                  📷 {t('radarExportPNG')}
+                  <Camera size={16} style={{ marginRight: '5px' }} /> {t('radarExportPNG')}
                 </button>
               </div>
             </div>

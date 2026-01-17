@@ -55,7 +55,7 @@ export const translations = {
     radarExportError: 'Błąd podczas eksportu',
     
     // Sources View
-    sourcesAddBtn: '➕ Dodaj źródło',
+    sourcesAddBtn: 'Dodaj źródło',
     sourcesNoSources: 'Brak źródeł. Kliknij "Dodaj źródło" aby rozpocząć.',
     sourcesDeleteSource: 'Usuń źródło',
     sourcesConfirmDelete: 'Czy na pewno chcesz usunąć to źródło?',
@@ -166,13 +166,18 @@ export const translations = {
     seHints_004_3: ['Tylko jeden typ źródeł (np. tylko media)', 'Brak perspektywy ekspertów', 'Brak dokumentów pierwotnych', 'Tylko źródła z jednej strony', 'Homogeniczna grupa źródeł'],
     seHints_004_4: ['Tylko krajowe źródła', 'Brak międzynarodowej perspektywy', 'Ignorowanie zagranicznych źródeł', 'Jednostronna narracja geopolityczna', 'Brak globalnego kontekstu'],
     
+    // Nagłówki paneli opisu
+    whatWeEvaluate: 'Co oceniamy:',
+    warningSignals: 'Sygnały, na które warto zwrócić uwagę:',
+    warningSignalsShort: 'Sygnały ostrzegawcze:',
+    
     // Comment Dialog
     commentTitle: 'Komentarz',
     titleLabel: 'Tytuł',
     titlePlaceholder: 'Krótki tytuł komentarza',
     contentLabel: 'Treść',
     contentPlaceholder: 'Szczegółowy opis, analiza, wnioski...',
-    imagesLabel: '📷 Obrazy',
+    imagesLabel: 'Obrazy',
     imagesHint: 'Max 2MB na obraz',
     chooseFiles: 'Wybierz pliki',
     noFileChosen: 'Nie wybrano pliku',
@@ -209,12 +214,12 @@ export const translations = {
     helpClose: 'Zamknij',
     
     // Help Sections
-    helpIntroTitle: '📖 Wprowadzenie',
+    helpIntroTitle: 'Wprowadzenie',
     helpL1Title: 'Warstwa I - Jakość Informacji',
     helpL2Title: 'Warstwa II - Szersze tło',
     helpL3Title: 'Warstwa III - Zestawienie źródeł',
-    helpUsageTitle: '🔧 Funkcje aplikacji',
-    helpTipsTitle: '💡 Wskazówki',
+    helpUsageTitle: 'Funkcje aplikacji',
+    helpTipsTitle: 'Wskazówki',
     
     // Help Content - Intro
     helpIntroHeading: 'System Analizy Taktyk i Technik Cyberbezpieczeństwa',
@@ -225,7 +230,7 @@ export const translations = {
     helpHowToUse: 'Jak używać aplikacji:',
     helpStep1: 'Kliknij na dowolny Element podrzędny (EP) z przyciskiem \"+\"',
     helpStep2: 'Dodaj tytuł i treść komentarza',
-    helpStep3: 'Zapisz komentarz - zostanie oznaczony ikoną 💬',
+    helpStep3: 'Zapisz komentarz - zostanie oznaczony ikoną komentarza',
     helpStep4: 'Eksportuj analizę do PDF lub JSON',
     helpStep5: 'Importuj wcześniej zapisane analizy z JSON',
     helpNote: 'Tylko Elementy podrzędne (EP) są klikalne i mogą zawierać komentarze. Elementy nadrzędne (EN) służą jako nagłówki kategorii.',
@@ -256,7 +261,7 @@ export const translations = {
     helpL2PE003Desc: 'Kompleksowa analiza okoliczności powstania i funkcjonowania informacji.',
     
     helpSE003_1: 'Czy informacja jest aktualna, jej data publikacji i ewentualne uaktualnienia.',
-    helpSE003_2: 'Intencje autora: informować, przekonywać, manipulować czy bawić.',
+    helpSE003_2: 'Intencje autora: informować, przekonywa��, manipulować czy bawić.',
     helpSE003_3: 'Grupa docelowa przekazu i dostosowanie treści do odbiorcy.',
     helpSE003_4: 'Kontekst społeczny, kulturowy i ekonomiczny w momencie publikacji.',
     helpSE003_5: 'Interesy finansowe, polityczne lub osobiste związane z przekazem.',
@@ -284,16 +289,16 @@ export const translations = {
     helpUsageAddTitle: 'Krótkie podsumowanie (np. "Źródło niezweryfikowane")',
     helpUsageAddContent: 'Szczegółowa analiza i wnioski',
     helpUsageAddImage: 'Opcjonalnie: załącz obraz JPG/PNG (max 5MB)',
-    helpUsageAddStep4: 'Kliknij " Zapisz"',
-    helpUsageImageNote: 'Komentarze z załącznikami mają ikonę 💬📎 na matrycy',
+    helpUsageAddStep4: 'Kliknij "Zapisz"',
+    helpUsageImageNote: 'Komentarze z załącznikami są oznaczone ikoną komentarza i spinacza na matrycy',
     
     helpUsageEdit: 'Edycja i usuwanie',
-    helpUsageEditStep1: 'Kliknij na EP z ikoną 💬 aby edytować komentarz',
+    helpUsageEditStep1: 'Kliknij na EP z ikoną komentarza aby edytować komentarz',
     helpUsageEditStep2: 'W oknie dialogowym możesz zmienić tytuł i treść',
-    helpUsageEditStep3: 'Użyj przycisku "🗑️ Usuń" aby usunąć komentarz',
+    helpUsageEditStep3: 'Użyj przycisku "Usuń" aby usunąć komentarz',
     
     helpUsagePDF: 'Eksport do PDF',
-    helpUsagePDFStep1: 'Kliknij przycisk "📄 Generuj PDF"',
+    helpUsagePDFStep1: 'Kliknij przycisk "Generuj PDF"',
     helpUsagePDFStep2: 'Aplikacja wygeneruje raport z wszystkimi komentarzami',
     helpUsagePDFStep3: 'PDF zawiera:',
     helpUsagePDFItem1: 'Listę wszystkich komentarzy pogrupowanych wg warstw',
@@ -303,15 +308,15 @@ export const translations = {
     
     helpUsageJSON: 'Eksport/Import JSON',
     helpUsageJSONExport: 'Eksport:',
-    helpUsageJSONExportStep1: 'Kliknij "💾 Eksportuj JSON"',
+    helpUsageJSONExportStep1: 'Kliknij "Eksportuj JSON"',
     helpUsageJSONExportStep2: 'Zapisz plik na dysku',
     helpUsageJSONImport: 'Import:',
-    helpUsageJSONImportStep1: 'Kliknij "📥 Importuj JSON"',
+    helpUsageJSONImportStep1: 'Kliknij "Importuj JSON"',
     helpUsageJSONImportStep2: 'Wybierz wcześniej zapisany plik',
     helpUsageJSONImportStep3: 'Wszystkie komentarze zostaną wczytane',
     
     helpUsageClear: 'Czyszczenie danych',
-    helpUsageClearDesc: 'Kliknij "🗑️ Wyczyść wszystko" aby usunąć wszystkie komentarze',
+    helpUsageClearDesc: 'Kliknij "Wyczyść wszystko" aby usunąć wszystkie komentarze',
     helpUsageClearConfirm: 'Pojawi się potwierdzenie przed usunięciem',
     
     // Help Content - Tips
@@ -407,7 +412,7 @@ export const translations = {
     radarExportError: 'Export error',
     
     // Sources View
-    sourcesAddBtn: '➕ Add Source',
+    sourcesAddBtn: 'Add Source',
     sourcesNoSources: 'No sources. Click "Add Source" to start.',
     sourcesDeleteSource: 'Delete Source',
     sourcesConfirmDelete: 'Are you sure you want to delete this source?',
@@ -518,13 +523,18 @@ export const translations = {
     seHints_004_3: ['Only one type of source (e.g., only media)', 'Lack of expert perspective', 'Lack of original documents', 'Sources from only one side', 'Homogeneous group of sources'],
     seHints_004_4: ['Only domestic sources', 'Lack of international perspective', 'Ignoring foreign sources', 'One-sided geopolitical narrative', 'Lack of global context'],
     
+    // Nagłówki paneli opisu
+    whatWeEvaluate: 'What we evaluate:',
+    warningSignals: 'Signals to watch out for:',
+    warningSignalsShort: 'Warning signals:',
+    
     // Comment Dialog
     commentTitle: 'Comment',
     titleLabel: 'Title',
     titlePlaceholder: 'Brief comment title',
     contentLabel: 'Content',
     contentPlaceholder: 'Detailed description, analysis, conclusions...',
-    imagesLabel: '📷 Images',
+    imagesLabel: 'Obrazy',
     imagesHint: 'Max 2MB per image',
     chooseFiles: 'Choose files',
     noFileChosen: 'No file chosen',
@@ -561,12 +571,12 @@ export const translations = {
     helpClose: 'Close',
     
     // Help Sections
-    helpIntroTitle: '📖 Introduction',
-    helpL1Title: 'Layer I - Information Quality',
-    helpL2Title: 'Layer II - Broader Context',
-    helpL3Title: 'Layer III - Source Comparison',
-    helpUsageTitle: '🔧 Application Features',
-    helpTipsTitle: '💡 Tips',
+    helpIntroTitle: 'Wprowadzenie',
+    helpL1Title: 'Warstwa I - Jakość Informacji',
+    helpL2Title: 'Warstwa II - Szersze tło',
+    helpL3Title: 'Warstwa III - Zestawienie źródeł',
+    helpUsageTitle: 'Funkcje aplikacji',
+    helpTipsTitle: 'Wskazówki',
     
     // Help Content - Intro
     helpIntroHeading: 'Cybersecurity Tactics and Techniques Analysis System',
@@ -577,7 +587,7 @@ export const translations = {
     helpHowToUse: 'How to use the application:',
     helpStep1: 'Click on any Secondary Element (SE) with "+" button',
     helpStep2: 'Add title and comment content',
-    helpStep3: 'Save comment - it will be marked with 💬 icon',
+    helpStep3: 'Save comment - it will be marked with a comment icon',
     helpStep4: 'Export analysis to PDF or JSON',
     helpStep5: 'Import previously saved analyses from JSON',
     helpNote: 'Only Secondary Elements (SE) are clickable and can contain comments. Primary Elements (PE) serve as category headers.',
@@ -636,16 +646,16 @@ export const translations = {
     helpUsageAddTitle: 'Brief summary (e.g. "Unverified source")',
     helpUsageAddContent: 'Detailed analysis and conclusions',
     helpUsageAddImage: 'Optionally: attach JPG/PNG image (max 5MB)',
-    helpUsageAddStep4: 'Click "💾 Save"',
-    helpUsageImageNote: 'Comments with attachments have 💬📎 icon on the matrix',
+    helpUsageAddStep4: 'Click "Save"',
+    helpUsageImageNote: 'Comments with attachments are marked with comment and paperclip icons on the matrix',
     
     helpUsageEdit: 'Editing and deleting',
-    helpUsageEditStep1: 'Click on SE with 💬 icon to edit comment',
+    helpUsageEditStep1: 'Click on SE with comment icon to edit comment',
     helpUsageEditStep2: 'In the dialog you can change title and content',
-    helpUsageEditStep3: 'Use "🗑️ Delete" button to remove comment',
+    helpUsageEditStep3: 'Use "Delete" button to remove comment',
     
     helpUsagePDF: 'Export to PDF',
-    helpUsagePDFStep1: 'Click "📄 Generate PDF" button',
+    helpUsagePDFStep1: 'Click "Generate PDF" button',
     helpUsagePDFStep2: 'Application will generate report with all comments',
     helpUsagePDFStep3: 'PDF contains:',
     helpUsagePDFItem1: 'List of all comments grouped by layers',
@@ -655,15 +665,15 @@ export const translations = {
     
     helpUsageJSON: 'Export/Import JSON',
     helpUsageJSONExport: 'Export:',
-    helpUsageJSONExportStep1: 'Click "💾 Export JSON"',
+    helpUsageJSONExportStep1: 'Click "Export JSON"',
     helpUsageJSONExportStep2: 'Save file to disk',
     helpUsageJSONImport: 'Import:',
-    helpUsageJSONImportStep1: 'Click "📥 Import JSON"',
+    helpUsageJSONImportStep1: 'Click "Import JSON"',
     helpUsageJSONImportStep2: 'Select previously saved file',
     helpUsageJSONImportStep3: 'All comments will be loaded',
     
     helpUsageClear: 'Clearing data',
-    helpUsageClearDesc: 'Click "🗑️ Clear All" to remove all comments',
+    helpUsageClearDesc: 'Click "Clear All" to remove all comments',
     helpUsageClearConfirm: 'Confirmation will appear before deletion',
     
     // Help Content - Tips

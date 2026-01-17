@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { Sun, Moon, Camera, FileText, Save, Download, Trash2, Home, HelpCircle, BarChart3, Globe, MessageSquareText } from 'lucide-react';
 import LandingPage from './components/LandingPage.jsx';
 import MatrixView from './components/MatrixView.jsx';
 import Toast from './components/Toast.jsx';
@@ -283,7 +284,6 @@ export default function App() {
         sources,
         MATRIX_DATA,
         language,
-        t,
         title,
         author
       });
@@ -356,38 +356,38 @@ export default function App() {
         </div>
         <div className="header-info">
           <button className="btn btn-theme" onClick={toggleDarkMode} title={isDarkMode ? 'Jasny motyw' : 'Ciemny motyw'}>
-            {isDarkMode ? '☀️' : '🌙'}
+            {isDarkMode ? <Sun /> : <Moon />}
           </button>
           <button className="btn btn-language" onClick={toggleLanguage}>
-            🌐 {language === 'pl' ? 'EN' : 'PL'}
+            <Globe /> {language === 'pl' ? 'EN' : 'PL'}
           </button>
           <button className="btn btn-help" onClick={() => setIsHelpOpen(true)}>
-            ❓ {t('help')}
+            <HelpCircle /> {t('help')}
           </button>
           <span className="comment-count">
-            📝 {t('comments')}: {commentCount}
+            <MessageSquareText /> {t('comments')}: {commentCount}
           </span>
           <button className="btn btn-secondary" onClick={handleBackToHome}>
-            🏠 {t('backToHome')}
+            <Home /> {t('backToHome')}
           </button>
         </div>
       </header>
 
       <div className="toolbar">
         <button className="btn btn-primary" onClick={() => setIsRadarChartOpen(true)}>
-          📊 {t('radarChart')}
+          <BarChart3 /> {t('radarChart')}
         </button>
         <button className="btn btn-primary" onClick={handleExportImage}>
-          📷 {t('exportJPEG')}
+          <Camera /> {t('exportJPEG')}
         </button>
         <button className="btn btn-primary" onClick={() => setShowPDFConfig(true)}>
-          📄 {t('generatePDF')}
+          <FileText /> {t('generatePDF')}
         </button>
         <button className="btn btn-secondary" onClick={handleExportJSON}>
-          💾 {t('exportJSON')}
+          <Save /> {t('exportJSON')}
         </button>
         <label className="btn btn-secondary">
-          📥 {t('importJSON')}
+          <Download /> {t('importJSON')}
           <input
             type="file"
             accept=".json"
@@ -397,7 +397,7 @@ export default function App() {
         </label>
         {commentCount > 0 && (
           <button className="btn btn-danger" onClick={handleClearAll}>
-            🗑️ {t('clearAll')}
+            <Trash2 /> {t('clearAll')}
           </button>
         )}
       </div>
