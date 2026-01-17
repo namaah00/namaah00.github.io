@@ -38,12 +38,14 @@ export const translations = {
     pdfGenerateButton: 'Generuj PDF',
     pdfCancelButton: 'Anuluj',
     pdfValidationError: 'Proszę wypełnić wszystkie pola',
+    pdfPrimaryElement: 'Element nadrzędny',
+    pdfSecondaryElement: 'Element podrzędny',
     
     // Radar Chart Dialog
     radarTitle: 'Wykres radarowy ocen',
     radarSelectPE: 'Wybierz element:',
-    radarPE001: '001 - Ocena treści',
-    radarPE002: '002 - Ocena źródła',
+    radarPE001: 'Element nadrzędny 001 - Ocena treści',
+    radarPE002: 'Element nadrzędny 002 - Ocena źródła',
     radarExportPNG: 'Eksport PNG',
     radarClose: 'Zamknij',
     radarNoData: 'Brak kompletnych danych',
@@ -388,12 +390,14 @@ export const translations = {
     pdfGenerateButton: 'Generate PDF',
     pdfCancelButton: 'Cancel',
     pdfValidationError: 'Please fill in all fields',
+    pdfPrimaryElement: 'Primary Element',
+    pdfSecondaryElement: 'Secondary Element',
     
     // Radar Chart Dialog
     radarTitle: 'Radar Chart of Ratings',
     radarSelectPE: 'Select element:',
-    radarPE001: '001 - Content Assessment',
-    radarPE002: '002 - Source Assessment',
+    radarPE001: 'Primary Element 001 - Content Assessment',
+    radarPE002: 'Primary Element 002 - Source Assessment',
     radarExportPNG: 'Export PNG',
     radarClose: 'Close',
     radarNoData: 'Incomplete data',
