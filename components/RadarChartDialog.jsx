@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Camera } from 'lucide-react';
+import { Camera, BarChart3, AlertTriangle } from 'lucide-react';
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from 'recharts';
 import html2canvas from 'html2canvas';
 import { translations } from './translations.js';
@@ -76,7 +76,7 @@ export default function RadarChartDialog({ isOpen, onClose, language, ratings, s
     <div className="dialog-backdrop">
       <div className="dialog radar-chart-dialog">
         <div className="dialog-header">
-          <h3>📊 {t('radarTitle')}</h3>
+          <h3><BarChart3 size={20} style={{ verticalAlign: 'middle', marginRight: '8px' }} />{t('radarTitle')}</h3>
           <button className="close-btn" onClick={onClose}>×</button>
         </div>
 
@@ -103,7 +103,9 @@ export default function RadarChartDialog({ isOpen, onClose, language, ratings, s
 
           {!complete && (
             <div className="radar-no-data">
-              <div className="radar-no-data-icon">⚠️</div>
+              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}>
+                <AlertTriangle size={48} color="#f59e0b" />
+              </div>
               <h4>{t('radarNoData')}</h4>
               <p>{t('radarNoDataDesc')}</p>
               <div className="radar-missing-list">
