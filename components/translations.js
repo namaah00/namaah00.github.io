@@ -297,6 +297,19 @@ export const translations = {
     helpUsageEditStep2: 'W oknie dialogowym możesz zmienić tytuł i treść',
     helpUsageEditStep3: 'Użyj przycisku "Usuń" aby usunąć komentarz',
     
+    helpUsageRating: 'System ocen',
+    helpUsageRatingStep1: 'Kliknij ikonę gwiazdki (★) przy dowolnym Elemencie podrzędnym w Warstwie I',
+    helpUsageRatingStep2: 'Każdy Element podrzędny ma indywidualną ocenę',
+    helpUsageRatingStep3: 'Element podrzędny z oceną wyświetla ikonę gwiazdki w kolorze odpowiadającym poziomowi',
+    helpUsageRatingNote: 'System ocen pozwala szybko oznaczyć problematyczne obszary bez tworzenia pełnego komentarza',
+    
+    helpUsageRadar: 'Wykres radarowy',
+    helpUsageRadarStep1: 'Kliknij przycisk "Wykres radarowy" w górnym menu',
+    helpUsageRadarStep2: 'Wybierz Element nadrzędny (PE), dla którego chcesz zobaczyć wykres',
+    helpUsageRadarStep3: 'Wykres wygeneruje się tylko gdy wszystkie Elementy podrzędne w danym Elemencie nadrzędnym mają oceny',
+    helpUsageRadarStep4: 'Możesz eksportować wykres jako PNG',
+    helpUsageRadarNote: 'Wykres radarowy pomaga wizualnie zidentyfikować najbardziej problematyczne obszary analizy',
+    
     helpUsagePDF: 'Eksport do PDF',
     helpUsagePDFStep1: 'Kliknij przycisk "Generuj PDF"',
     helpUsagePDFStep2: 'Aplikacja wygeneruje raport z wszystkimi komentarzami',
@@ -571,12 +584,12 @@ export const translations = {
     helpClose: 'Close',
     
     // Help Sections
-    helpIntroTitle: 'Wprowadzenie',
-    helpL1Title: 'Warstwa I - Jakość Informacji',
-    helpL2Title: 'Warstwa II - Szersze tło',
-    helpL3Title: 'Warstwa III - Zestawienie źródeł',
-    helpUsageTitle: 'Funkcje aplikacji',
-    helpTipsTitle: 'Wskazówki',
+    helpIntroTitle: 'Introduction',
+    helpL1Title: 'Layer I - Information Quality',
+    helpL2Title: 'Layer II - Broader Context',
+    helpL3Title: 'Layer III - Source Comparison',
+    helpUsageTitle: 'Application Features',
+    helpTipsTitle: 'Tips',
     
     // Help Content - Intro
     helpIntroHeading: 'Cybersecurity Tactics and Techniques Analysis System',
@@ -654,7 +667,20 @@ export const translations = {
     helpUsageEditStep2: 'In the dialog you can change title and content',
     helpUsageEditStep3: 'Use "Delete" button to remove comment',
     
-    helpUsagePDF: 'Export to PDF',
+    helpUsageRating: 'Rating System',
+    helpUsageRatingStep1: 'Click the star icon (★) next to any Secondary Element in Layer I',
+    helpUsageRatingStep2: 'Each Secondary Element has an individual rating',
+    helpUsageRatingStep3: 'Secondary Element with a rating displays a star icon in a color corresponding to the level',
+    helpUsageRatingNote: 'The rating system allows you to quickly mark problematic areas without creating a full comment',
+    
+    helpUsageRadar: 'Radar Chart',
+    helpUsageRadarStep1: 'Click the "Radar Chart" button in the top menu',
+    helpUsageRadarStep2: 'Select the Primary Element (PE) for which you want to see the chart',
+    helpUsageRadarStep3: 'The chart will only generate when all Secondary Elements in the given Primary Element have ratings',
+    helpUsageRadarStep4: 'You can export the chart as PNG',
+    helpUsageRadarNote: 'The radar chart helps visually identify the most problematic areas of analysis',
+    
+    helpUsagePDF: 'PDF Export',
     helpUsagePDFStep1: 'Click "Generate PDF" button',
     helpUsagePDFStep2: 'Application will generate report with all comments',
     helpUsagePDFStep3: 'PDF contains:',

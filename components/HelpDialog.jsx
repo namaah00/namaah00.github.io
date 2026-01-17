@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { BookOpen, Settings, Lightbulb, HelpCircle, Check } from 'lucide-react';
+import { HelpCircle, Check } from 'lucide-react';
 import { translations } from './translations.js';
 import { getSEName } from './matrixData.js';
 
@@ -41,14 +41,14 @@ export default function HelpDialog({ isOpen, onClose, language }) {
       title: t('helpIntroTitle'),
       content: (
         <div>
-          <h4>{t('helpIntroHeading')}</h4>
+          <h4 style={{ fontWeight: 'bold' }}>{t('helpIntroHeading')}</h4>
           <p>{t('helpIntroDesc')}</p>
           <ul>
-            <li><strong>Warstwa I:</strong> {t('helpIntroL1')}</li>
-            <li><strong>Warstwa II:</strong> {t('helpIntroL2')}</li>
-            <li><strong>Warstwa III:</strong> {t('helpIntroL3')}</li>
+            <li>Warstwa I: {t('helpIntroL1')}</li>
+            <li>Warstwa II: {t('helpIntroL2')}</li>
+            <li>Warstwa III: {t('helpIntroL3')}</li>
           </ul>
-          <h4>{t('helpHowToUse')}</h4>
+          <h4 style={{ fontWeight: 'bold' }}>{t('helpHowToUse')}</h4>
           <ol>
             <li>{t('helpStep1')}</li>
             <li>{t('helpStep2')}</li>
@@ -56,7 +56,7 @@ export default function HelpDialog({ isOpen, onClose, language }) {
             <li>{t('helpStep4')}</li>
             <li>{t('helpStep5')}</li>
           </ol>
-          <p><strong>{t('note')}:</strong> {t('helpNote')}</p>
+          <p>{t('note')}: {t('helpNote')}</p>
         </div>
       )
     },
@@ -140,31 +140,43 @@ export default function HelpDialog({ isOpen, onClose, language }) {
       title: t('helpUsageTitle'),
       content: (
         <div>
-          <h4>{t('helpUsageAddComments')}</h4>
+          <h4 style={{ fontWeight: 'bold' }}>{t('helpUsageAddComments')}</h4>
           <ol>
             <li>{t('helpUsageAddStep1')}</li>
             <li>{t('helpUsageAddStep2')}</li>
             <li>{t('helpUsageAddStep3')}
               <ul>
-                <li><strong>{t('titleLabel')}:</strong> {t('helpUsageAddTitle')}</li>
-                <li><strong>{t('contentLabel')}:</strong> {t('helpUsageAddContent')}</li>
-                <li><strong>{t('imageLabel')}:</strong> {t('helpUsageAddImage')}</li>
+                <li>{t('titleLabel')}: {t('helpUsageAddTitle')}</li>
+                <li>{t('contentLabel')}: {t('helpUsageAddContent')}</li>
+                <li>{t('imageLabel')}: {t('helpUsageAddImage')}</li>
               </ul>
             </li>
             <li>{t('helpUsageAddStep4')}</li>
           </ol>
-          <p style={{ fontSize: '0.9em', fontStyle: 'italic', color: '#667eea', marginTop: '10px' }}>
-            <Lightbulb size={14} style={{ verticalAlign: 'middle', marginRight: '4px' }} /> {t('helpUsageImageNote')}
-          </p>
 
-          <h4>{t('helpUsageEdit')}</h4>
+          <h4 style={{ fontWeight: 'bold' }}>{t('helpUsageEdit')}</h4>
           <ul>
             <li>{t('helpUsageEditStep1')}</li>
             <li>{t('helpUsageEditStep2')}</li>
             <li>{t('helpUsageEditStep3')}</li>
           </ul>
 
-          <h4>{t('helpUsagePDF')}</h4>
+          <h4 style={{ fontWeight: 'bold' }}>{t('helpUsageRating')}</h4>
+          <ol>
+            <li>{t('helpUsageRatingStep1')}</li>
+            <li>{t('helpUsageRatingStep2')}</li>
+            <li>{t('helpUsageRatingStep3')}</li>
+          </ol>
+
+          <h4 style={{ fontWeight: 'bold' }}>{t('helpUsageRadar')}</h4>
+          <ol>
+            <li>{t('helpUsageRadarStep1')}</li>
+            <li>{t('helpUsageRadarStep2')}</li>
+            <li>{t('helpUsageRadarStep3')}</li>
+            <li>{t('helpUsageRadarStep4')}</li>
+          </ol>
+
+          <h4 style={{ fontWeight: 'bold' }}>{t('helpUsagePDF')}</h4>
           <ol>
             <li>{t('helpUsagePDFStep1')}</li>
             <li>{t('helpUsagePDFStep2')}</li>
@@ -178,21 +190,21 @@ export default function HelpDialog({ isOpen, onClose, language }) {
             </li>
           </ol>
 
-          <h4>{t('helpUsageJSON')}</h4>
-          <p><strong>{t('helpUsageJSONExport')}</strong></p>
+          <h4 style={{ fontWeight: 'bold' }}>{t('helpUsageJSON')}</h4>
+          <p>{t('helpUsageJSONExport')}</p>
           <ol>
             <li>{t('helpUsageJSONExportStep1')}</li>
             <li>{t('helpUsageJSONExportStep2')}</li>
           </ol>
           
-          <p><strong>{t('helpUsageJSONImport')}</strong></p>
+          <p>{t('helpUsageJSONImport')}</p>
           <ol>
             <li>{t('helpUsageJSONImportStep1')}</li>
             <li>{t('helpUsageJSONImportStep2')}</li>
             <li>{t('helpUsageJSONImportStep3')}</li>
           </ol>
 
-          <h4>{t('helpUsageClear')}</h4>
+          <h4 style={{ fontWeight: 'bold' }}>{t('helpUsageClear')}</h4>
           <ul>
             <li>{t('helpUsageClearDesc')}</li>
             <li>{t('helpUsageClearConfirm')}</li>
@@ -204,22 +216,22 @@ export default function HelpDialog({ isOpen, onClose, language }) {
       title: t('helpTipsTitle'),
       content: (
         <div>
-          <h4>{t('helpTipsAnalysis')}</h4>
+          <h4 style={{ fontWeight: 'bold' }}>{t('helpTipsAnalysis')}</h4>
           <ul>
-            <li><strong>Warstwa I:</strong> {t('helpTipsAnalysisL1')}</li>
-            <li><strong>Warstwa II:</strong> {t('helpTipsAnalysisL2')}</li>
-            <li><strong>Warstwa III:</strong> {t('helpTipsAnalysisL3')}</li>
+            <li>Warstwa I: {t('helpTipsAnalysisL1')}</li>
+            <li>Warstwa II: {t('helpTipsAnalysisL2')}</li>
+            <li>Warstwa III: {t('helpTipsAnalysisL3')}</li>
           </ul>
 
-          <h4>{t('helpTipsComments')}</h4>
+          <h4 style={{ fontWeight: 'bold' }}>{t('helpTipsComments')}</h4>
           <ul>
-            <li><strong>{t('titleLabel')}:</strong> {t('helpTipsCommentsTitle')}</li>
-            <li><strong>{t('contentLabel')}:</strong> {t('helpTipsCommentsContent')}</li>
+            <li>{t('titleLabel')}: {t('helpTipsCommentsTitle')}</li>
+            <li>{t('contentLabel')}: {t('helpTipsCommentsContent')}</li>
             <li>{t('helpTipsCommentsCite')}</li>
             <li>{t('helpTipsCommentsDate')}</li>
           </ul>
 
-          <h4>{t('helpTipsOrganization')}</h4>
+          <h4 style={{ fontWeight: 'bold' }}>{t('helpTipsOrganization')}</h4>
           <ul>
             <li>{t('helpTipsOrgBackup')}</li>
             <li>{t('helpTipsOrgNaming')}</li>
@@ -227,18 +239,18 @@ export default function HelpDialog({ isOpen, onClose, language }) {
             <li>{t('helpTipsOrgFiles')}</li>
           </ul>
 
-          <h4>{t('helpTipsBestPractices')}</h4>
+          <h4 style={{ fontWeight: 'bold' }}>{t('helpTipsBestPractices')}</h4>
           <ul>
-            <li><strong>{t('objectivity')}:</strong> {t('helpTipsBPObjectivity')}</li>
-            <li><strong>{t('verification')}:</strong> {t('helpTipsBPVerification')}</li>
-            <li><strong>{t('documentation')}:</strong> {t('helpTipsBPDocumentation')}</li>
-            <li><strong>{t('regularity')}:</strong> {t('helpTipsBPRegularity')}</li>
+            <li>{t('objectivity')}: {t('helpTipsBPObjectivity')}</li>
+            <li>{t('verification')}: {t('helpTipsBPVerification')}</li>
+            <li>{t('documentation')}: {t('helpTipsBPDocumentation')}</li>
+            <li>{t('regularity')}: {t('helpTipsBPRegularity')}</li>
           </ul>
 
-          <h4>{t('helpTipsShortcuts')}</h4>
+          <h4 style={{ fontWeight: 'bold' }}>{t('helpTipsShortcuts')}</h4>
           <ul>
-            <li><strong>ESC:</strong> {t('helpTipsShortcutsESC')}</li>
-            <li><strong>{t('click')}:</strong> {t('helpTipsShortcutsClick')}</li>
+            <li>ESC: {t('helpTipsShortcutsESC')}</li>
+            <li>{t('click')}: {t('helpTipsShortcutsClick')}</li>
           </ul>
         </div>
       )
