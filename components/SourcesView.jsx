@@ -11,7 +11,9 @@ export default function SourcesView({ sources, comments, onAddSource, onDeleteSo
   // Elementy podrzędne dla każdego źródła (stałe)
   const SE_ITEMS = [
     { id: 1, key: 'se004_1' },
-    { id: 2, key: 'se004_2' }
+    { id: 2, key: 'se004_2' },
+    { id: 3, key: 'se004_3' },
+    { id: 4, key: 'se004_4' }
   ];
 
   const t = (key) => getTranslation(language, key);

@@ -19,10 +19,10 @@ body {
 
 /* Header */
 .header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #667eea;
   color: white;
   padding: 0.75rem 2rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -55,9 +55,9 @@ body {
 }
 
 .comment-count {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.15);
   padding: 0.4rem 0.9rem;
-  border-radius: 20px;
+  border-radius: 4px;
   font-size: 0.85rem;
   white-space: nowrap;
 }
@@ -76,11 +76,11 @@ body {
 .btn {
   padding: 0.65rem 1.25rem;
   border: none;
-  border-radius: 6px;
+  border-radius: 4px;
   font-size: 0.95rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.15s;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -93,8 +93,6 @@ body {
 
 .btn-primary:hover {
   background: #5568d3;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
 }
 
 .btn-secondary {
@@ -168,9 +166,9 @@ body {
 /* Layer */
 .layer {
   background: white;
-  border-radius: 12px;
+  border-radius: 6px;
   padding: 1.5rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 .layer-header {
@@ -209,10 +207,10 @@ body {
 /* Element Card */
 .element-card {
   background: #f8f9fa;
-  border: 2px solid #e0e0e0;
-  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
   padding: 1rem;
-  transition: all 0.2s;
+  transition: all 0.15s;
   position: relative;
   min-height: 80px;
   display: flex;
@@ -252,8 +250,7 @@ body {
 
 .element-card.secondary:hover {
   border-color: #667eea;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+  box-shadow: 0 2px 6px rgba(102, 126, 234, 0.1);
 }
 
 .element-card.has-comment {
@@ -299,14 +296,13 @@ body {
   color: #999;
   font-weight: 300;
   opacity: 0.5;
-  transition: all 0.2s;
+  transition: opacity 0.15s;
   margin-left: 0.5rem;
 }
 
 .element-card.secondary:hover .add-comment-hint {
   opacity: 1;
   color: #667eea;
-  transform: scale(1.2);
 }
 
 /* Element Header Row - nagłówek z przyciskami */
@@ -533,10 +529,9 @@ body {
   background: #fbbf24;
   color: #78350f;
   padding: 0.3rem 0.6rem;
-  border-radius: 12px;
+  border-radius: 4px;
   font-size: 0.8rem;
   font-weight: 600;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   white-space: nowrap;
   flex-shrink: 0;
 }
@@ -561,7 +556,7 @@ body {
   width: 2rem;
   height: 2rem;
   border: none;
-  border-radius: 50%;
+  border-radius: 4px;
   background: white;
   color: #667eea;
   font-size: 1.1rem;
@@ -569,13 +564,13 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-  transition: all 0.2s;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  transition: all 0.15s;
 }
 
 .action-btn:hover {
-  transform: scale(1.15);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  transform: scale(1.05);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 .action-btn.rating-btn {
@@ -1406,10 +1401,10 @@ select.rating-select option {
 }
 
 .landing-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #667eea;
   color: white;
   padding: 1.5rem 2rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -1480,11 +1475,11 @@ select.rating-select option {
 
 .landing-card {
   background: white;
-  border: 2px solid #e0e0e0;
-  border-radius: 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
   padding: 2.5rem;
   text-align: center;
-  transition: all 0.3s;
+  transition: all 0.2s;
   cursor: pointer;
   display: flex;
   flex-direction: column;
@@ -1497,14 +1492,13 @@ select.rating-select option {
 }
 
 .landing-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 24px rgba(102, 126, 234, 0.2);
   border-color: #667eea;
+  box-shadow: 0 3px 10px rgba(102, 126, 234, 0.15);
 }
 
 .dark .landing-card:hover {
   border-color: #8b7dd8;
-  box-shadow: 0 12px 24px rgba(139, 125, 216, 0.2);
+  box-shadow: 0 3px 10px rgba(139, 125, 216, 0.15);
 }
 
 .landing-import {
@@ -1516,7 +1510,7 @@ select.rating-select option {
 .landing-import.drag-active {
   border-color: #667eea;
   background: #f0f4ff;
-  border-width: 3px;
+  border-width: 2px;
 }
 
 .dark .landing-import.drag-active {
@@ -1537,27 +1531,27 @@ select.rating-select option {
 }
 
 .landing-card-icon {
-  width: 80px;
-  height: 80px;
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2.5rem;
+  font-size: 2.25rem;
   margin-bottom: 1.5rem;
-  transition: transform 0.3s;
+  transition: transform 0.2s;
 }
 
 .landing-card:hover .landing-card-icon {
-  transform: scale(1.1);
+  transform: scale(1.05);
 }
 
 .landing-card-icon-blue {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #667eea;
 }
 
 .landing-card-icon-green {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  background: #10b981;
 }
 
 .landing-card h3 {
@@ -2012,6 +2006,177 @@ select.rating-select option {
 
 .dark .help-se-item p {
   color: #a3a3a3;
+}
+
+/* ===== SOURCES VIEW ===== */
+.sources-container {
+  padding: 2rem;
+}
+
+.sources-header {
+  margin-bottom: 2rem;
+}
+
+.no-sources-message {
+  text-align: center;
+  padding: 3rem 2rem;
+  color: #999;
+  font-style: italic;
+}
+
+.sources-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.source-card {
+  background: white;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.source-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #667eea;
+}
+
+.source-title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 1;
+}
+
+.source-id {
+  background: #667eea;
+  color: white;
+  padding: 0.35rem 0.75rem;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.source-title {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.source-delete-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  transition: all 0.15s;
+}
+
+.source-delete-btn:hover {
+  background: #fee;
+  transform: scale(1.1);
+}
+
+.source-elements {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.source-element {
+  background: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 1rem;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.source-element:hover {
+  border-color: #667eea;
+  box-shadow: 0 2px 6px rgba(102, 126, 234, 0.1);
+}
+
+.source-element.has-comment {
+  background: #f0f4ff;
+  border-color: #667eea;
+}
+
+.source-element-id {
+  font-weight: 600;
+  color: #667eea;
+  font-size: 0.95rem;
+}
+
+.source-element-name {
+  color: #555;
+  font-size: 0.95rem;
+  margin-top: 0.25rem;
+}
+
+/* Dark mode - Sources View */
+.dark .sources-container {
+  background: #1a1a1a;
+}
+
+.dark .no-sources-message {
+  color: #666;
+}
+
+.dark .source-card {
+  background: #262626;
+  border-color: #404040;
+}
+
+.dark .source-header {
+  border-bottom-color: #8b7dd8;
+}
+
+.dark .source-id {
+  background: #8b7dd8;
+}
+
+.dark .source-title {
+  color: #e5e5e5;
+}
+
+.dark .source-delete-btn:hover {
+  background: #3d1a1a;
+}
+
+.dark .source-element {
+  background: #2a2a2a;
+  border-color: #404040;
+}
+
+.dark .source-element:hover {
+  border-color: #8b7dd8;
+  box-shadow: 0 2px 6px rgba(139, 125, 216, 0.2);
+}
+
+.dark .source-element.has-comment {
+  background: #2d2640;
+  border-color: #8b7dd8;
+}
+
+.dark .source-element-id {
+  color: #8b7dd8;
+}
+
+.dark .source-element-name {
+  color: #d4d4d4;
 }
 
 /* ===== PDF CONFIG DIALOG ===== */
