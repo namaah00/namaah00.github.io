@@ -2,6 +2,7 @@ import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import React from 'react';
 import { getSEName, getLayerName, getRatingDescription, getPEName } from './matrixData.js';
+import { translations } from './translations.js';
 
 /**
  * Generuje raport PDF z komentarzami
@@ -10,7 +11,6 @@ import { getSEName, getLayerName, getRatingDescription, getPEName } from './matr
  * @param {Array} params.sources - Lista źródeł
  * @param {Object} params.MATRIX_DATA - Dane matrycy
  * @param {string} params.language - Język ('pl' lub 'en')
- * @param {Function} params.t - Funkcja tłumaczenia
  * @param {string} params.title - Tytuł raportu (opcjonalny)
  * @param {string} params.author - Autor raportu (opcjonalny)
  */
@@ -19,13 +19,26 @@ export const generatePDF = async ({
   sources,
   MATRIX_DATA,
   language,
-  t,
   title = '',
   author = ''
 }) => {
   console.log('=== PDF GENERATION STARTED ===');
   console.log('Comments:', comments);
   console.log('Language:', language);
+  
+  // Lokalna funkcja tłumaczenia - używa zaimportowanego translations
+  const t = (key) => translations[language][key] || key;
+  
+  // Funkcja konwertująca polskie znaki na bezpieczne odpowiedniki dla jsPDF
+  const encodeText = (text) => {
+    if (!text) return '';
+    // Mapa polskich znaków - jsPDF standard fonts nie obsługują UTF-8
+    const polishChars = {
+      'ą': 'a', 'ć': 'c', 'ę': 'e', 'ł': 'l', 'ń': 'n', 'ó': 'o', 'ś': 's', 'ź': 'z', 'ż': 'z',
+      'Ą': 'A', 'Ć': 'C', 'Ę': 'E', 'Ł': 'L', 'Ń': 'N', 'Ó': 'O', 'Ś': 'S', 'Ź': 'Z', 'Ż': 'Z'
+    };
+    return text.split('').map(char => polishChars[char] || char).join('');
+  };
   
   const pdf = new jsPDF('p', 'mm', 'a4');
   const pageWidth = pdf.internal.pageSize.getWidth();
@@ -34,26 +47,14 @@ export const generatePDF = async ({
   const contentWidth = pageWidth - 2 * margin;
   let yPosition = margin;
 
-  // === FUNKCJE POMOCNICZE ===
-  
-  // Funkcja konwertująca tekst z polskimi znakami
-  const encodeText = (text) => {
-    if (!text) return '';
-    // Mapa polskich znaków na bezpieczne odpowiedniki
-    const polishChars = {
-      'ą': 'a', 'ć': 'c', 'ę': 'e', 'ł': 'l', 'ń': 'n', 'ó': 'o', 'ś': 's', 'ź': 'z', 'ż': 'z',
-      'Ą': 'A', 'Ć': 'C', 'Ę': 'E', 'Ł': 'L', 'Ń': 'N', 'Ó': 'O', 'Ś': 'S', 'Ź': 'Z', 'Ż': 'Z'
-    };
-    return text.split('').map(char => polishChars[char] || char).join('');
-  };
-
   // === JEŚLI PODANO TYTUŁ I AUTORA - STRONA TYTUŁOWA ===
   if (title && author) {
     // Tytuł raportu
     pdf.setTextColor(0, 0, 0);
     pdf.setFontSize(24);
     pdf.setFont('helvetica', 'bold');
-    const titleLines = pdf.splitTextToSize(encodeText(title), pageWidth - 40);
+    const encodedTitle = encodeText(title); // Koduj tytuł
+    const titleLines = pdf.splitTextToSize(encodedTitle, pageWidth - 40);
     let titleY = 40;
     titleLines.forEach(line => {
       pdf.text(line, pageWidth / 2, titleY, { align: 'center' });
@@ -71,7 +72,7 @@ export const generatePDF = async ({
     pdf.setFont('helvetica', 'bold');
     pdf.text(encodeText(language === 'pl' ? 'Autor:' : 'Author:'), pageWidth / 2, titleY + 25, { align: 'center' });
     pdf.setFont('helvetica', 'normal');
-    pdf.text(encodeText(author), pageWidth / 2, titleY + 33, { align: 'center' });
+    pdf.text(encodeText(author), pageWidth / 2, titleY + 33, { align: 'center' }); // Koduj autora
     
     // Data generowania
     pdf.setFontSize(11);
@@ -84,7 +85,7 @@ export const generatePDF = async ({
       hour: '2-digit',
       minute: '2-digit'
     });
-    pdf.text(encodeText(titleDateStr), pageWidth / 2, titleY + 45, { align: 'center' });
+    pdf.text(encodeText(titleDateStr), pageWidth / 2, titleY + 45, { align: 'center' }); // Koduj datę
     
     // Model info
     pdf.setFontSize(10);
@@ -97,10 +98,11 @@ export const generatePDF = async ({
     // Liczba komentarzy (metryki)
     pdf.setFontSize(12);
     pdf.setTextColor(0, 0, 0);
-    const commentsText = `${t('comments')}: ${Object.keys(comments).length}`;
-    const sourcesText = language === 'pl' ? `Zrodla: ${sources.length}` : `Sources: ${sources.length}`;
-    pdf.text(encodeText(commentsText), pageWidth / 2 - 30, titleY + 70, { align: 'left' });
-    pdf.text(encodeText(sourcesText), pageWidth / 2 + 10, titleY + 70, { align: 'left' });
+    const commentsCount = Object.keys(comments).length;
+    const commentsText = `${encodeText(t('comments'))}: ${commentsCount}`;
+    const sourcesText = `${encodeText(language === 'pl' ? 'Źródła' : 'Sources')}: ${sources.length}`;
+    pdf.text(commentsText, pageWidth / 2 - 30, titleY + 70, { align: 'left' });
+    pdf.text(sourcesText, pageWidth / 2 + 10, titleY + 70, { align: 'left' });
     
     // Resetuj kolor tekstu
     pdf.setTextColor(0, 0, 0);
@@ -343,22 +345,28 @@ export const generatePDF = async ({
   // Funkcja renderująca pojedynczy komentarz
   const renderComment = async (item, indentLevel = 5) => {
     const indent = margin + indentLevel;
-    const seDisplayName = `${t('pdfSecondaryElement')} ${item.seId} - ${item.seName}`;
+    const seDisplayName = `${encodeText(t('pdfSecondaryElement'))} ${item.seId} - ${encodeText(item.seName)}`; // Koduj WSZYSTKO
     
     checkPageBreak(20);
 
-    // ID i nazwa elementu
+    // ID i nazwa elementu - użyj splitTextToSize na wypadek długich nazw
     pdf.setFontSize(11);
     pdf.setFont('helvetica', 'bold');
-    pdf.text(encodeText(seDisplayName), indent, yPosition);
-    yPosition += 6;
+    const splitSeName = pdf.splitTextToSize(seDisplayName, contentWidth - indentLevel);
+    for (let line of splitSeName) {
+      checkPageBreak(6);
+      pdf.text(line, indent, yPosition);
+      yPosition += 6;
+    }
 
     // Ocena (jeśli istnieje)
     if (item.comment.rating !== null && item.comment.rating !== undefined) {
       pdf.setFontSize(9);
       pdf.setFont('helvetica', 'bold');
-      const ratingText = `${t('ratingLabel')}: ${item.comment.rating}/5 - ${getRatingDescription(item.seId, item.comment.rating, language)}`;
-      const splitRating = pdf.splitTextToSize(encodeText(ratingText), contentWidth - indentLevel - 10);
+      const ratingLabel = encodeText(t('ratingLabel'));
+      const ratingDesc = encodeText(getRatingDescription(item.seId, item.comment.rating, language)); // Koduj też opis
+      const ratingText = `${ratingLabel}: ${item.comment.rating}/5 - ${ratingDesc}`;
+      const splitRating = pdf.splitTextToSize(ratingText, contentWidth - indentLevel - 10);
       for (let i = 0; i < splitRating.length; i++) {
         checkPageBreak(5);
         pdf.text(splitRating[i], indent + 5, yPosition);
@@ -371,16 +379,22 @@ export const generatePDF = async ({
     if (item.comment.title) {
       pdf.setFontSize(9);
       pdf.setFont('helvetica', 'bold');
-      const titleText = `${t('titleLabel')}: ${item.comment.title}`;
-      pdf.text(encodeText(titleText), indent + 5, yPosition);
-      yPosition += 5;
+      const titleLabel = encodeText(t('titleLabel'));
+      const titleText = `${titleLabel}: ${encodeText(item.comment.title)}`; // Koduj WSZYSTKO
+      const splitTitle = pdf.splitTextToSize(titleText, contentWidth - indentLevel - 10);
+      for (let line of splitTitle) {
+        checkPageBreak(5);
+        pdf.text(line, indent + 5, yPosition);
+        yPosition += 5;
+      }
     }
 
     // Treść komentarza (tylko jeśli istnieje)
     if (item.comment.content) {
       pdf.setFont('helvetica', 'normal');
-      const contentText = `${t('contentLabel')}: ${item.comment.content}`;
-      const splitContent = pdf.splitTextToSize(encodeText(contentText), contentWidth - indentLevel - 10);
+      const contentLabel = encodeText(t('contentLabel'));
+      const contentText = `${contentLabel}: ${encodeText(item.comment.content)}`; // Koduj WSZYSTKO
+      const splitContent = pdf.splitTextToSize(contentText, contentWidth - indentLevel - 10);
       
       for (let i = 0; i < splitContent.length; i++) {
         checkPageBreak(5);
@@ -394,8 +408,8 @@ export const generatePDF = async ({
       yPosition += 3;
       pdf.setFontSize(9);
       pdf.setFont('helvetica', 'bold');
-      const imagesText = language === 'pl' ? 'Obrazy' : 'Images';
-      pdf.text(encodeText(imagesText) + ':', indent + 5, yPosition);
+      const imagesText = encodeText(language === 'pl' ? 'Obrazy' : 'Images');
+      pdf.text(imagesText + ':', indent + 5, yPosition);
       yPosition += 5;
 
       for (const img of item.comment.images) {
@@ -411,13 +425,14 @@ export const generatePDF = async ({
           
           pdf.setFontSize(8);
           pdf.setFont('helvetica', 'italic');
-          pdf.text(encodeText(img.name), indent + 5, yPosition);
+          pdf.text(encodeText(img.name), indent + 5, yPosition); // Koduj nazwę pliku
           yPosition += 5;
         } catch (imgErr) {
           console.error('Error adding image to PDF:', imgErr);
           pdf.setFontSize(8);
           pdf.setFont('helvetica', 'italic');
-          pdf.text(encodeText('[Błąd wczytywania obrazu: ' + img.name + ']'), indent + 5, yPosition);
+          const errorMsg = `[${encodeText(language === 'pl' ? 'Błąd wczytywania obrazu' : 'Error loading image')}: ${encodeText(img.name)}]`;
+          pdf.text(errorMsg, indent + 5, yPosition);
           yPosition += 5;
         }
       }
@@ -472,8 +487,8 @@ export const generatePDF = async ({
       checkPageBreak(15);
       pdf.setFontSize(14);
       pdf.setFont('helvetica', 'bold');
-      const layerName = encodeText(getLayerName(layerId, language));
-      pdf.text(layerName, margin, yPosition);
+      const layerName = getLayerName(layerId, language);
+      pdf.text(encodeText(layerName), margin, yPosition);
       yPosition += 8;
       
       // Linia pod nagłówkiem
@@ -550,8 +565,8 @@ export const generatePDF = async ({
             checkPageBreak(12);
             pdf.setFontSize(12);
             pdf.setFont('helvetica', 'bold');
-            const peName = encodeText(`${t('pdfPrimaryElement')} ${pe.id} - ${getPEName(pe.id, language)}`);
-            pdf.text(peName, margin + 3, yPosition);
+            const peName = `${t('pdfPrimaryElement')} ${pe.id} - ${getPEName(pe.id, language)}`;
+            pdf.text(encodeText(peName), margin + 3, yPosition);
             yPosition += 8;
 
             // Iteruj przez każde źródło
@@ -580,9 +595,13 @@ export const generatePDF = async ({
                 checkPageBreak(10);
                 pdf.setFontSize(11);
                 pdf.setFont('helvetica', 'bold');
-                const sourceTitle = encodeText(`${source.id} - ${source.title}`);
-                pdf.text(sourceTitle, margin + 8, yPosition);
-                yPosition += 7;
+                const sourceTitle = `${source.id} - ${encodeText(source.title)}`; // Koduj nazwę źródła
+                const splitSourceTitle = pdf.splitTextToSize(sourceTitle, contentWidth - 13); // Zawijanie tekstu
+                for (let line of splitSourceTitle) {
+                  checkPageBreak(7);
+                  pdf.text(line, margin + 8, yPosition);
+                  yPosition += 7;
+                }
 
                 // Komentarze dla SE w tym źródle
                 for (const item of sourceComments) {
@@ -615,8 +634,8 @@ export const generatePDF = async ({
             checkPageBreak(12);
             pdf.setFontSize(12);
             pdf.setFont('helvetica', 'bold');
-            const peName = encodeText(`${t('pdfPrimaryElement')} ${pe.id} - ${getPEName(pe.id, language)}`);
-            pdf.text(peName, margin + 3, yPosition);
+            const peName = `${t('pdfPrimaryElement')} ${pe.id} - ${getPEName(pe.id, language)}`;
+            pdf.text(encodeText(peName), margin + 3, yPosition);
             yPosition += 8;
 
             // Komentarze w tym PE
@@ -640,7 +659,7 @@ export const generatePDF = async ({
 
   // === NUMERACJA STRON I STOPKA ===
   const pageCount = pdf.internal.getNumberOfPages();
-  const footerTitle = title || t('pdfTitle'); // Użyj podanego tytułu lub domyślnego
+  const footerTitle = title || t('pdfTitle'); // Użyj podanego tytułu lub domyślnego (jeśli title pusty, użyj tłumaczenia)
 
   for (let i = 1; i <= pageCount; i++) {
     pdf.setPage(i);
@@ -654,18 +673,20 @@ export const generatePDF = async ({
     pdf.setFontSize(8);
     pdf.setTextColor(120, 120, 120);
     pdf.setFont('helvetica', 'italic');
-    const shortTitle = footerTitle.length > 60 ? footerTitle.substring(0, 57) + '...' : footerTitle;
-    pdf.text(encodeText(shortTitle), margin, pageHeight - 10);
+    const encodedFooterTitle = encodeText(footerTitle); // Koduj tytuł
+    const shortTitle = encodedFooterTitle.length > 60 ? encodedFooterTitle.substring(0, 57) + '...' : encodedFooterTitle;
+    pdf.text(shortTitle, margin, pageHeight - 10);
     
     // Stopka - środek (autor jeśli podano)
     if (author) {
-      pdf.text(encodeText(author), pageWidth / 2, pageHeight - 10, { align: 'center' });
+      pdf.text(encodeText(author), pageWidth / 2, pageHeight - 10, { align: 'center' }); // Koduj autora
     }
     
     // Stopka - prawa strona (numer strony)
     pdf.setFont('helvetica', 'normal');
+    const pageLabel = encodeText(language === 'pl' ? 'Strona' : 'Page');
     pdf.text(
-      `${language === 'pl' ? 'Strona' : 'Page'} ${i}/${pageCount}`, 
+      `${pageLabel} ${i}/${pageCount}`, 
       pageWidth - margin, 
       pageHeight - 10, 
       { align: 'right' }
