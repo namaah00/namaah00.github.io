@@ -26,8 +26,19 @@ export const generatePDF = async ({
   console.log('Comments:', comments);
   console.log('Language:', language);
   
+  // Zabezpieczenie - upewnij się że language jest poprawny
+  const safeLanguage = (language === 'pl' || language === 'en') ? language : 'pl';
+  console.log('Using language:', safeLanguage);
+  
   // Lokalna funkcja tłumaczenia - używa zaimportowanego translations
-  const t = (key) => translations[language][key] || key;
+  const t = (key) => {
+    const translation = translations[safeLanguage]?.[key];
+    if (!translation) {
+      console.warn(`Missing translation for key: ${key} in language: ${safeLanguage}`);
+      return key;
+    }
+    return translation;
+  };
   
   // Funkcja konwertująca polskie znaki na bezpieczne odpowiedniki dla jsPDF
   const encodeText = (text) => {
@@ -70,14 +81,14 @@ export const generatePDF = async ({
     pdf.setTextColor(0, 0, 0);
     pdf.setFontSize(14);
     pdf.setFont('helvetica', 'bold');
-    pdf.text(encodeText(language === 'pl' ? 'Autor:' : 'Author:'), pageWidth / 2, titleY + 25, { align: 'center' });
+    pdf.text(encodeText(safeLanguage === 'pl' ? 'Autor:' : 'Author:'), pageWidth / 2, titleY + 25, { align: 'center' });
     pdf.setFont('helvetica', 'normal');
     pdf.text(encodeText(author), pageWidth / 2, titleY + 33, { align: 'center' }); // Koduj autora
     
     // Data generowania
     pdf.setFontSize(11);
     pdf.setTextColor(100, 100, 100);
-    const locale = language === 'pl' ? 'pl-PL' : 'en-US';
+    const locale = safeLanguage === 'pl' ? 'pl-PL' : 'en-US';
     const titleDateStr = new Date().toLocaleDateString(locale, {
       year: 'numeric',
       month: 'long',
@@ -90,7 +101,7 @@ export const generatePDF = async ({
     // Model info
     pdf.setFontSize(10);
     pdf.setTextColor(120, 120, 120);
-    const modelText = language === 'pl' 
+    const modelText = safeLanguage === 'pl' 
       ? 'Model weryfikacji informacji OSINT' 
       : 'OSINT Information Verification Model';
     pdf.text(encodeText(modelText), pageWidth / 2, titleY + 55, { align: 'center' });
@@ -100,7 +111,7 @@ export const generatePDF = async ({
     pdf.setTextColor(0, 0, 0);
     const commentsCount = Object.keys(comments).length;
     const commentsText = `${encodeText(t('comments'))}: ${commentsCount}`;
-    const sourcesText = `${encodeText(language === 'pl' ? 'Źródła' : 'Sources')}: ${sources.length}`;
+    const sourcesText = `${encodeText(safeLanguage === 'pl' ? 'Źródła' : 'Sources')}: ${sources.length}`;
     pdf.text(commentsText, pageWidth / 2 - 30, titleY + 70, { align: 'left' });
     pdf.text(sourcesText, pageWidth / 2 + 10, titleY + 70, { align: 'left' });
     
@@ -138,18 +149,18 @@ export const generatePDF = async ({
         const chartData = [];
         const seNames = {
           '001': {
-            1: language === 'pl' ? 'Spójność\nlogiczna' : 'Logical\nConsistency',
-            2: language === 'pl' ? 'Forma\nprzekazu' : 'Message\nFormat',
-            3: language === 'pl' ? 'Transparentność' : 'Transparency',
-            4: language === 'pl' ? 'Rzetelność' : 'Reliability',
-            5: language === 'pl' ? 'Obiektywność' : 'Objectivity',
-            6: language === 'pl' ? 'Autentyczność\ncyfrowa' : 'Digital\nAuthenticity',
+            1: safeLanguage === 'pl' ? 'Spójność\\nlogiczna' : 'Logical\\nConsistency',
+            2: safeLanguage === 'pl' ? 'Forma\\nprzekazu' : 'Message\\nFormat',
+            3: safeLanguage === 'pl' ? 'Transparentność' : 'Transparency',
+            4: safeLanguage === 'pl' ? 'Rzetelność' : 'Reliability',
+            5: safeLanguage === 'pl' ? 'Obiektywność' : 'Objectivity',
+            6: safeLanguage === 'pl' ? 'Autentyczność\\ncyfrowa' : 'Digital\\nAuthenticity',
           },
           '002': {
-            1: language === 'pl' ? 'Autorytet' : 'Authority',
-            2: language === 'pl' ? 'Reputacja' : 'Reputation',
-            3: language === 'pl' ? 'Afiliacja' : 'Affiliation',
-            4: language === 'pl' ? 'Historia\nwiarygodności' : 'Credibility\nHistory',
+            1: safeLanguage === 'pl' ? 'Autorytet' : 'Authority',
+            2: safeLanguage === 'pl' ? 'Reputacja' : 'Reputation',
+            3: safeLanguage === 'pl' ? 'Afiliacja' : 'Affiliation',
+            4: safeLanguage === 'pl' ? 'Historia\\nwiarygodności' : 'Credibility\\nHistory',
           }
         };
         
@@ -316,7 +327,7 @@ export const generatePDF = async ({
   // Data generowania
   pdf.setFontSize(10);
   pdf.setFont('helvetica', 'normal');
-  const locale = language === 'pl' ? 'pl-PL' : 'en-US';
+  const locale = safeLanguage === 'pl' ? 'pl-PL' : 'en-US';
   const dateStr = `${t('pdfGenerated')}: ${new Date().toLocaleDateString(locale, {
     year: 'numeric',
     month: 'long',
@@ -408,7 +419,7 @@ export const generatePDF = async ({
       yPosition += 3;
       pdf.setFontSize(9);
       pdf.setFont('helvetica', 'bold');
-      const imagesText = encodeText(language === 'pl' ? 'Obrazy' : 'Images');
+      const imagesText = encodeText(safeLanguage === 'pl' ? 'Obrazy' : 'Images');
       pdf.text(imagesText + ':', indent + 5, yPosition);
       yPosition += 5;
 
@@ -431,7 +442,7 @@ export const generatePDF = async ({
           console.error('Error adding image to PDF:', imgErr);
           pdf.setFontSize(8);
           pdf.setFont('helvetica', 'italic');
-          const errorMsg = `[${encodeText(language === 'pl' ? 'Błąd wczytywania obrazu' : 'Error loading image')}: ${encodeText(img.name)}]`;
+          const errorMsg = `[${encodeText(safeLanguage === 'pl' ? 'Błąd wczytywania obrazu' : 'Error loading image')}: ${encodeText(img.name)}]`;
           pdf.text(errorMsg, indent + 5, yPosition);
           yPosition += 5;
         }
@@ -684,7 +695,7 @@ export const generatePDF = async ({
     
     // Stopka - prawa strona (numer strony)
     pdf.setFont('helvetica', 'normal');
-    const pageLabel = encodeText(language === 'pl' ? 'Strona' : 'Page');
+    const pageLabel = encodeText(safeLanguage === 'pl' ? 'Strona' : 'Page');
     pdf.text(
       `${pageLabel} ${i}/${pageCount}`, 
       pageWidth - margin, 
