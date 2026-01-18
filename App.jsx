@@ -8,9 +8,7 @@ import RadarChartDialog from './components/RadarChartDialog.jsx';
 import PDFConfigDialog from './components/PDFConfigDialog.jsx';
 import { translations } from './components/translations.js';
 import { MATRIX_DATA } from './components/matrixData.js';
-import { generatePDF } from './components/pdfGenerator.js';
-
-// 🆕 Nowe importy - utility functions i custom hooks
+import { generatePDF } from './components/pdf/index.js';
 import { useLanguage, useTheme, useToast, useComments, useSources } from './components/hooks.js';
 import { exportJSON, readImportFile } from './components/exportUtils.js';
 import { saveComment, deleteComment, saveRating, deleteRating, countComments } from './components/commentUtils.js';
