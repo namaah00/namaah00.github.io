@@ -10,28 +10,30 @@ import { translations } from './components/translations.js';
 import { MATRIX_DATA, getSEName, getLayerName, getRatingDescription, getPEName } from './components/matrixData.js';
 import { generatePDF } from './components/pdfGenerator.js';
 
-// Version: Separated rating system v2 + Sources + PDF L3 FIX v3 + Landing Page + Enhanced PDF
+//logika aplikacji
 export default function App() {
-  // View state: 'landing' or 'matrix'
+  //stan czy aktywny jest landing page czy matrix(domyślnie landing page)
   const [currentView, setCurrentView] = useState('landing');
 
-  // Language management
+  //stan wybiera język(domyślnie polski)
   const [language, setLanguage] = useState(() => {
     return localStorage.getItem('app-language') || 'pl';
   });
   
-  // Dark mode management
+  //stan ciemny lub jasny motyw aplikacji
   const [isDarkMode, setIsDarkMode] = useState(() => {
     return localStorage.getItem('app-theme') === 'dark';
   });
   
-  // PDF Config Dialog
+  //stan czy okno konfiguracji pdf jest otwarte
   const [showPDFConfig, setShowPDFConfig] = useState(false);
   
+  //zmiana jezyka zapisywana jest w local storage
   useEffect(() => {
     localStorage.setItem('app-language', language);
   }, [language]);
   
+  //zapisuje lub usuwa ciemny motyw
   useEffect(() => {
     localStorage.setItem('app-theme', isDarkMode ? 'dark' : 'light');
     if (isDarkMode) {
@@ -41,6 +43,7 @@ export default function App() {
     }
   }, [isDarkMode]);
   
+  //zmiana jezyka i motywu ciemnego
   const toggleLanguage = () => {
     setLanguage(prev => prev === 'pl' ? 'en' : 'pl');
   };
@@ -49,9 +52,10 @@ export default function App() {
     setIsDarkMode(prev => !prev);
   };
   
+  //pobiera tłumaczenia do odpowiedniego jezyka
   const t = (key) => translations[language][key] || key;
   
-  // Inicjalizuj komentarze z localStorage
+  //obiekt komentarzy przechowywanych w local storage
   const [comments, setComments] = useState(() => {
     try {
       const saved = localStorage.getItem('matrix-comments');
@@ -65,7 +69,7 @@ export default function App() {
     }
   });
 
-  // Inicjalizuj źródła dla PE 004 z localStorage
+  //źródła z 004 z local storage
   const [sources, setSources] = useState(() => {
     try {
       const saved = localStorage.getItem('pe004-sources');
@@ -78,18 +82,20 @@ export default function App() {
       return [];
     }
   });
-  
+  //aktualna wiadomość powiadomienia, czy dialog pomocy jest otwarty, 
+  // czy radar chart jest otwarty
   const [toast, setToast] = useState(null);
   const [isHelpOpen, setIsHelpOpen] = useState(false);
   const [isRadarChartOpen, setIsRadarChartOpen] = useState(false);
   const matrixRef = useRef(null);
 
+  //wyświetlanie powiadomienia, 3sekundy
   const showToast = (message, type = 'success') => {
     setToast({ message, type });
     setTimeout(() => setToast(null), 3000);
   };
   
-  // Zapisuj komentarze do localStorage przy każdej zmianie
+  //zapis komentarzy do localStorage przy każdej zmianie
   useEffect(() => {
     try {
       const jsonString = JSON.stringify(comments);
@@ -102,15 +108,17 @@ export default function App() {
     }
   }, [comments]);
 
-  // Zapisuj źródła do localStorage przy każdej zmianie
+  //zapis źródel  w local storage przy każdej zmianie
   useEffect(() => {
     try {
       localStorage.setItem('pe004-sources', JSON.stringify(sources));
     } catch (err) {
-      // Ignore storage errors for sources
     }
   }, [sources]);
 
+  //jesli komentarz istnieje, aktualizuje go
+  //jesli nie, tworzy nowy wpis
+  //zachowuje istniejacy rating
   const handleSaveComment = (id, title, content, images = []) => {
     setComments(prev => {
       const existingRating = prev[id]?.rating ?? null;
@@ -123,6 +131,8 @@ export default function App() {
     showToast(t('commentSaved'));
   };
 
+  //dodaje lub aktualizuje ocene
+  //jesli komentarz nie istnieje, tworzy pusty komentarz z oceną
   const handleSaveRating = (id, rating) => {
     setComments(prev => {
       const existing = prev[id] || { title: '', content: '' };
@@ -135,6 +145,7 @@ export default function App() {
     showToast(t('ratingSaved'));
   };
 
+  //usuwanie oceny, ale pozostawia tytul, treść i obrazy
   const handleDeleteRating = (id) => {
     setComments(prev => {
       if (!prev[id]) return prev;
@@ -147,6 +158,7 @@ export default function App() {
     showToast(t('ratingDeleted'));
   };
 
+  //usuwa caly komentarz
   const handleDeleteComment = (id) => {
     setComments(prev => {
       const newComments = { ...prev };
@@ -156,7 +168,8 @@ export default function App() {
     showToast(t('commentDeleted'));
   };
 
-  // Obsługa źródeł dla PE 004
+  //zarządza 004
+  //dodawanie źródeł, generuje unikalne Id
   const handleAddSource = (title) => {
     setSources(prev => {
       const nextNumber = prev.length + 1;
@@ -170,18 +183,18 @@ export default function App() {
     showToast(language === 'pl' ? 'Źródło dodane' : 'Source added');
   };
 
+  //usuwanie źrodła 
   const handleDeleteSource = (sourceId) => {
-    // Usuń źródło
     setSources(prev => {
       const filtered = prev.filter(s => s.id !== sourceId);
-      // Przenumeruj źródła
+      // Przenumeruj źródła, tak żeby numeracja się zgadzała
       return filtered.map((source, index) => ({
         ...source,
         id: `004.${index + 1}`
       }));
     });
 
-    // Usuń wszystkie komentarze powiązane ze źródłem
+    // Usuń komentarze powiazane z usuwanym źródłem
     setComments(prev => {
       const updated = { ...prev };
       Object.keys(updated).forEach(key => {
@@ -195,6 +208,7 @@ export default function App() {
     showToast(language === 'pl' ? 'Źródło usunięte' : 'Source deleted');
   };
 
+  //eksport json, tworzy plik z komentarzami i zrodlami
   const handleExportJSON = () => {
     const exportData = {
       comments: comments,
@@ -213,6 +227,7 @@ export default function App() {
     showToast(t('exportSuccess'));
   };
 
+  //import json, wczytuje plik json (obsluguje wersję ze źrodłami oraz bez)
   const handleImportJSON = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -222,12 +237,12 @@ export default function App() {
       try {
         const imported = JSON.parse(event.target.result);
         
-        // Nowy format z sources
+        //wersja formatu ze źródłami
         if (imported.version === '2.0' && imported.comments) {
           setComments(imported.comments || {});
           setSources(imported.sources || []);
         } 
-        // Stary format - tylko komentarze
+        //wcześniejszy format, same komentarze
         else {
           setComments(imported);
         }
@@ -241,6 +256,7 @@ export default function App() {
     e.target.value = '';
   };
 
+  //usuwa komentarze, zrodła i czyści local storage po potwierdzeniu od użytkownika
   const handleClearAll = () => {
     if (window.confirm(t('confirmClear'))) {
       setComments({});
@@ -251,6 +267,7 @@ export default function App() {
     }
   };
 
+  //generowanie raportu pdf (z funkcji generatePDF)
   const handleGeneratePDF = async (title = '', author = '') => {
     try {
       showToast(t('generatePDF') + '...', 'info');
@@ -273,7 +290,7 @@ export default function App() {
 
   const commentCount = Object.keys(comments).length;
 
-  // Handler for new project - clears all data and shows matrix
+  //czyści wszytskie dane i przechodzi do widoku macierzy
   const handleNewProject = () => {
     setComments({});
     setSources([]);
@@ -283,20 +300,20 @@ export default function App() {
     showToast(language === 'pl' ? 'Nowy projekt utworzony' : 'New project created');
   };
 
-  // Handler for going back to landing page
+  //powrót na Landing Page
   const handleBackToHome = () => {
     setCurrentView('landing');
   };
 
-  // Handler for import project from landing page
+  //import json z Landing Page
   const handleImportFromLanding = (data) => {
     try {
-      // New format with sources
+      //nowy format ze żródłami
       if (data.version === '2.0' && data.comments) {
         setComments(data.comments || {});
         setSources(data.sources || []);
       } 
-      // Old format - only comments
+      //stary format, same komentarze
       else {
         setComments(data);
       }
@@ -307,7 +324,7 @@ export default function App() {
     }
   };
 
-  // Show landing page
+  //widok strony startowej
   if (currentView === 'landing') {
     return (
       <LandingPage
@@ -322,7 +339,8 @@ export default function App() {
     );
   }
 
-  // Show matrix view
+  //widok strony z macierzą
+  //naglowek i przyciski
   return (
     <div className="app">
       <header className="header">
