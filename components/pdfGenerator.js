@@ -93,14 +93,6 @@ export const generatePDF = async ({
     });
     pdf.text(encodeText(titleDateStr), pageWidth / 2, titleY + 45, { align: 'center' }); // Koduj datę
     
-    // Model info
-    pdf.setFontSize(10);
-    pdf.setTextColor(120, 120, 120);
-    const modelText = safeLanguage === 'pl' 
-      ? 'Model weryfikacji informacji OSINT' 
-      : 'OSINT Information Verification Model';
-    pdf.text(encodeText(modelText), pageWidth / 2, titleY + 55, { align: 'center' });
-    
     // Liczba komentarzy (metryki)
     pdf.setFontSize(12);
     pdf.setTextColor(0, 0, 0);
@@ -144,18 +136,18 @@ export const generatePDF = async ({
         const chartData = [];
         const seNames = {
           '001': {
-            1: safeLanguage === 'pl' ? 'Spójność\\nlogiczna' : 'Logical\\nConsistency',
-            2: safeLanguage === 'pl' ? 'Forma\\nprzekazu' : 'Message\\nFormat',
-            3: safeLanguage === 'pl' ? 'Transparentność' : 'Transparency',
-            4: safeLanguage === 'pl' ? 'Rzetelność' : 'Reliability',
-            5: safeLanguage === 'pl' ? 'Obiektywność' : 'Objectivity',
-            6: safeLanguage === 'pl' ? 'Autentyczność\\ncyfrowa' : 'Digital\\nAuthenticity',
+            1: safeLanguage === 'pl' ? 'Spojnosc\nlogiczna' : 'Logical\nConsistency',
+            2: safeLanguage === 'pl' ? 'Forma\nprzekazu' : 'Message\nFormat',
+            3: safeLanguage === 'pl' ? 'Transparentnosc' : 'Transparency',
+            4: safeLanguage === 'pl' ? 'Rzetelnosc' : 'Reliability',
+            5: safeLanguage === 'pl' ? 'Obiektywnosc' : 'Objectivity',
+            6: safeLanguage === 'pl' ? 'Autentycznosc\ncyfrowa' : 'Digital\nAuthenticity',
           },
           '002': {
             1: safeLanguage === 'pl' ? 'Autorytet' : 'Authority',
             2: safeLanguage === 'pl' ? 'Reputacja' : 'Reputation',
             3: safeLanguage === 'pl' ? 'Afiliacja' : 'Affiliation',
-            4: safeLanguage === 'pl' ? 'Historia\\nwiarygodności' : 'Credibility\\nHistory',
+            4: safeLanguage === 'pl' ? 'Historia\nwiarygodnosci' : 'Credibility\nHistory',
           }
         };
         
@@ -199,10 +191,10 @@ export const generatePDF = async ({
                 width: 800, 
                 height: 750, 
                 data: chartData, 
-                margin: { top: 40, right: 80, bottom: 40, left: 80 },
+                margin: { top: 60, right: 100, bottom: 60, left: 100 },
                 cx: 400,
                 cy: 375,
-                outerRadius: 250
+                outerRadius: 230
               },
                 React.createElement(PolarGrid, { 
                   stroke: '#cbd5e1', 
@@ -308,35 +300,73 @@ export const generatePDF = async ({
     if (yPosition + requiredHeight > pageHeight - margin) {
       pdf.addPage();
       yPosition = margin;
+      
+      // Dodaj nagłówek na nowych stronach (jeśli podano tytuł i autora)
+      if (title && author) {
+        addHeader();
+      }
+      
       return true;
     }
     return false;
   };
 
-  // Nagłówek
-  pdf.setFontSize(20);
-  pdf.setFont('helvetica', 'bold');
-  pdf.text(encodeText(t('pdfTitle')), margin, yPosition);
-  yPosition += 10;
+  // Funkcja dodająca nagłówek (tytuł, autor, data)
+  const addHeader = () => {
+    pdf.setFontSize(8);
+    pdf.setTextColor(120, 120, 120);
+    pdf.setFont('helvetica', 'italic');
+    const encodedHeaderTitle = encodeText(title);
+    const shortHeaderTitle = encodedHeaderTitle.length > 60 ? encodedHeaderTitle.substring(0, 57) + '...' : encodedHeaderTitle;
+    pdf.text(shortHeaderTitle, margin, yPosition);
+    pdf.text(encodeText(author), pageWidth / 2, yPosition, { align: 'center' });
+    
+    // Data po prawej stronie - format DD.MM.YYYY
+    const currentDate2 = new Date();
+    const day2 = String(currentDate2.getDate()).padStart(2, '0');
+    const month2 = String(currentDate2.getMonth() + 1).padStart(2, '0');
+    const year2 = currentDate2.getFullYear();
+    const headerDateStr = `${day2}.${month2}.${year2}`;
+    pdf.text(encodeText(headerDateStr), pageWidth - margin, yPosition, { align: 'right' });
+    yPosition += 3;
+    
+    // Linia pozioma
+    pdf.setDrawColor(200, 200, 200);
+    pdf.setLineWidth(0.3);
+    pdf.line(margin, yPosition, pageWidth - margin, yPosition);
+    yPosition += 10;
+    pdf.setTextColor(0, 0, 0);
+  };
 
-  // Data generowania
-  pdf.setFontSize(10);
-  pdf.setFont('helvetica', 'normal');
-  const locale = safeLanguage === 'pl' ? 'pl-PL' : 'en-US';
-  const dateStr = `${t('pdfGenerated')}: ${new Date().toLocaleDateString(locale, {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit'
-  })}`;
-  pdf.text(encodeText(dateStr), margin, yPosition);
-  yPosition += 6;
+  // Nagłówek - jeśli podano tytuł i autora, użyj stopki w stylu nagłówka
+  if (title && author) {
+    addHeader();
+  } else {
+    // Standardowy nagłówek dla raportów bez tytułu
+    pdf.setFontSize(20);
+    pdf.setFont('helvetica', 'bold');
+    pdf.text(encodeText(t('pdfTitle')), margin, yPosition);
+    yPosition += 10;
+    
+    // Data generowania i liczba komentarzy tylko dla standardowego nagłówka
+    pdf.setFontSize(10);
+    pdf.setFont('helvetica', 'normal');
+    const locale = safeLanguage === 'pl' ? 'pl-PL' : 'en-US';
+    const dateStr = `${t('pdfGenerated')}: ${new Date().toLocaleDateString(locale, {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    })}`;
+    pdf.text(encodeText(dateStr), margin, yPosition);
+    yPosition += 6;
 
-  // Liczba komentarzy
-  const commentCountStr = `${t('comments')}: ${Object.keys(comments).length}`;
-  pdf.text(encodeText(commentCountStr), margin, yPosition);
-  yPosition += 15;
+    // Liczba komentarzy
+    const commentCountStr = `${t('comments')}: ${Object.keys(comments).length}`;
+    pdf.text(encodeText(commentCountStr), margin, yPosition);
+    yPosition += 15;
+  }
 
   // Funkcja sprawdzająca czy komentarz ma treść
   const hasCommentContent = (comment) => {
