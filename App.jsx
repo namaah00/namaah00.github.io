@@ -3,12 +3,14 @@ import { Sun, Moon, FileText, Save, Download, Trash2, Home, HelpCircle, BarChart
 import LandingPage from './components/LandingPage.jsx';
 import MatrixView from './components/MatrixView.jsx';
 import Toast from './components/Toast.jsx';
-import HelpDialog from './components/HelpDialog.jsx';
-import RadarChartDialog from './components/RadarChartDialog.jsx';
-import PDFConfigDialog from './components/PDFConfigDialog.jsx';
+import HelpDialog from './components/dialogs/HelpDialog.jsx';
+import RadarChartDialog from './components/dialogs/RadarChartDialog.jsx';
+import PDFConfigDialog from './components/dialogs/PDFConfigDialog.jsx';
 import { translations } from './components/translations.js';
 import { MATRIX_DATA } from './components/matrixData.js';
 import { generatePDF } from './components/pdf/index.js';
+
+// 🆕 Nowe importy - utility functions i custom hooks
 import { useLanguage, useTheme, useToast, useComments, useSources } from './components/hooks.js';
 import { exportJSON, readImportFile } from './components/utils/export.js';
 import { saveComment, deleteComment, saveRating, deleteRating, countComments } from './components/utils/comments.js';

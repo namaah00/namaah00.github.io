@@ -1,3 +1,4 @@
+/*
 import { useState, useEffect, useRef } from 'react';
 import { Save, Trash2, ImagePlus } from 'lucide-react'; //emoji z bilblioteki
 import { translations } from './translations.js'; 
@@ -222,3 +223,4 @@ export default function CommentDialog({
     </div>
   );
 }
+  */

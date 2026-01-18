@@ -1,8 +1,7 @@
-/*
 import { useState, useEffect } from 'react';
 import { Trash2 } from 'lucide-react';
-import { translations } from './translations.js';
-import { getSEName, getRatingDescription } from './matrixData.js';
+import { translations } from '../translations.js';
+import { getSEName, getRatingDescription } from '../matrixData.js';
 
 export default function RatingDialog({
   isOpen,
@@ -93,4 +92,3 @@ export default function RatingDialog({
     </div>
   );
 }
-  */

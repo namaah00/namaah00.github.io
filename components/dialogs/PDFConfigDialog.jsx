@@ -1,7 +1,6 @@
-/*
 import { useState } from 'react';
 import { FileText } from 'lucide-react';
-import { translations } from './translations.js';
+import { translations } from '../translations.js';
 
 export default function PDFConfigDialog({ isOpen, onGenerate, onClose, language }) {
   const [reportTitle, setReportTitle] = useState('');
@@ -75,4 +74,3 @@ export default function PDFConfigDialog({ isOpen, onGenerate, onClose, language 
     </div>
   );
 }
-*/

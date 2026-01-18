@@ -1,6 +1,5 @@
-/*
 import { useState } from 'react';
-import { getTranslation } from './translations.js';
+import { getTranslation } from '../translations.js';
 
 export default function SourceDialog({ onClose, onSave, language }) {
   const [sourceTitle, setSourceTitle] = useState('');
@@ -51,4 +50,3 @@ export default function SourceDialog({ onClose, onSave, language }) {
     </div>
   );
 }
-*/

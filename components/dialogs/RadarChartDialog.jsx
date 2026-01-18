@@ -1,10 +1,9 @@
-/*
 import { useState, useEffect, useRef } from 'react';
 import { Camera, BarChart3, AlertTriangle } from 'lucide-react';
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from 'recharts';
 import html2canvas from 'html2canvas';
-import { translations } from './translations.js';
-import { MATRIX_DATA } from './matrixData.js';
+import { translations } from '../translations.js';
+import { MATRIX_DATA } from '../matrixData.js';
 
 export default function RadarChartDialog({ isOpen, onClose, language, ratings, showToast }) {
   const [selectedPE, setSelectedPE] = useState('001');
@@ -181,4 +180,3 @@ export default function RadarChartDialog({ isOpen, onClose, language, ratings, s
     </div>
   );
 }
-  */

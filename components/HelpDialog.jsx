@@ -1,3 +1,4 @@
+/*
 import { useState, useEffect } from 'react';
 import { HelpCircle, Check } from 'lucide-react';
 import { translations } from './translations.js';
@@ -297,3 +298,4 @@ export default function HelpDialog({ isOpen, onClose, language }) {
     </div>
   );
 }
+  */

@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { PlusCircle, Trash2, MessageSquare, Plus } from 'lucide-react';
-import CommentDialog from './CommentDialog.jsx';
+import CommentDialog from './dialogs/CommentDialog.jsx';
 import { getSEName } from './matrixData.js';
 import { translations } from './translations.js';
-import SourceDialog from './SourceDialog.jsx';
+import SourceDialog from './dialogs/SourceDialog.jsx';
 
 export default function SourcesView({ sources, comments, onAddSource, onDeleteSource, onSaveComment, onDeleteComment, language }) {
   const [isAddingSource, setIsAddingSource] = useState(false);

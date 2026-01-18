@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { MessageSquare, Paperclip, Plus, ChevronUp, ChevronDown, Star, ClipboardList, AlertTriangle } from 'lucide-react';
-import CommentDialog from './CommentDialog.jsx';
-import RatingDialog from './RatingDialog.jsx';
+import CommentDialog from './dialogs/CommentDialog.jsx';
+import RatingDialog from './dialogs/RatingDialog.jsx';
 import SourcesView from './SourcesView.jsx';
 import { MATRIX_DATA, getSEName, getPEName, getLayerName, hasRatingScale, getSEDescription, getSEHints } from './matrixData.js';
 import { getTranslation } from './translations.js';
