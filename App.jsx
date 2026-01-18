@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { Sun, Moon, FileText, Save, Download, Trash2, Home, HelpCircle, BarChart3, Globe, MessageSquareText } from 'lucide-react';
 import LandingPage from './components/LandingPage.jsx';
 import MatrixView from './components/MatrixView.jsx';
@@ -7,165 +7,56 @@ import HelpDialog from './components/HelpDialog.jsx';
 import RadarChartDialog from './components/RadarChartDialog.jsx';
 import PDFConfigDialog from './components/PDFConfigDialog.jsx';
 import { translations } from './components/translations.js';
-import { MATRIX_DATA, getSEName, getLayerName, getRatingDescription, getPEName } from './components/matrixData.js';
+import { MATRIX_DATA } from './components/matrixData.js';
 import { generatePDF } from './components/pdfGenerator.js';
+
+// 🆕 Nowe importy - utility functions i custom hooks
+import { useLanguage, useTheme, useToast, useComments, useSources } from './components/hooks.js';
+import { exportJSON, readImportFile } from './components/exportUtils.js';
+import { saveComment, deleteComment, saveRating, deleteRating, countComments } from './components/commentUtils.js';
+import { removeFromStorage } from './components/storageUtils.js';
+import { STORAGE_KEYS } from './components/constants.js';
 
 //logika aplikacji
 export default function App() {
   //stan czy aktywny jest landing page czy matrix(domyślnie landing page)
   const [currentView, setCurrentView] = useState('landing');
-
-  //stan wybiera język(domyślnie polski)
-  const [language, setLanguage] = useState(() => {
-    return localStorage.getItem('app-language') || 'pl';
-  });
-  
-  //stan ciemny lub jasny motyw aplikacji
-  const [isDarkMode, setIsDarkMode] = useState(() => {
-    return localStorage.getItem('app-theme') === 'dark';
-  });
   
   //stan czy okno konfiguracji pdf jest otwarte
   const [showPDFConfig, setShowPDFConfig] = useState(false);
-  
-  //zmiana jezyka zapisywana jest w local storage
-  useEffect(() => {
-    localStorage.setItem('app-language', language);
-  }, [language]);
-  
-  //zapisuje lub usuwa ciemny motyw
-  useEffect(() => {
-    localStorage.setItem('app-theme', isDarkMode ? 'dark' : 'light');
-    if (isDarkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [isDarkMode]);
-  
-  //zmiana jezyka i motywu ciemnego
-  const toggleLanguage = () => {
-    setLanguage(prev => prev === 'pl' ? 'en' : 'pl');
-  };
-  
-  const toggleDarkMode = () => {
-    setIsDarkMode(prev => !prev);
-  };
-  
-  //pobiera tłumaczenia do odpowiedniego jezyka
-  const t = (key) => translations[language][key] || key;
-  
-  //obiekt komentarzy przechowywanych w local storage
-  const [comments, setComments] = useState(() => {
-    try {
-      const saved = localStorage.getItem('matrix-comments');
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        return parsed;
-      }
-      return {};
-    } catch (err) {
-      return {};
-    }
-  });
-
-  //źródła z 004 z local storage
-  const [sources, setSources] = useState(() => {
-    try {
-      const saved = localStorage.getItem('pe004-sources');
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        return parsed;
-      }
-      return [];
-    } catch (err) {
-      return [];
-    }
-  });
-  //aktualna wiadomość powiadomienia, czy dialog pomocy jest otwarty, 
-  // czy radar chart jest otwarty
-  const [toast, setToast] = useState(null);
   const [isHelpOpen, setIsHelpOpen] = useState(false);
   const [isRadarChartOpen, setIsRadarChartOpen] = useState(false);
   const matrixRef = useRef(null);
 
-  //wyświetlanie powiadomienia, 3sekundy
-  const showToast = (message, type = 'success') => {
-    setToast({ message, type });
-    setTimeout(() => setToast(null), 3000);
-  };
+  // 🆕 Custom hooks zamiast useState + useEffect
+  const [language, setLanguage, toggleLanguage] = useLanguage();
+  const [isDarkMode, toggleDarkMode] = useTheme();
+  const [toast, showToast] = useToast();
+  const [comments, setComments] = useComments(showToast);
+  const [sources, setSources] = useSources();
   
-  //zapis komentarzy do localStorage przy każdej zmianie
-  useEffect(() => {
-    try {
-      const jsonString = JSON.stringify(comments);
-      localStorage.setItem('matrix-comments', jsonString);
-    } catch (err) {
-      // Jeśli localStorage jest pełny, pokaż ostrzeżenie
-      if (err.name === 'QuotaExceededError') {
-        showToast('Przekroczono limit pamięci. Usuń stare komentarze.', 'error');
-      }
-    }
-  }, [comments]);
+  //pobiera tłumaczenia do odpowiedniego jezyka
+  const t = (key) => translations[language][key] || key;
 
-  //zapis źródel  w local storage przy każdej zmianie
-  useEffect(() => {
-    try {
-      localStorage.setItem('pe004-sources', JSON.stringify(sources));
-    } catch (err) {
-    }
-  }, [sources]);
-
-  //jesli komentarz istnieje, aktualizuje go
-  //jesli nie, tworzy nowy wpis
-  //zachowuje istniejacy rating
+  // 🆕 Handlery dla komentarzy używają utility functions
   const handleSaveComment = (id, title, content, images = []) => {
-    setComments(prev => {
-      const existingRating = prev[id]?.rating ?? null;
-      const updated = {
-        ...prev,
-        [id]: { title, content, images, rating: existingRating }
-      };
-      return updated;
-    });
+    setComments(prev => saveComment(prev, id, title, content, images));
     showToast(t('commentSaved'));
   };
 
-  //dodaje lub aktualizuje ocene
-  //jesli komentarz nie istnieje, tworzy pusty komentarz z oceną
+  const handleDeleteComment = (id) => {
+    setComments(prev => deleteComment(prev, id));
+    showToast(t('commentDeleted'));
+  };
+
   const handleSaveRating = (id, rating) => {
-    setComments(prev => {
-      const existing = prev[id] || { title: '', content: '' };
-      const updated = {
-        ...prev,
-        [id]: { ...existing, rating }
-      };
-      return updated;
-    });
+    setComments(prev => saveRating(prev, id, rating));
     showToast(t('ratingSaved'));
   };
 
-  //usuwanie oceny, ale pozostawia tytul, treść i obrazy
   const handleDeleteRating = (id) => {
-    setComments(prev => {
-      if (!prev[id]) return prev;
-      const { rating, ...rest } = prev[id];
-      return {
-        ...prev,
-        [id]: { ...rest, rating: null }
-      };
-    });
+    setComments(prev => deleteRating(prev, id));
     showToast(t('ratingDeleted'));
-  };
-
-  //usuwa caly komentarz
-  const handleDeleteComment = (id) => {
-    setComments(prev => {
-      const newComments = { ...prev };
-      delete newComments[id];
-      return newComments;
-    });
-    showToast(t('commentDeleted'));
   };
 
   //zarządza 004
@@ -210,49 +101,25 @@ export default function App() {
 
   //eksport json, tworzy plik z komentarzami i zrodlami
   const handleExportJSON = () => {
-    const exportData = {
-      comments: comments,
-      sources: sources,
-      version: '2.0',
-      exportDate: new Date().toISOString()
-    };
-    const dataStr = JSON.stringify(exportData, null, 2);
-    const blob = new Blob([dataStr], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'matrix-data.json';
-    link.click();
-    URL.revokeObjectURL(url);
+    exportJSON(comments, sources);
     showToast(t('exportSuccess'));
   };
 
-  //import json, wczytuje plik json (obsluguje wersję ze źrodłami oraz bez)
-  const handleImportJSON = (e) => {
+  //import json, wczytuje plik json (obsluguje wersję ze źródłami oraz bez)
+  const handleImportJSON = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      try {
-        const imported = JSON.parse(event.target.result);
-        
-        //wersja formatu ze źródłami
-        if (imported.version === '2.0' && imported.comments) {
-          setComments(imported.comments || {});
-          setSources(imported.sources || []);
-        } 
-        //wcześniejszy format, same komentarze
-        else {
-          setComments(imported);
-        }
-        
-        showToast(t('importSuccess'));
-      } catch (err) {
-        showToast(t('importError'), 'error');
-      }
-    };
-    reader.readAsText(file);
+    const result = await readImportFile(file);
+    
+    if (result.success) {
+      setComments(result.data.comments);
+      setSources(result.data.sources);
+      showToast(t('importSuccess'));
+    } else {
+      showToast(t('importError'), 'error');
+    }
+    
     e.target.value = '';
   };
 
@@ -261,8 +128,8 @@ export default function App() {
     if (window.confirm(t('confirmClear'))) {
       setComments({});
       setSources([]);
-      localStorage.removeItem('matrix-comments');
-      localStorage.removeItem('pe004-sources');
+      removeFromStorage(STORAGE_KEYS.COMMENTS);
+      removeFromStorage(STORAGE_KEYS.SOURCES);
       showToast(t('clearSuccess'));
     }
   };
@@ -288,14 +155,14 @@ export default function App() {
     }
   };
 
-  const commentCount = Object.keys(comments).length;
+  const commentCount = countComments(comments);
 
   //czyści wszytskie dane i przechodzi do widoku macierzy
   const handleNewProject = () => {
     setComments({});
     setSources([]);
-    localStorage.removeItem('matrix-comments');
-    localStorage.removeItem('pe004-sources');
+    removeFromStorage(STORAGE_KEYS.COMMENTS);
+    removeFromStorage(STORAGE_KEYS.SOURCES);
     setCurrentView('matrix');
     showToast(language === 'pl' ? 'Nowy projekt utworzony' : 'New project created');
   };
