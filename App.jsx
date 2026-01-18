@@ -10,10 +10,10 @@ import { translations } from './components/translations.js';
 import { MATRIX_DATA } from './components/matrixData.js';
 import { generatePDF } from './components/pdf/index.js';
 import { useLanguage, useTheme, useToast, useComments, useSources } from './components/hooks.js';
-import { exportJSON, readImportFile } from './components/exportUtils.js';
-import { saveComment, deleteComment, saveRating, deleteRating, countComments } from './components/commentUtils.js';
-import { removeFromStorage } from './components/storageUtils.js';
-import { STORAGE_KEYS } from './components/constants.js';
+import { exportJSON, readImportFile } from './components/utils/export.js';
+import { saveComment, deleteComment, saveRating, deleteRating, countComments } from './components/utils/comments.js';
+import { removeFromStorage } from './components/utils/storage.js';
+import { STORAGE_KEYS } from './components/utils/constants.js';
 
 //logika aplikacji
 export default function App() {

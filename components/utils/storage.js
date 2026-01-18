@@ -1,10 +1,9 @@
-/*
 /**
  * Odczyt danych z localStorage z obsługą błędów
  * @param {string} key - Klucz localStorage
  * @param {any} defaultValue - Wartość domyślna jeśli brak danych
  * @returns {any} Odczytane dane lub wartość domyślna
- *
+ */
 export function loadFromStorage(key, defaultValue = null) {
   try {
     const saved = localStorage.getItem(key);
@@ -23,7 +22,7 @@ export function loadFromStorage(key, defaultValue = null) {
  * @param {string} key - Klucz localStorage
  * @param {any} value - Wartość do zapisania
  * @returns {Object} { success: boolean, error?: string }
- *
+ */
 export function saveToStorage(key, value) {
   try {
     const jsonString = JSON.stringify(value);
@@ -46,7 +45,7 @@ export function saveToStorage(key, value) {
 /**
  * Usunięcie klucza z localStorage
  * @param {string} key - Klucz do usunięcia
- *
+ */
 export function removeFromStorage(key) {
   try {
     localStorage.removeItem(key);
@@ -55,4 +54,3 @@ export function removeFromStorage(key) {
     return { success: false, error: err.message };
   }
 }
-*/

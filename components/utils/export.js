@@ -1,11 +1,10 @@
-/*
 import { EXPORT_VERSION } from './constants.js';
 
 /**
  * Eksportuj dane jako JSON
  * @param {Object} comments - Komentarze
  * @param {Array} sources - Źródła
- *
+ */
 export function exportJSON(comments, sources) {
   const exportData = {
     comments: comments,
@@ -28,7 +27,7 @@ export function exportJSON(comments, sources) {
  * Wczytaj dane z pliku (obsługa FileReader)
  * @param {File} file - Plik do wczytania
  * @returns {Promise<Object>} - { success, data, error }
- *
+ */
 export function readImportFile(file) {
   return new Promise((resolve) => {
     const reader = new FileReader();
@@ -69,4 +68,3 @@ export function readImportFile(file) {
     reader.readAsText(file);
   });
 }
-*/

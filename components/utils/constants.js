@@ -1,4 +1,3 @@
-/*
 // Klucze localStorage
 export const STORAGE_KEYS = {
   COMMENTS: 'matrix-comments',
@@ -26,4 +25,3 @@ export const LIMITS = {
   IMAGE_SIZE_MB: 2,
   IMAGE_SIZE_BYTES: 2 * 1024 * 1024
 };
-*/

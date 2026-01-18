@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { loadFromStorage, saveToStorage } from './storageUtils.js';
-import { STORAGE_KEYS, DEFAULT_VALUES, TOAST_DURATION } from './constants.js';
+import { loadFromStorage, saveToStorage } from './utils/storage.js';
+import { STORAGE_KEYS, DEFAULT_VALUES, TOAST_DURATION } from './utils/constants.js';
 
 /**
  * Hook do zarządzania localStorage z automatyczną persystencją
