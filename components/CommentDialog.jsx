@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
-import { Save, Trash2, ImagePlus } from 'lucide-react';
-import { translations } from './translations.js';
+import { Save, Trash2, ImagePlus } from 'lucide-react'; //emoji z bilblioteki
+import { translations } from './translations.js'; 
 import { getSEName } from './matrixData.js';
 
+//przekazanie z App.jsx okna dialogowego do dodawania komentarzy
 export default function CommentDialog({
   isOpen,
   onClose,
@@ -15,84 +16,93 @@ export default function CommentDialog({
   hasComment,
   language
 }) {
+  //wyciąganie odpowiedniego tłumaczenia
   const t = (key) => translations[language][key] || key;
-  
+  //stany komponentu(tytuł , treść, obrazy)
   const [title, setTitle] = useState(initialTitle);
   const [content, setContent] = useState(initialContent);
   const [images, setImages] = useState(initialImages);
   const [selectedFilesCount, setSelectedFilesCount] = useState(0);
   const fileInputRef = useRef(null);
 
-  // Reset form when cellId changes
+  //reset formularza w przypadku kliknięcia gdzieś poza okno dialogowe
   useEffect(() => {
     setTitle(initialTitle);
     setContent(initialContent);
     setImages(initialImages || []);
-  }, [cellId]); // Only re-run when cellId changes
+  }, [cellId]); //jeśli kliknie się w inną komórkę
 
+  //dodawanie obrazów
   const handleImageUpload = (e) => {
-    const files = Array.from(e.target.files);
-    setSelectedFilesCount(files.length);
+    const files = Array.from(e.target.files); //pobranie wybranych plikow
+    setSelectedFilesCount(files.length); //aktualizacja licznika plików
     
+    //limit 2mb na obraz
     files.forEach(file => {
       if (file.size > 2 * 1024 * 1024) {
         alert(t('imageTooLarge') || 'Obraz jest za duży (max 2MB)');
         return;
       }
       
-      const reader = new FileReader();
+      const reader = new FileReader(); //czytnik plików
       reader.onload = (event) => {
         setImages(prev => {
           const updated = [...prev, {
-            data: event.target.result, // Base64
+            data: event.target.result, //dane obrazu w formacie base64
             name: file.name
           }];
           return updated;
         });
       };
+      //konwersja base64
       reader.readAsDataURL(file);
     });
     
-    // Reset input po dodaniu
+    //reset, zeby mozna bylo dodac te same pliki jakby co
     e.target.value = '';
     setSelectedFilesCount(0);
   };
 
+  //otwarcie eksploratora plików
   const handleChooseFiles = () => {
     fileInputRef.current?.click();
   };
-
+ //usuwanie obrazu z tablicu po indeksie
   const handleRemoveImage = (index) => {
     setImages(prev => prev.filter((_, i) => i !== index));
   };
-
+//zapisanie komentarza tylko jeśli jest coś do zapisania
   const handleSave = () => {
     if (title.trim() || content.trim() || images.length > 0) {
       onSave(title, content, images);
     }
   };
-
+//zamknięcie dialogu po kliknięciu poza okno
   const handleBackdropClick = (e) => {
     if (e.target === e.currentTarget) {
       onClose();
     }
   };
-
+//jeśli dialog nie jest otwarty albo komorka nie istnieje nic się nie renderuje
   if (!isOpen || !cellId) return null;
 
-  // Wyciągnij tylko ID elementu (bez warstwy)
+  //wyciąga ID i nazwę elementu (przez getSEName) i wyświetla w nagłówku okna
   const elementId = cellId.split('-')[1] || cellId;
   const elementName = getSEName(elementId, language);
   const displayName = `${elementId} - ${elementName}`;
 
+  //wyświetlanie okna, nagłowka, formularza - pola tytulu i pola treści, 
+  // miejsca na upload obrazów, miniaturki dodanych obrazów, stopki dialogu (buttons)
   return (
+    //jesli uzytkownik kliknie w tlo, okno się zamyka
     <div className="dialog-backdrop" onClick={handleBackdropClick}>
+  
       <div className="dialog">
         <div className="dialog-header">
           <h3>{t('commentTitle')} - {displayName}</h3>
           <button className="close-btn" onClick={onClose}>✕</button>
         </div>
-
+      
         <div className="dialog-body">
           <div className="form-group">
             <label htmlFor="title">{t('titleLabel')}</label>
