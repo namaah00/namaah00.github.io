@@ -14,9 +14,14 @@ Interaktywna aplikacja webowa do analizy i dokumentacji taktyk oraz technik cybe
 - **System komentarzy** - z tytułami, treścią i załącznikami obrazów
 - **System ocen** - 0-5 gwiazdek dla PE 001 (Ocena treści) i PE 002 (Ocena Źródła)
 - **Eksport do JPEG** - wizualizacja całej matrycy
-- **Raport PDF** - pełny raport z komentarzami i obrazami (z zachowaniem proporcji!)
+- **Raport PDF** - pełny raport z komentarzami, obrazami i wykresami radarowymi
+  - Strona tytułowa z autorem i datą
+  - Nagłówki na wszystkich stronach (tytuł, autor, data DD.MM.YYYY)
+  - Wykresy radarowe dla ocen PE 001 i PE 002
+  - Obrazy z zachowanymi proporcjami
 - **Export/Import JSON** - backup i przywracanie danych
 - **Wielojęzyczność** - Polski 🇵🇱 i Angielski 🇬🇧
+- **Tryb ciemny** - pełne wsparcie dla ciemnego motywu
 - **localStorage** - automatyczny zapis danych
 
 ---
@@ -24,11 +29,12 @@ Interaktywna aplikacja webowa do analizy i dokumentacji taktyk oraz technik cybe
 ## 🛠️ Technologie
 
 - **React 18.3.1** + **Vite 5.4.11**
-- **JavaScript/JSX** (główne pliki) + **TypeScript** (komponenty UI)
+- **JavaScript/JSX** (czysty JavaScript, bez TypeScript)
 - **html2canvas** - eksport do JPEG
 - **jsPDF** - generowanie PDF
+- **Recharts** - wykresy radarowe
 - **Lucide React** - ikony
-- **Tailwind CSS** - stylowanie
+- **CSS** - stylowanie
 
 ---
 
@@ -75,6 +81,8 @@ npm run preview
 - **Limit**: 2MB na obraz
 - Kliknij **✕** aby usunąć obraz
 
+**✅ NOWOŚĆ v2.0:** Obrazy w PDF mają zachowane proporcje - brak zniekształceń!
+
 ### Eksport danych
 
 **JPEG:**
@@ -117,27 +125,33 @@ disarm-navigator/
 ├── components/
 │   ├── CommentDialog.jsx         # Dialog komentarzy
 │   ├── HelpDialog.jsx            # Dialog pomocy
+│   ├── LandingPage.jsx           # Strona powitalna
+│   ├── matrixData.js             # Dane matrycy L1-L3
 │   ├── MatrixView.jsx            # Wizualizacja matrycy
+│   ├── PDFConfigDialog.jsx       # Konfiguracja raportu PDF (tytuł, autor)
+│   ├── pdfGenerator.js           # Generator raportów PDF (~750 linii)
+│   ├── RadarChartDialog.jsx      # Dialog wykresu radarowego
 │   ├── RatingDialog.jsx          # Dialog oceniania
-│   ├── Toast.jsx                 # Powiadomienia
 │   ├── SourceDialog.jsx          # Dialog dodawania źródeł (PE 004)
 │   ├── SourcesView.jsx           # Widok źródeł dla PE 004
-│   ├── matrixData.js             # Dane matrycy L1-L3
+│   ├── Toast.jsx                 # Powiadomienia
 │   └── translations.js           # Tłumaczenia PL/EN
-├── dist/                         # Build output (generowany)
-├── node_modules/                 # Zależności (generowany)
+├── dist/                         # Build produkcyjny (generowany)
+├── node_modules/                 # Zależności NPM (generowany)
 ├── styles/
-│   └── simple.css                # Proste style
-├── .gitignore                    # Git ignore
-├── App.jsx                       # Główna aplikacja (JS)
+│   └── simple.css                # Style CSS
+├── .gitignore                    # Pliki ignorowane przez Git
+├── App.jsx                       # Główna aplikacja
 ├── index.html                    # HTML template
 ├── LICENSE.txt                   # Licencja Apache 2.0
 ├── main.jsx                      # Entry point
+├── package-lock.json             # NPM lock file
 ├── package.json                  # NPM config
-├── package-lock.json             # NPM lock
 ├── README.md                     # Dokumentacja (ten plik)
 └── vite.config.js                # Vite config
 ```
+
+**Uwaga:** Katalogi `dist/` i `node_modules/` są generowane automatycznie i nie są commitowane do repozytorium.
 
 ---
 
@@ -188,6 +202,34 @@ npm run dev       # Dev server
 npm run build     # Build produkcyjny
 npm run preview   # Podgląd buildu
 ```
+
+---
+
+## 📜 Historia zmian
+
+### v2.1.0 (2025-01-18)
+- ✅ **Nagłówki na wszystkich stronach PDF** (oprócz strony tytułowej)
+  - Tytuł po lewej, autor na środku, data DD.MM.YYYY po prawej
+  - Linia pozioma pod nagłówkiem
+- ✅ **Ujednolicony format daty DD.MM.YYYY** w nagłówkach PDF
+- ✅ **Pełny format daty na stronie tytułowej** (np. "18 stycznia 2026, 19:00")
+- ✅ **Naprawiono wykresy radarowe** - usunięto polskie znaki diakrytyczne z etykiet
+- ✅ **Wydzielono moduł pdfGenerator.js** (~750 linii) do `/components/`
+
+### v2.0.0 (2025-01-13)
+- ✅ **Naprawiono zniekształcone obrazy w PDF** - automatyczne zachowanie proporcji
+- ✅ Dodano funkcję `getImageDimensions()` w App.jsx
+- ✅ Customowy przycisk wyboru plików (wielojęzyczność)
+
+### v1.5.0
+- ✅ System wielojęzyczności (PL/EN)
+- ✅ System ocen dla PE 001 i PE 002
+
+### v1.3.0
+- ✅ Dodawanie obrazów do komentarzy (Base64)
+
+### v1.0.0
+- ✅ Matryca L1-L3, komentarze, eksport JPEG/PDF/JSON
 
 ---
 
