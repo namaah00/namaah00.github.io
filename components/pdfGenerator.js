@@ -1,3 +1,4 @@
+/*
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import React from 'react';
@@ -13,7 +14,7 @@ import { translations } from './translations.js';
  * @param {string} params.language - Język ('pl' lub 'en')
  * @param {string} params.title - Tytuł raportu (opcjonalny)
  * @param {string} params.author - Autor raportu (opcjonalny)
- */
+ 
 export const generatePDF = async ({
   comments,
   sources,
@@ -734,3 +735,4 @@ export const generatePDF = async ({
 
   pdf.save('raport.pdf');
 };
+*/
