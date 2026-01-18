@@ -57,20 +57,20 @@ export const POLISH_CHARS_MAP = {
 export const RADAR_LABELS = {
   '001': {
     pl: {
-      1: 'Spojnosc\\nlogiczna',
-      2: 'Forma\\nprzekazu',
+      1: 'Spojnosc\nlogiczna',
+      2: 'Forma\nprzekazu',
       3: 'Transparentnosc',
       4: 'Rzetelnosc',
       5: 'Obiektywnosc',
-      6: 'Autentycznosc\\ncyfrowa',
+      6: 'Autentycznosc\ncyfrowa',
     },
     en: {
-      1: 'Logical\\nConsistency',
-      2: 'Message\\nFormat',
+      1: 'Logical\nConsistency',
+      2: 'Message\nFormat',
       3: 'Transparency',
       4: 'Reliability',
       5: 'Objectivity',
-      6: 'Digital\\nAuthenticity',
+      6: 'Digital\nAuthenticity',
     }
   },
   '002': {
@@ -78,13 +78,13 @@ export const RADAR_LABELS = {
       1: 'Autorytet',
       2: 'Reputacja',
       3: 'Afiliacja',
-      4: 'Historia\\nwiarygodnosci',
+      4: 'Historia\nWiarygodnosci',
     },
     en: {
       1: 'Authority',
       2: 'Reputation',
       3: 'Affiliation',
-      4: 'Credibility\\nHistory',
+      4: 'Credibility\nHistory',
     }
   }
 };
