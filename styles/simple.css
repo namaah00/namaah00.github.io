@@ -1,3 +1,4 @@
+/*usuwa domyślne marginesy przeglądarki */
 * {
   margin: 0;
   padding: 0;
@@ -17,7 +18,7 @@ body {
   flex-direction: column;
 }
 
-/* Header */
+/*nagłówek */
 .header {
   background: #667eea;
   color: white;
@@ -54,6 +55,7 @@ body {
   align-items: center;
 }
 
+/*liczba komentarzy */
 .comment-count {
   background: rgba(255, 255, 255, 0.15);
   padding: 0.4rem 0.9rem;
@@ -62,17 +64,17 @@ body {
   white-space: nowrap;
 }
 
-/* Toolbar */
+/*pasek narzędzi */
 .toolbar {
   background: white;
   padding: 1rem 2rem;
   display: flex;
   gap: 1rem;
   border-bottom: 1px solid #e0e0e0;
-  flex-wrap: wrap;
+  flex-wrap: wrap; /*przy malych ekranach przyciski przechodzą do kolejnej linii */
 }
 
-/* Buttons */
+/*przyciski */
 .btn {
   padding: 0.65rem 1.25rem;
   border: none;
@@ -147,21 +149,21 @@ body {
   min-width: 60px;
 }
 
-/* Content */
+/*główna zawartość */
 .content {
   flex: 1;
   padding: 2rem;
   overflow-x: auto;
 }
 
-/* Matrix Container */
+/*macierz modelu */
 .matrix-container {
   display: flex;
   flex-direction: column;
   gap: 2rem;
 }
 
-/* Layer */
+/*każda warstwa to osobna karta*/
 .layer {
   background: white;
   border-radius: 6px;
@@ -181,28 +183,28 @@ body {
   font-weight: 600;
 }
 
-/* Layer Content - Elementy nadrzędne obok siebie */
+/*układ elementów - Elementy nadrzędne obok siebie */
 .layer-content {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 2rem;
 }
 
-/* Elements Grid */
+/*siatka elementów */
 .elements-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 2rem;
 }
 
-/* Primary Element */
+/*Element nadrzędny */
 .primary-element {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
 }
 
-/* Element Card */
+/*karta elementu */
 .element-card {
   background: #f8f9fa;
   border: 1px solid #e0e0e0;
@@ -218,12 +220,12 @@ body {
   gap: 0.5rem;
 }
 
-/* Expanded state */
+/*rozwijany panel */
 .element-card.expanded {
   min-height: auto;
 }
 
-/* Primary Element Header (PE) - nie klikalne */
+/*nagłówek elementu nadrzędnego */
 .element-card.pe-header {
   cursor: default;
   background: #667eea;
@@ -241,7 +243,7 @@ body {
   box-shadow: none;
 }
 
-/* Secondary Elements (SE) - klikalne */
+/*element podrzędny */
 .element-card.secondary {
   cursor: pointer;
 }
@@ -303,7 +305,7 @@ body {
   color: #667eea;
 }
 
-/* Element Header Row - nagłówek z przyciskami */
+/*nagłówek z przyciskami */
 .element-header-row {
   display: flex;
   justify-content: space-between;
@@ -320,7 +322,7 @@ body {
   min-width: 0;
 }
 
-/* Rozwijany panel z opisem i wskazówkami */
+/*rozwijany panel z opisem i wskazówkami */
 .element-expanded-content {
   margin-top: 1rem;
   padding-top: 1rem;
@@ -329,6 +331,7 @@ body {
   animation: expandPanel 0.3s ease-out;
 }
 
+/*animacja wysuwania opisu */
 @keyframes expandPanel {
   from {
     opacity: 0;
@@ -394,7 +397,7 @@ body {
   font-size: 1rem;
 }
 
-/* Rating Badge */
+/* ocena*/
 .rating-badge {
   background: #fbbf24;
   color: #78350f;
@@ -406,7 +409,7 @@ body {
   flex-shrink: 0;
 }
 
-/* Element Actions */
+/*przyciski akcji*/
 .element-actions {
   position: absolute;
   top: 0.75rem;
@@ -463,7 +466,7 @@ body {
   color: white;
 }
 
-/* Secondary Elements */
+/*elementy podrzedne */
 .secondary-elements {
   display: flex;
   flex-direction: column;
@@ -478,7 +481,7 @@ body {
   background: #fafafa;
 }
 
-/* Dialog */
+/*dialog*/
 .dialog-backdrop {
   position: fixed;
   inset: 0;
@@ -501,6 +504,7 @@ body {
   animation: slideIn 0.2s ease-out;
 }
 
+/*animacja dialogu*/
 @keyframes slideIn {
   from {
     opacity: 0;
@@ -562,7 +566,7 @@ body {
   justify-content: flex-end;
 }
 
-/* Form */
+/*formularz */
 .form-group {
   margin-bottom: 1.5rem;
 }
@@ -609,7 +613,7 @@ select.rating-select option {
   min-height: 120px;
 }
 
-/* Rating Description */
+/* opis ocen */
 .rating-description {
   margin-top: 0.75rem;
   padding: 0.75rem;
@@ -625,7 +629,7 @@ select.rating-select option {
   color: #92400e;
 }
 
-/* Image upload preview */
+/*miniaturka udostepnionego obrazu*/
 .image-preview-container {
   border: 2px solid #667eea;
   border-radius: 8px;
@@ -649,7 +653,7 @@ select.rating-select option {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Toast */
+/*powiadomienie*/
 .toast {
   position: fixed;
   bottom: 2rem;
@@ -664,6 +668,7 @@ select.rating-select option {
   animation: slideInUp 0.3s ease-out;
 }
 
+/*animacja powiadomienia */
 @keyframes slideInUp {
   from {
     opacity: 0;
@@ -690,7 +695,7 @@ select.rating-select option {
   color: #1e40af;
 }
 
-/* Help Dialog */
+/* dialog samouczka*/
 .help-backdrop {
   z-index: 2000;
   animation: fadeIn 0.2s ease-out;
@@ -892,7 +897,7 @@ select.rating-select option {
   color: #a3a3a3;
 }
 
-/* ===== RADAR CHART DIALOG ===== */
+/*dialog wykresu radarowego*/
 .radar-chart-dialog {
   width: 90%;
   max-width: 900px;
@@ -1042,7 +1047,7 @@ select.rating-select option {
   box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
 }
 
-/* ===== LANDING PAGE ===== */
+/*strona startowa*/
 .landing-page {
   min-height: 100vh;
   display: flex;
@@ -1313,7 +1318,7 @@ select.rating-select option {
   font-size: 0.9rem;
 }
 
-/* ===== SOURCES VIEW ===== */
+/*siatka źródeł w 004*/
 .sources-container {
   padding: 2rem;
 }
@@ -1431,7 +1436,7 @@ select.rating-select option {
   margin-top: 0.25rem;
 }
 
-/* ===== PDF CONFIG DIALOG ===== */
+/*dialog autora i tytułu pdf*/
 .pdf-config-dialog {
   max-width: 550px;
   width: 90%;
@@ -1502,7 +1507,7 @@ select.rating-select option {
   border-top-color: #404040;
 }
 
-/* ===== DARK MODE - CORE ELEMENTS ===== */
+/*dark mode*/
 .dark body {
   background: #1a1a1a;
   color: #e5e5e5;
@@ -1811,7 +1816,7 @@ select.rating-select option {
   color: #a3a3a3;
 }
 
-/* Dark mode - Radar Chart */
+/* wykres radarowy dark mode*/
 .dark .radar-pe-btn {
   background: #2a2a2a;
   border-color: #404040;
@@ -1864,7 +1869,7 @@ select.rating-select option {
   color: #e5e5e5;
 }
 
-/* Dark mode - Sources View */
+/*źródła 004 dark mode*/
 .dark .sources-container {
   background: #1a1a1a;
 }
@@ -1917,9 +1922,9 @@ select.rating-select option {
   color: #d4d4d4;
 }
 
-/* ===== CONSOLIDATED RESPONSIVE - MOBILE (max-width: 768px) ===== */
+/*responsywność w mobile*/
 @media (max-width: 768px) {
-  /* Header - mobile layout */
+  /*nagłówek mobile*/
   .header {
     flex-direction: column;
     gap: 1rem;
@@ -1940,17 +1945,17 @@ select.rating-select option {
     flex-wrap: wrap;
   }
 
-  /* Toolbar */
+  /*mobile pasek narzędzi*/
   .toolbar {
     padding: 1rem;
   }
 
-  /* Content */
+  /*tresc*/
   .content {
     padding: 1rem;
   }
 
-  /* Layer Content - 1 kolumna na mobile */
+  /*warstwa mobile*/
   .layer-content {
     grid-template-columns: 1fr;
   }
@@ -1959,13 +1964,13 @@ select.rating-select option {
     grid-template-columns: 1fr;
   }
 
-  /* Element Cards - layout kolumnowy na mobile */
+  /*karty elementow mobile*/
   .element-card {
     flex-direction: column;
     align-items: stretch;
   }
 
-  /* Element Actions - zawsze widoczne na mobile */
+  /*akcje mobile*/
   .element-actions {
     opacity: 1 !important;
     justify-content: flex-end;
@@ -1983,14 +1988,14 @@ select.rating-select option {
     margin-top: 0.5rem;
   }
 
-  /* Większe przyciski dla lepszej dostępności na mobile */
+  /*większe przyciski dla lepszej dostępności mobile */
   .action-btn {
     width: 2.5rem;
     height: 2.5rem;
     font-size: 1.25rem;
   }
 
-  /* Rating badge nieco mniejszy na mobile */
+  /*rating badge mniejszy mobile */
   .rating-badge {
     font-size: 0.7rem;
     padding: 0.2rem 0.4rem;
@@ -2003,7 +2008,7 @@ select.rating-select option {
     left: 1rem;
   }
 
-  /* Help Dialog */
+  /*mobile samouczek*/
   .help-dialog {
     width: 95vw;
     max-height: 90vh;
@@ -2034,7 +2039,7 @@ select.rating-select option {
     padding: 1rem;
   }
 
-  /* Landing Page - 1 kolumna na mobile */
+  /*strona startowa mobile*/
   .landing-cards,
   .landing-options {
     grid-template-columns: 1fr;
@@ -2081,18 +2086,18 @@ select.rating-select option {
     justify-content: center;
   }
   
-  /* DARK MODE - Mobile */
+  /*dark mode mobile*/
   .dark .help-sidebar {
     border-bottom-color: #404040;
   }
   
-  /* PE 004 Help Panel - responsive grid */
+  /*źródła 004 mobile*/
   .pe004-help-panel {
     grid-template-columns: 1fr;
   }
 }
 
-/* Dark mode - Element Actions */
+/*akcje dark mode mobile*/
 .dark .action-btn.comment-btn:hover {
   background: #8b7dd8;
   color: white;
@@ -2118,7 +2123,7 @@ select.rating-select option {
   color: white;
 }
 
-/* ===== PE 004 HELP PANEL ===== */
+/*opis 004 mobile*/
 .pe004-help-panel {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
