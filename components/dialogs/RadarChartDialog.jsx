@@ -6,58 +6,62 @@ import { translations } from '../translations.js';
 import { MATRIX_DATA } from '../matrixData.js';
 
 export default function RadarChartDialog({ isOpen, onClose, language, ratings, showToast }) {
-  const [selectedPE, setSelectedPE] = useState('001');
-  const chartRef = useRef(null);
+  const [selectedPE, setSelectedPE] = useState('001'); //domyślnie wybrany element nadrzędny (PE) 
+  const chartRef = useRef(null);  //referencja do kontenera wykresu, potrzebna do eksportu PNG przy użyciu html2canvas
 
   const t = (key) => translations[language][key];
 
-  // Sprawdź czy wszystkie SE w danym PE mają oceny
+  //sprawdzenie kompletności wymaganych ocen w danym elemencie 
   const checkCompleteness = (pe) => {
-    const seCount = pe === '001' ? 6 : 4;
-    const missing = [];
+    const seCount = pe === '001' ? 6 : 4; //dla 001 muszą być wszystkie 6 oceny (dla 002 4)
+    const missing = []; //jeśli brak oceny to do tablicy trafia missing
     
-    for (let i = 1; i <= seCount; i++) {
-      const seId = `${pe}.${i}`;
-      const rating = ratings[`L1-${seId}`]?.rating;
-      if (rating === undefined || rating === null) {
-        missing.push(`${t('pdfSecondaryElement')} ${seId}: ${t(`se${pe}_${i}`)}`);
+    for (let i = 1; i <= seCount; i++) { //pętla, która przechodzi po wszystkich elementarz podrzędnych (SE) w danym PE
+      const seId = `${pe}.${i}`; //tworzy się ID elementu SE jako string
+      const rating = ratings[`L1-${seId}`]?.rating; //bierze ocenę rating dla danego Elementu podrzędnego z obiektu ratings
+      if (rating === undefined || rating === null) { //sprawdza czy jest ocena dla tego SE
+        missing.push(`${t('pdfSecondaryElement')} ${seId}: ${t(`se${pe}_${i}`)}`); //jeśli brakuje oceny, dodaje opis do listy missing
       }
     }
     
     return { complete: missing.length === 0, missing };
   };
 
-  // Generuj dane dla wykresu
+  //generowanie danych dla wykresu
   const generateChartData = (pe) => {
-    const seCount = pe === '001' ? 6 : 4;
-    const data = [];
+    const seCount = pe === '001' ? 6 : 4; //ustala ile SE ma dany PE
+    const data = []; //tworzy pustą tablicę, do której będą wkładane dane dla wykresu (w formacie wymaganym przez RadarChart z recharts)
     
-    for (let i = 1; i <= seCount; i++) {
-      const seId = `${pe}.${i}`;
-      const rating = ratings[`L1-${seId}`]?.rating || 0;
+    for (let i = 1; i <= seCount; i++) { //pętla, która przechodzi po wszystkich elementach podrzędnych (SE) w danym PE
+      const seId = `${pe}.${i}`; //utworzenie ID elementu SE
+      const rating = ratings[`L1-${seId}`]?.rating || 0; //pobieranie oceny użytkownika dla tego SE
       
+      //budowanie punktu wykresu
       data.push({
-        subject: t(`se${pe}_${i}`),
-        value: rating,
-        fullMark: 5,
+        subject: t(`se${pe}_${i}`), //nazwa osi na wykresie
+        value: rating, //wartość danego SE na wykresie
+        fullMark: 5, //maksymalna wartość 
       });
     }
-    
+    //po zakończeniu pętli funkcja zwraca tablicę
     return data;
   };
 
-  const { complete, missing } = checkCompleteness(selectedPE);
-  const chartData = complete ? generateChartData(selectedPE) : [];
+  const { complete, missing } = checkCompleteness(selectedPE); 
+  const chartData = complete ? generateChartData(selectedPE) : []; //
 
+  //eksport do PNG
   const handleExportPNG = async () => {
     if (!chartRef.current) return;
     
+    //html2canvas generuje obraz
     try {
-      const canvas = await html2canvas(chartRef.current, {
+      const canvas = await html2canvas(chartRef.current, { 
         backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--background').trim() || '#ffffff',
         scale: 2,
       });
       
+      //generuje link i symuluje kliknięcie do pobrania
       const link = document.createElement('a');
       link.download = `radar-chart-${selectedPE}-${Date.now()}.png`;
       link.href = canvas.toDataURL('image/png');
@@ -72,6 +76,7 @@ export default function RadarChartDialog({ isOpen, onClose, language, ratings, s
 
   if (!isOpen) return null;
 
+  //widok, struktura dialogu
   return (
     <div className="dialog-backdrop">
       <div className="dialog radar-chart-dialog">
@@ -118,6 +123,7 @@ export default function RadarChartDialog({ isOpen, onClose, language, ratings, s
               </div>
             </div>
           )}
+
 
           {complete && (
             <div className="radar-chart-wrapper">
