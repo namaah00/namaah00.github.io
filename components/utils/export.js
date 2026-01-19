@@ -1,31 +1,31 @@
 import { EXPORT_VERSION } from './constants.js';
 
 /**
- * Eksportuj dane jako JSON
- * @param {Object} comments - Komentarze
- * @param {Array} sources - Źródła
+ * eksportuje dane jako JSON
+ * @param {Object} comments - komentarze
+ * @param {Array} sources - źródła
  */
 export function exportJSON(comments, sources) {
   const exportData = {
-    comments: comments,
-    sources: sources,
-    version: EXPORT_VERSION,
-    exportDate: new Date().toISOString()
+    comments: comments, //wszytskie komentarze
+    sources: sources, //źródła w Pe004
+    version: EXPORT_VERSION, //wersja formatu
+    exportDate: new Date().toISOString() //data i godzina eksportu
   };
   
-  const dataStr = JSON.stringify(exportData, null, 2);
-  const blob = new Blob([dataStr], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement('a');
+  const dataStr = JSON.stringify(exportData, null, 2); //zamiana obiektu exportData na string json
+  const blob = new Blob([dataStr], { type: 'application/json' }); //tworzy plik w pamięci przeglądarki (Blob)
+  const url = URL.createObjectURL(blob); //generuje URL
+  const link = document.createElement('a'); //tworzy tymczasowy link
   link.href = url;
-  link.download = 'matrix-data.json';
-  link.click();
-  URL.revokeObjectURL(url);
+  link.download = 'matrix-data.json'; //nazwa domyślna pliku 
+  link.click(); //symuluje kliknięcie 
+  URL.revokeObjectURL(url); //po pobraniu usuwa URL z pamięci
 }
 
 /**
- * Wczytaj dane z pliku (obsługa FileReader)
- * @param {File} file - Plik do wczytania
+ * wczytuje dane z pliku (obsługa FileReader)
+ * @param {File} file - plik do wczytania
  * @returns {Promise<Object>} - { success, data, error }
  */
 export function readImportFile(file) {
@@ -34,9 +34,9 @@ export function readImportFile(file) {
     
     reader.onload = (event) => {
       try {
-        const imported = JSON.parse(event.target.result);
+        const imported = JSON.parse(event.target.result); //parsowanie json i sprawdzenie formatu
         
-        // Nowy format (v2.0) ze źródłami
+        //nowy format ze źródłami
         if (imported.version === '2.0' && imported.comments) {
           resolve({
             success: true,
@@ -46,7 +46,7 @@ export function readImportFile(file) {
             }
           });
         } 
-        // Stary format - same komentarze
+        //stary format - same komentarze
         else {
           resolve({
             success: true,
