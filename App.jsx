@@ -1,5 +1,7 @@
 import { useState, useRef } from 'react';
-import { Sun, Moon, FileText, Save, Download, Trash2, Home, HelpCircle, BarChart3, Globe, MessageSquareText } from 'lucide-react';
+import { Sun, Moon, FileText, Save, Download, Trash2, Home, HelpCircle, BarChart3, Globe, MessageSquareText } from 'lucide-react'; //emoji z biblioteki
+
+//który widok pokazać, sterowanie dialogami, przekazanie danych
 import LandingPage from './components/LandingPage.jsx';
 import MatrixView from './components/MatrixView.jsx';
 import Toast from './components/Toast.jsx';
@@ -10,8 +12,10 @@ import { translations } from './components/translations.js';
 import { MATRIX_DATA } from './components/matrixData.js';
 import { generatePDF } from './components/pdf/index.js';
 
-// 🆕 Nowe importy - utility functions i custom hooks
+//logika zarządzania językiem, trybem, powiadomieniami, komentarzami, źródłami
 import { useLanguage, useTheme, useToast, useComments, useSources } from './components/hooks.js';
+
+//apisywanie,usuwanie komentarzy, json, czyszczenie local storage
 import { exportJSON, readImportFile } from './components/utils/export.js';
 import { saveComment, deleteComment, saveRating, deleteRating, countComments } from './components/utils/comments.js';
 import { removeFromStorage } from './components/utils/storage.js';
@@ -28,39 +32,39 @@ export default function App() {
   const [isRadarChartOpen, setIsRadarChartOpen] = useState(false);
   const matrixRef = useRef(null);
 
-  // 🆕 Custom hooks zamiast useState + useEffect
+  //toggle zmienia język
   const [language, setLanguage, toggleLanguage] = useLanguage();
   const [isDarkMode, toggleDarkMode] = useTheme();
   const [toast, showToast] = useToast();
-  const [comments, setComments] = useComments(showToast);
-  const [sources, setSources] = useSources();
+  const [comments, setComments] = useComments(showToast); //obiekt ze wszystkimi komentarzami i ocenami
+  const [sources, setSources] = useSources();//tablica źródeł
   
   //pobiera tłumaczenia do odpowiedniego jezyka
   const t = (key) => translations[language][key] || key;
 
-  // 🆕 Handlery dla komentarzy używają utility functions
+  //poprzedni stan komenatzry przekazany do saveComment, nowy obiekt z zapisanym komentzraem
   const handleSaveComment = (id, title, content, images = []) => {
     setComments(prev => saveComment(prev, id, title, content, images));
     showToast(t('commentSaved'));
   };
-
+//usunięcie komentarza
   const handleDeleteComment = (id) => {
     setComments(prev => deleteComment(prev, id));
     showToast(t('commentDeleted'));
   };
-
+//zapisanie oceny
   const handleSaveRating = (id, rating) => {
     setComments(prev => saveRating(prev, id, rating));
     showToast(t('ratingSaved'));
   };
-
+//usunięcie oceny
   const handleDeleteRating = (id) => {
     setComments(prev => deleteRating(prev, id));
     showToast(t('ratingDeleted'));
   };
 
   //zarządza 004
-  //dodawanie źródeł, generuje unikalne Id
+  //obecna lista źródeł, utworzenie nowego ID, dodanie nowego źródła do tablicy
   const handleAddSource = (title) => {
     setSources(prev => {
       const nextNumber = prev.length + 1;
@@ -78,14 +82,14 @@ export default function App() {
   const handleDeleteSource = (sourceId) => {
     setSources(prev => {
       const filtered = prev.filter(s => s.id !== sourceId);
-      // Przenumeruj źródła, tak żeby numeracja się zgadzała
+      //pzenumerowanie źródła, tak żeby numeracja się zgadzała
       return filtered.map((source, index) => ({
         ...source,
         id: `004.${index + 1}`
       }));
     });
 
-    // Usuń komentarze powiazane z usuwanym źródłem
+    //usuwanie komentarzy powiazanych z usuwanym źródłem
     setComments(prev => {
       const updated = { ...prev };
       Object.keys(updated).forEach(key => {
@@ -155,7 +159,7 @@ export default function App() {
     }
   };
 
-  const commentCount = countComments(comments);
+  const commentCount = countComments(comments); //liczenie komentarzy
 
   //czyści wszytskie dane i przechodzi do widoku macierzy
   const handleNewProject = () => {
@@ -206,8 +210,8 @@ export default function App() {
     );
   }
 
-  //widok strony z macierzą
-  //naglowek i przyciski
+  //widok (UI) strony z macierzą
+  //naglowek, toolbar i przyciski
   return (
     <div className="app">
       <header className="header">
@@ -277,9 +281,9 @@ export default function App() {
       {toast && <Toast message={toast.message} type={toast.type} />}
       
       <HelpDialog 
-        isOpen={isHelpOpen} 
-        onClose={() => setIsHelpOpen(false)}
-        language={language}
+        isOpen={isHelpOpen} //flaga
+        onClose={() => setIsHelpOpen(false)} //funkcja
+        language={language} //potrzebne dane
       />
       
       <RadarChartDialog 
