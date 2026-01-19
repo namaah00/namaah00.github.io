@@ -2,29 +2,29 @@ import { useRef } from 'react';
 import { Sun, Moon, FileText, Download, Globe } from 'lucide-react';
 
 export default function LandingPage({ 
-  onNewProject, 
-  onImportProject, 
-  language, 
-  toggleLanguage, 
-  isDarkMode, 
-  toggleDarkMode,
-  t 
+  onNewProject, //uruchomienie nowego projektu
+  onImportProject, //wczytywanie json
+  language, //aktualny język
+  toggleLanguage, //zmiana języka
+  isDarkMode, //sprawdzanie czy tryb jest ciemny
+  toggleDarkMode, //zmiana trybu
+  t //funkcja tlumaczeń
 }) {
   const fileInputRef = useRef(null);
-
+//przekazanie wybranego pliku do processFile
   const handleFileChange = (e) => {
     const file = e.target.files?.[0];
     if (file) {
       processFile(file);
     }
   };
-
+//jesli plik nie jest json to wyskakuje błąd
   const processFile = (file) => {
     if (file.type !== 'application/json') {
       alert(t('invalidFileType'));
       return;
     }
-
+//zamiana pliku na obiekt JS (JSON.parse)
     const reader = new FileReader();
     reader.onload = (e) => {
       try {
@@ -37,14 +37,14 @@ export default function LandingPage({
     };
     reader.readAsText(file);
   };
-
+//otwarcie okna wyboru pliku
   const handleImportClick = () => {
     fileInputRef.current?.click();
   };
-
+//render UI
   return (
     <div className={`landing-page ${isDarkMode ? 'dark' : ''}`}>
-      {/* Header */}
+      {/*nagłowek  i buttony do zmiany języka i trybu*/}
       <header className="landing-header">
         <h1>{t('appTitle')}</h1>
         <div className="landing-header-buttons">
@@ -65,18 +65,18 @@ export default function LandingPage({
         </div>
       </header>
 
-      {/* Main Content */}
+      {/*główna część strony*/}
       <main className="landing-main">
         <div className="landing-content">
-          {/* Title */}
+          {/*tytuł pobierany z tlumaczeń w zaleznosci od języka*/}
           <div className="landing-title">
             <h2>{t('welcomeTitle')}</h2>
             <p>{t('welcomeSubtitle')}</p>
           </div>
 
-          {/* Options Grid */}
+          {/*opcje wyboru */}
           <div className="landing-cards">
-            {/* New Project Card */}
+            {/*wybór karty nowego projektu, przejście do widoku modelu*/}
             <div
               className="landing-card"
               onClick={onNewProject}
@@ -90,7 +90,7 @@ export default function LandingPage({
               <p>{t('newProjectDescription')}</p>
             </div>
 
-            {/* Import Project Card */}
+            {/*wybór karty importu projektu, otwiera okno wyboru pliku*/}
             <div
               className="landing-card"
               onClick={handleImportClick}
@@ -114,7 +114,7 @@ export default function LandingPage({
         </div>
       </main>
 
-      {/* Footer */}
+      {/*stopka strony*/}
       <footer className="landing-footer">
         <p>{t('footerText')}</p>
       </footer>
