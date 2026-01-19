@@ -1,6 +1,7 @@
+//pobieranie tłumaczenia, jeśli brak, zwraca pl domyślnie, jeśli wciąż nie ma zwraca klucz (aby nic nie zostało ukryte w UI)
 export const translations = {
   pl: {
-    // Header
+    //Nagłówek
     appTitle: 'System Analizy Informacji',
     appSubtitle: '„Punkt widzenia może być niebezpiecznym luksusem, gdy zastępuje wgląd i zrozumienie" — Marshall McLuhan',
     help: 'Pomoc',
@@ -8,7 +9,7 @@ export const translations = {
     changeLanguage: 'Zmień język',
     toggleTheme: 'Przełącz motyw',
     
-    // Landing Page
+    //strona startowa
     welcomeTitle: 'Witaj w Systemie Analizy Informacji',
     welcomeSubtitle: 'Wybierz jedną z opcji, aby rozpocząć pracę z systemem',
     newProject: 'Nowy projekt',
@@ -19,7 +20,7 @@ export const translations = {
     invalidFileType: 'Nieprawidłowy typ pliku. Wybierz plik JSON.',
     invalidJSON: 'Błąd odczytu pliku JSON. Upewnij się, że plik jest prawidłowy.',
     
-    // Toolbar
+    //toolbar
     generatePDF: 'Generuj PDF',
     radarChart: 'Wykres radarowy',
     exportJSON: 'Eksport JSON',
@@ -28,7 +29,7 @@ export const translations = {
     backToHome: 'Powrót do strony głównej',
     confirmBackToHome: 'Czy na pewno chcesz wrócić do strony głównej? Niezapisane zmiany zostaną zachowane w pamięci przeglądarki.',
     
-    // PDF Configuration Dialog
+    //dialog z tytułem i autorem przy generowaniu pdf
     pdfDialogTitle: 'Konfiguracja raportu PDF',
     pdfReportTitleLabel: 'Tytuł raportu',
     pdfReportTitlePlaceholder: 'np. Analiza kampanii dezinformacyjnej XYZ',
@@ -40,7 +41,7 @@ export const translations = {
     pdfPrimaryElement: 'Element nadrzędny',
     pdfSecondaryElement: 'Element podrzędny',
     
-    // Radar Chart Dialog
+    //dialogwykresu radarowego
     radarTitle: 'Wykres radarowy ocen',
     radarSelectPE: 'Wybierz element:',
     radarPE001: 'Element nadrzędny 001 - Ocena treści',
@@ -53,32 +54,32 @@ export const translations = {
     radarExportSuccess: 'Wykres wyeksportowany do PNG',
     radarExportError: 'Błąd podczas eksportu',
     
-    // Sources View
+    //widok źródeł w 004
     sourcesAddBtn: 'Dodaj źródło',
     sourcesNoSources: 'Brak źródeł. Kliknij "Dodaj źródło" aby rozpocząć.',
     sourcesDeleteSource: 'Usuń źródło',
     sourcesConfirmDelete: 'Czy na pewno chcesz usunąć to źródło?',
     sourcesWillBeDeleted: 'Zostanie usunięte wraz ze wszystkimi komentarzami.',
     
-    // Source Dialog
+    //dialog dodawania nowego źródła w 004
     sourceDialogTitle: 'Dodaj nowe źródło',
     sourceDialogNameLabel: 'Nazwa źródła',
     sourceDialogNamePlaceholder: 'Wpisz nazwę źródła (np. "Reuters", "TVN24", "BBC News")',
     sourceDialogCancel: 'Anuluj',
     sourceDialogAdd: 'Dodaj źródło',
     
-    // Layers
+    //nazwy warstw
     layer1: 'Warstwa I - Jakość Informacji',
     layer2: 'Warstwa II - Szersze tło',
     layer3: 'Warstwa III - Zestawienie źródeł',
     
-    // Elementy nadrzędne (Primary Elements)
+    //elementy nadrzędne (PE)
     pe001: 'Ocena treści',
     pe002: 'Ocena źródła',
     pe003: 'Ocena kontekstu',
     pe004: 'Ocena kontrastu',
     
-    // Elementy podrzędne (Secondary Elements) - pełne nazwy
+    //elementy podrzędne (SE)
     se001_1: 'Spójność logiczna',
     se001_2: 'Forma przekazu',
     se001_3: 'Transparentność',
@@ -107,7 +108,7 @@ export const translations = {
     se004_3: 'Różnorodność',
     se004_4: 'Kontekst międzynarodowy',
     
-    // Opisy Secondary Elements - co oceniamy
+    //opisy elementów podrzędnych (SE)
     seDesc_001_1: 'Ocenia, czy przekaz jest logicznie uporządkowany, a fakty są ze sobą zgodne',
     seDesc_001_2: 'Ocenia sposób prezentacji informacji i jej dostosowanie do tematu',
     seDesc_001_3: 'Ocenia, czy źródła danych i metody są jasno przedstawione',
@@ -136,7 +137,7 @@ export const translations = {
     seDesc_004_3: 'Ocenia zróżnicowanie typów źródeł informacji',
     seDesc_004_4: 'Ocenia międzynarodowy wymiar źródeł i perspektywy różnych krajów',
     
-    // Wskazówki dla Secondary Elements - sygnały ostrzegawcze
+    //wskazówki dla elementów podrzędnych (SE)
     seHints_001_1: ['Wnioski nie wynikają z przedstawionych faktów', 'Autor myli przyczynę ze skutkiem', 'Wybiera tylko wygodne fakty („cherry-picking")', 'Są wewnętrzne sprzeczności', 'Brakuje kroków rozumowania („skacze" od tezy do tezy)'],
     seHints_001_2: ['Format nie pasuje do treści (np. clickbait)', 'Nadmierne użycie emocjonalnych słów', 'Zbyt wiele wielkich liter lub wykrzykników', 'Niska jakość grafiki lub wideo', 'Chaotyczna struktura tekstu'],
     seHints_001_3: ['Brak informacji o autorze', 'Nie podano źródeł danych', 'Ukryte sponsorowanie lub konflikt interesów', 'Metodologia badań jest niejasna', 'Brak dat publikacji lub aktualizacji'],
@@ -165,12 +166,12 @@ export const translations = {
     seHints_004_3: ['Tylko jeden typ źródeł (np. tylko media)', 'Brak perspektywy ekspertów', 'Brak dokumentów pierwotnych', 'Tylko źródła z jednej strony', 'Homogeniczna grupa źródeł'],
     seHints_004_4: ['Tylko krajowe źródła', 'Brak międzynarodowej perspektywy', 'Ignorowanie zagranicznych źródeł', 'Jednostronna narracja geopolityczna', 'Brak globalnego kontekstu'],
     
-    // Nagłówki paneli opisu
+    //nagłówki paneli opisu
     whatWeEvaluate: 'Co oceniamy:',
     warningSignals: 'Sygnały, na które warto zwrócić uwagę:',
     warningSignalsShort: 'Sygnały ostrzegawcze:',
     
-    // Comment Dialog
+    //dialog komentarza
     commentTitle: 'Komentarz',
     titleLabel: 'Tytuł',
     titlePlaceholder: 'Krótki tytuł komentarza',
@@ -190,7 +191,7 @@ export const translations = {
     delete: 'Usuń',
     cancel: 'Anuluj',
     
-    // Toast messages
+    //wyskakujące powiadomienia
     commentSaved: 'Komentarz zapisany!',
     commentDeleted: 'Komentarz usunięty',
     ratingSaved: 'Ocena zapisana!',
@@ -202,18 +203,18 @@ export const translations = {
     importError: 'Błąd podczas importu',
     confirmClear: 'Czy na pewno chcesz usunąć wszystkie komentarze?',
     
-    // PDF
+    //pdf
     pdfTitle: 'Raport Analizy Informacji',
     pdfGenerated: 'Raport PDF wygenerowany pomyślnie',
     pdfGenerateError: 'Błąd podczas generowania PDF',
     pdfComments: 'Komentarze',
     pdfNoComments: 'Brak komentarzy w tej warstwie',
     
-    // Help Dialog
+    //dialog samouczka
     helpTitle: 'Samouczek',
     helpClose: 'Zamknij',
     
-    // Help Sections
+    //sekcje samouczka
     helpIntroTitle: 'Wprowadzenie',
     helpL1Title: 'Warstwa I - Jakość Informacji',
     helpL2Title: 'Warstwa II - Szersze tło',
@@ -221,7 +222,7 @@ export const translations = {
     helpUsageTitle: 'Funkcje aplikacji',
     helpTipsTitle: 'Wskazówki',
     
-    // Help Content - Intro
+    //zawartość samouczka
     helpIntroHeading: 'System Analizy Taktyk i Technik Cyberbezpieczeństwa',
     helpIntroDesc: 'Aplikacja pozwala na systematyczną analizę informacji w trzech warstwach hierarchicznych:',
     helpIntroL1: 'Ocena treści i źródła informacji',
@@ -235,14 +236,14 @@ export const translations = {
     helpStep5: 'Importuj wcześniej zapisane analizy z JSON',
     helpNote: 'Tylko Elementy podrzędne (EP) są klikalne i mogą zawierać komentarze. Elementy nadrzędne (EN) służą jako nagłówki kategorii.',
     
-    // Help Content - L1
+    //zawartość samouczka - Warstwa 1 (L1)
     helpL1Desc: 'Warstwa podstawowa oceniająca fundamentalne aspekty informacji.',
     helpL1PE001: '001 - Ocena treści',
     helpL1PE001Desc: 'Analiza samej treści przekazu pod kątem jakości i rzetelności.',
     helpL1PE002: '002 - Ocena źródła',
     helpL1PE002Desc: 'Analiza wiarygodności i reputacji źródła informacji.',
     
-    // SE Descriptions
+    //opis elementów podrzędnych w samouczku (SE)
     helpSE001_1: 'Weryfikacja logicznej spójności argumentów i brak wewnętrznych sprzeczności.',
     helpSE001_2: 'Ocena sposobu prezentacji informacji (tekst, wideo, grafika).',
     helpSE001_3: 'Jawność źródeł, metod pozyskania danych i ewentualnych ograniczeń.',
@@ -255,7 +256,7 @@ export const translations = {
     helpSE002_3: 'Powiązania organizacyjne, finansowe i polityczne źródła.',
     helpSE002_4: 'Wcześniejsze publikacje, ich trafność i korekty błędów.',
     
-    // Help Content - L2
+    //zawartość samouczka - Warstwa 2 (L2)
     helpL2Desc: 'Warstwa kontekstowa analizująca szerszy obraz sytuacji.',
     helpL2PE003: '003 - Ocena kontekstu',
     helpL2PE003Desc: 'Kompleksowa analiza okoliczności powstania i funkcjonowania informacji.',
@@ -271,7 +272,7 @@ export const translations = {
     helpSE003_9: 'Skala rozpowszechnienia informacji i jej wpływ.',
     helpSE003_10: 'Techniczne aspekty przekazu: format, jakość, kanały dystrybucji.',
     
-    // Help Content - L3
+    //zawartość samouczka - Warstwa 3 (L3)
     helpL3Desc: 'Warstwa porównawcza analizująca różnice i zgodności między źródłami.',
     helpL3PE004: '004 - Ocena kontrastu',
     helpL3PE004Desc: 'Porównanie i weryfikacja informacji z różnych źródeł.',
@@ -281,7 +282,7 @@ export const translations = {
     helpSE004_3: 'Zróżnicowanie typów źródeł: media, eksperci, dokumenty,świadkowie.',
     helpSE004_4: 'Międzynarodowy wymiar źródeł, perspektywy różnych krajów.',
     
-    // Help Content - Usage
+    //zawartoścć samouczka - Funkcjonalności
     helpUsageAddComments: 'Dodawanie komentarzy',
     helpUsageAddStep1: 'Znajdź Element podrzędny (EP), który chcesz przeanalizować',
     helpUsageAddStep2: 'Kliknij na kartę EP z przyciskiem "+"',
@@ -332,7 +333,7 @@ export const translations = {
     helpUsageClearDesc: 'Kliknij "Wyczyść wszystko" aby usunąć wszystkie komentarze',
     helpUsageClearConfirm: 'Pojawi się potwierdzenie przed usunięciem',
     
-    // Help Content - Tips
+    //zawartość samouczka - Wskazówki
     helpTipsAnalysis: 'Efektywna analiza',
     helpTipsAnalysisL1: 'Najpierw oceń jakość samej informacji',
     helpTipsAnalysisL2: 'Zrozum szerszy kontekst sytuacji',
@@ -360,7 +361,7 @@ export const translations = {
     helpTipsShortcutsESC: 'Zamknij otwarty dialog',
     helpTipsShortcutsClick: 'Zamknij bez zapisywania',
     
-    // Additional keys
+    //dodatkowe klucze
     note: 'Uwaga',
     objectivity: 'Obiektywność',
     verification: 'Weryfikacja',
@@ -370,7 +371,7 @@ export const translations = {
   },
   
   en: {
-    // Header
+    //nagłówek
     appTitle: 'Information Analysis System',
     appSubtitle: '"Point of view can be a dangerous luxury when substituted for insight and understanding" — Marshall McLuhan',
     help: 'Help',
@@ -378,7 +379,7 @@ export const translations = {
     changeLanguage: 'Change Language',
     toggleTheme: 'Toggle Theme',
     
-    // Landing Page
+    //strona startowa
     welcomeTitle: 'Welcome to Information Analysis System',
     welcomeSubtitle: 'Choose one of the options to start working with the system',
     newProject: 'New Project',
@@ -389,7 +390,7 @@ export const translations = {
     invalidFileType: 'Invalid file type. Select a JSON file.',
     invalidJSON: 'JSON file read error. Make sure the file is valid.',
     
-    // Toolbar
+    //toolbar
     generatePDF: 'Generate PDF',
     radarChart: 'Radar Chart',
     exportJSON: 'Export JSON',
@@ -398,7 +399,7 @@ export const translations = {
     backToHome: 'Back to Home',
     confirmBackToHome: 'Are you sure you want to go back to the home page? Unsaved changes will be retained in browser memory.',
     
-    // PDF Configuration Dialog
+    //dialog z tytułem i autorem przy generowaniu pdf 
     pdfDialogTitle: 'PDF Report Configuration',
     pdfReportTitleLabel: 'Report Title',
     pdfReportTitlePlaceholder: 'e.g. XYZ Disinformation Campaign Analysis',
@@ -410,7 +411,7 @@ export const translations = {
     pdfPrimaryElement: 'Primary Element',
     pdfSecondaryElement: 'Secondary Element',
     
-    // Radar Chart Dialog
+    //dialog wykresu radarowego
     radarTitle: 'Radar Chart of Ratings',
     radarSelectPE: 'Select element:',
     radarPE001: 'Primary Element 001 - Content Assessment',
@@ -423,32 +424,32 @@ export const translations = {
     radarExportSuccess: 'Chart exported to PNG',
     radarExportError: 'Export error',
     
-    // Sources View
+    //widok źródel 004
     sourcesAddBtn: 'Add Source',
     sourcesNoSources: 'No sources. Click "Add Source" to start.',
     sourcesDeleteSource: 'Delete Source',
     sourcesConfirmDelete: 'Are you sure you want to delete this source?',
     sourcesWillBeDeleted: 'Will be deleted along with all comments.',
     
-    // Source Dialog
+    //dialog dodawania żródeł 004
     sourceDialogTitle: 'Add New Source',
     sourceDialogNameLabel: 'Source Name',
     sourceDialogNamePlaceholder: 'Enter source name (e.g. "Reuters", "TVN24", "BBC News")',
     sourceDialogCancel: 'Cancel',
     sourceDialogAdd: 'Add Source',
     
-    // Layers
+    //nazwy warstw
     layer1: 'Layer I - Information Quality',
     layer2: 'Layer II - Broader Context',
     layer3: 'Layer III - Source Comparison',
     
-    // Elementy nadrzędne (Primary Elements)
+    //elementy nadrzędne (PE)
     pe001: 'Content Assessment',
     pe002: 'Source Assessment',
     pe003: 'Context Assessment',
     pe004: 'Contrast Assessment',
     
-    // Elementy podrzędne (Secondary Elements) - pełne nazwy
+    //elementy podrzędne (SE)
     se001_1: 'Logical Consistency',
     se001_2: 'Message Format',
     se001_3: 'Transparency',
@@ -477,7 +478,7 @@ export const translations = {
     se004_3: 'Diversity',
     se004_4: 'International Context',
     
-    // Opisy Secondary Elements - co oceniamy
+    //opisy elementów podrzędnych (SE)
     seDesc_001_1: 'Evaluates whether the message is logically structured and facts are consistent with each other',
     seDesc_001_2: 'Evaluates the method of information presentation and its adaptation to the topic',
     seDesc_001_3: 'Evaluates whether data sources and methods are clearly presented',
@@ -506,7 +507,7 @@ export const translations = {
     seDesc_004_3: 'Evaluates the diversity of information source types',
     seDesc_004_4: 'Evaluates the international dimension of sources and perspectives of different countries',
     
-    // Wskazówki dla Secondary Elements - sygnały ostrzegawcze
+    //wskazówki dla elementów podrzędnych (SE)
     seHints_001_1: ['Conclusions do not follow from presented facts', 'Author confuses cause with effect', 'Selects only convenient facts („cherry-picking")', 'Internal contradictions exist', 'Steps of reasoning are missing („jumps" from thesis to thesis)'],
     seHints_001_2: ['Format does not match the content (e.g., clickbait)', 'Excessive use of emotional words', 'Too many capital letters or exclamation marks', 'Low quality graphics or video', 'Chaotic text structure'],
     seHints_001_3: ['No information about the author', 'Data sources are not provided', 'Hidden sponsorship or conflict of interest', 'Research methodology is unclear', 'No publication or update dates'],
@@ -535,12 +536,12 @@ export const translations = {
     seHints_004_3: ['Only one type of source (e.g., only media)', 'Lack of expert perspective', 'Lack of original documents', 'Sources from only one side', 'Homogeneous group of sources'],
     seHints_004_4: ['Only domestic sources', 'Lack of international perspective', 'Ignoring foreign sources', 'One-sided geopolitical narrative', 'Lack of global context'],
     
-    // Nagłówki paneli opisu
+    //nagłówki paneli opisu
     whatWeEvaluate: 'What we evaluate:',
     warningSignals: 'Signals to watch out for:',
     warningSignalsShort: 'Warning signals:',
     
-    // Comment Dialog
+    //dialog komentarza
     commentTitle: 'Comment',
     titleLabel: 'Title',
     titlePlaceholder: 'Brief comment title',
@@ -560,7 +561,7 @@ export const translations = {
     delete: 'Delete',
     cancel: 'Cancel',
     
-    // Toast messages
+    //wyskakujące powiadomienia
     commentSaved: 'Comment saved!',
     commentDeleted: 'Comment deleted',
     ratingSaved: 'Rating saved!',
@@ -572,18 +573,18 @@ export const translations = {
     importError: 'Import error',
     confirmClear: 'Are you sure you want to delete all comments?',
     
-    // PDF
+    //PDF
     pdfTitle: 'Information Analysis Report',
     pdfGenerated: 'PDF report generated successfully',
     pdfGenerateError: 'Error generating PDF',
     pdfComments: 'Comments',
     pdfNoComments: 'No comments in this layer',
     
-    // Help Dialog
+    //samouczek
     helpTitle: 'Tutorial',
     helpClose: 'Close',
     
-    // Help Sections
+    //sekcje samouczka
     helpIntroTitle: 'Introduction',
     helpL1Title: 'Layer I - Information Quality',
     helpL2Title: 'Layer II - Broader Context',
@@ -591,7 +592,7 @@ export const translations = {
     helpUsageTitle: 'Application Features',
     helpTipsTitle: 'Tips',
     
-    // Help Content - Intro
+    //zawartość samouczka - wstęp
     helpIntroHeading: 'Cybersecurity Tactics and Techniques Analysis System',
     helpIntroDesc: 'The application allows systematic information analysis in three hierarchical layers:',
     helpIntroL1: 'Content and source assessment',
@@ -605,14 +606,14 @@ export const translations = {
     helpStep5: 'Import previously saved analyses from JSON',
     helpNote: 'Only Secondary Elements (SE) are clickable and can contain comments. Primary Elements (PE) serve as category headers.',
     
-    // Help Content - L1
+    //zawartość samouczka - Warstwa 1 (L1)
     helpL1Desc: 'Basic layer assessing fundamental aspects of information.',
     helpL1PE001: '001 - Content Assessment',
     helpL1PE001Desc: 'Analysis of the message content in terms of quality and reliability.',
     helpL1PE002: '002 - Source Assessment',
     helpL1PE002Desc: 'Analysis of source credibility and reputation.',
     
-    // SE Descriptions
+    //zawartość samouczka - opis elementów podrzędnych (SE) w Warstwie 1
     helpSE001_1: 'Verification of logical consistency of arguments and absence of internal contradictions.',
     helpSE001_2: 'Assessment of information presentation method (text, video, graphics).',
     helpSE001_3: 'Openness of sources, data acquisition methods and potential limitations.',
@@ -625,7 +626,7 @@ export const translations = {
     helpSE002_3: 'Organizational, financial and political connections of the source.',
     helpSE002_4: 'Previous publications, their accuracy and error corrections.',
     
-    // Help Content - L2
+    //zawartość samouczka - Warstwa 2 (L2)
     helpL2Desc: 'Contextual layer analyzing the broader picture of the situation.',
     helpL2PE003: '003 - Context Assessment',
     helpL2PE003Desc: 'Comprehensive analysis of circumstances of information creation and functioning.',
@@ -641,7 +642,7 @@ export const translations = {
     helpSE003_9: 'Scale of information dissemination and its impact.',
     helpSE003_10: 'Technical aspects of the message: format, quality, distribution channels.',
     
-    // Help Content - L3
+    //zawartość samouczka - Warstwa 3 (L3)
     helpL3Desc: 'Comparative layer analyzing differences and agreements between sources.',
     helpL3PE004: '004 - Contrast Assessment',
     helpL3PE004Desc: 'Comparison and verification of information from various sources.',
@@ -651,7 +652,7 @@ export const translations = {
     helpSE004_3: 'Diversity of source types: media, experts, documents, witnesses.',
     helpSE004_4: 'International dimension of sources, perspectives of different countries.',
     
-    // Help Content - Usage
+    //zawartość samouczka - Funkcjonalności
     helpUsageAddComments: 'Adding comments',
     helpUsageAddStep1: 'Find the Secondary Element (SE) you want to analyze',
     helpUsageAddStep2: 'Click on SE card with "+" button',
@@ -702,7 +703,7 @@ export const translations = {
     helpUsageClearDesc: 'Click "Clear All" to remove all comments',
     helpUsageClearConfirm: 'Confirmation will appear before deletion',
     
-    // Help Content - Tips
+    //zawartość samouczka - wskazówki
     helpTipsAnalysis: 'Effective analysis',
     helpTipsAnalysisL1: 'First assess the quality of information itself',
     helpTipsAnalysisL2: 'Understand the broader context of the situation',
@@ -730,7 +731,7 @@ export const translations = {
     helpTipsShortcutsESC: 'Close open dialog',
     helpTipsShortcutsClick: 'Close without saving',
     
-    // Additional keys
+    //dodatkowe klucze
     note: 'Note',
     objectivity: 'Objectivity',
     verification: 'Verification',
@@ -740,6 +741,7 @@ export const translations = {
   }
 };
 
+//funkcja pomocnicza do pobierania tłumaczeń (wartość dla języka i klucza)
 export const getTranslation = (lang, key) => {
   return translations[lang]?.[key] || translations['pl'][key] || key;
 };
