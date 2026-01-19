@@ -3,23 +3,26 @@ import { FileText } from 'lucide-react';
 import { translations } from '../translations.js';
 
 export default function PDFConfigDialog({ isOpen, onGenerate, onClose, language }) {
-  const [reportTitle, setReportTitle] = useState('');
-  const [authorName, setAuthorName] = useState('');
+  const [reportTitle, setReportTitle] = useState(''); //tytuł raportu, który podaje użytkownik
+  const [authorName, setAuthorName] = useState(''); //autor (również wypełniany przez użytkownika)
 
+  //pobiera odpowiednią wartość z pliku translations w zalżności od wybranego języka
   const t = (key) => translations[language][key];
 
+  //
   const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!reportTitle.trim() || !authorName.trim()) {
+    e.preventDefault(); //zapobiega przeładowaniu strony przy submit
+    if (!reportTitle.trim() || !authorName.trim()) { //sprawdza czy oba pola są wypełnione
       alert(t('pdfValidationError'));
       return;
     }
-    onGenerate({ title: reportTitle.trim(), author: authorName.trim() });
+    onGenerate({ title: reportTitle.trim(), author: authorName.trim() }); //przekazuje obiekt { title, author }
     onClose();
   };
 
-  if (!isOpen) return null;
+  if (!isOpen) return null; //dialog pojawia się tylko gdy isOpen jest true
 
+  //widok, pola tekstowe dla tytułu i autora
   return (
     <div className="dialog-backdrop" onClick={onClose}>
       <div className="dialog pdf-config-dialog" onClick={(e) => e.stopPropagation()}>
