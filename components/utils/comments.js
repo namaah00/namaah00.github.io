@@ -1,11 +1,11 @@
 /**
- * Dodaj lub zaktualizuj komentarz (zachowuje rating)
- * @param {Object} comments - Aktualny obiekt komentarzy
+ * dodanie lub zaktualizowanie komentarza dla danej komórki(zachowuje rating)
+ * @param {Object} comments - aktualny obiekt komentarzy
  * @param {string} id - ID komórki
- * @param {string} title - Tytuł
- * @param {string} content - Treść
- * @param {Array} images - Obrazy
- * @returns {Object} - Nowy obiekt komentarzy
+ * @param {string} title - tytuł
+ * @param {string} content - treść
+ * @param {Array} images - obrazy
+ * @returns {Object} - nowy obiekt komentarzy
  */
 export function saveComment(comments, id, title, content, images = []) {
   const existingRating = comments[id]?.rating ?? null;
@@ -22,10 +22,10 @@ export function saveComment(comments, id, title, content, images = []) {
 }
 
 /**
- * Usuń komentarz
- * @param {Object} comments - Aktualny obiekt komentarzy
+ * Usuwanie komentarza dla danej kmórki
+ * @param {Object} comments - aktualny obiekt komentarzy
  * @param {string} id - ID komórki
- * @returns {Object} - Nowy obiekt komentarzy
+ * @returns {Object} - nowy obiekt komentarzy
  */
 export function deleteComment(comments, id) {
   const newComments = { ...comments };
@@ -34,11 +34,11 @@ export function deleteComment(comments, id) {
 }
 
 /**
- * Dodaj lub zaktualizuj rating
- * @param {Object} comments - Aktualny obiekt komentarzy
+ * Dodanie lub zaktualizowanie oceny dla danej komorki. Jeśli komentarz nie istnieje, tworzy pusty rekord z samym rating
+ * @param {Object} comments - aktualny obiekt komentarzy
  * @param {string} id - ID komórki
- * @param {number} rating - Ocena (0-5)
- * @returns {Object} - Nowy obiekt komentarzy
+ * @param {number} rating - ocena (0-5)
+ * @returns {Object} - nowy obiekt komentarzy
  */
 export function saveRating(comments, id, rating) {
   const existing = comments[id] || { title: '', content: '', images: [] };
@@ -53,10 +53,11 @@ export function saveRating(comments, id, rating) {
 }
 
 /**
- * Usuń rating (zachowuje komentarz)
- * @param {Object} comments - Aktualny obiekt komentarzy
+* usuwanie oceny (zachowuje komentarz), ocena nie jest usuwana całkowicie, tylko ustawiana na null,
+jeśli komentarz nie isntnieje, zwraca oryginalny obiekt
+ * @param {Object} comments - aktualny obiekt komentarzy
  * @param {string} id - ID komórki
- * @returns {Object} - Nowy obiekt komentarzy
+ * @returns {Object} - nowy obiekt komentarzy
  */
 export function deleteRating(comments, id) {
   if (!comments[id]) return comments;
@@ -73,8 +74,8 @@ export function deleteRating(comments, id) {
 }
 
 /**
- * Zlicz komentarze
- * @param {Object} comments - Obiekt komentarzy
+ * Zliczanie komentarzy, uwzględnia wszystkie komentarze, nie sprawdza czy mają rating
+ * @param {Object} comments - obiekt komentarzy
  * @returns {number}
  */
 export function countComments(comments) {
