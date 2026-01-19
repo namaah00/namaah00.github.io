@@ -2,26 +2,28 @@ import { useState, useEffect } from 'react';
 import { HelpCircle, Check } from 'lucide-react';
 import { translations } from '../translations.js';
 import { getSEName } from '../matrixData.js';
-
+ 
+//czy okno ma być widoczne, funkcja zamykająca okno, wybrany język 
 export default function HelpDialog({ isOpen, onClose, language }) {
   const t = (key) => translations[language][key] || key;
   
-  const [activeSection, setActiveSection] = useState('intro');
+  const [activeSection, setActiveSection] = useState('intro'); //aktywna sekcja samouczka 
 
+  //zamyka okno po wciśnięciu esc
   useEffect(() => {
     const handleEsc = (e) => {
       if (e.key === 'Escape' && isOpen) {
         onClose();
       }
     };
-    
+    //funkcja wywolana przy nacisnieciu dowolnego klawisza
     window.addEventListener('keydown', handleEsc);
     return () => window.removeEventListener('keydown', handleEsc);
   }, [isOpen, onClose]);
 
   const handleSectionChange = (section) => {
     setActiveSection(section);
-    // Scroll to top when changing sections
+    //przy zmianie sekcji, widok przesuwany jest w górę
     const mainContent = document.querySelector('.help-main');
     if (mainContent) {
       mainContent.scrollTop = 0;
@@ -36,7 +38,9 @@ export default function HelpDialog({ isOpen, onClose, language }) {
     }
   };
 
+  //struktura sekcji
   const sections = {
+    //wprowadzenie, opis warstw matrycy, jak używać
     intro: {
       title: t('helpIntroTitle'),
       content: (
@@ -60,6 +64,7 @@ export default function HelpDialog({ isOpen, onClose, language }) {
         </div>
       )
     },
+    //opis Elementów nadrzędnych (PE) i elementów podrzędnych (SE) w każdej warstwie
     l1: {
       title: t('helpL1Title'),
       content: (
@@ -136,6 +141,7 @@ export default function HelpDialog({ isOpen, onClose, language }) {
         </div>
       )
     },
+    //instrukcja użycia funkcji aplikacji
     usage: {
       title: t('helpUsageTitle'),
       content: (
@@ -212,6 +218,7 @@ export default function HelpDialog({ isOpen, onClose, language }) {
         </div>
       )
     },
+    //wskazówki, najlepsze praktyki, skróty
     tips: {
       title: t('helpTipsTitle'),
       content: (
@@ -257,6 +264,7 @@ export default function HelpDialog({ isOpen, onClose, language }) {
     }
   };
 
+  //widok samouczka
   return (
     <div className="dialog-backdrop help-backdrop" onClick={handleBackdropClick}>
       <div className="dialog help-dialog">
