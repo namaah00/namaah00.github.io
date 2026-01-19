@@ -4,39 +4,41 @@ import { translations } from '../translations.js';
 import { getSEName } from '../matrixData.js';
 
 export default function CommentDialog({
-  isOpen,
-  onClose,
-  onSave,
-  onDelete,
-  initialTitle = '',
+  isOpen, //czy dialog ma być widoczny
+  onClose, //funkcja zamykająca dialog
+  onSave, //funkcja zapisująca komentarz
+  onDelete, //funkcja usuwająca komentarz
+  initialTitle = '', //początkowe wartości
   initialContent = '',
   initialImages = [],
-  cellId,
-  hasComment,
-  language
+  cellId, //id komórki
+  hasComment, //czy komentarz już istnieje
+  language //język
 }) {
   const t = (key) => translations[language][key] || key;
-  
-  const [title, setTitle] = useState(initialTitle);
+  //formularz komentarza
+  const [title, setTitle] = useState(initialTitle); 
   const [content, setContent] = useState(initialContent);
   const [images, setImages] = useState(initialImages);
+  //liczba wybranych plików do uploadu
   const [selectedFilesCount, setSelectedFilesCount] = useState(0);
-  const fileInputRef = useRef(null);
+  const fileInputRef = useRef(null); 
 
-  // Reset form when cellId changes
+  //gdy zmienia się id, formularz resetuje wartości do początkowych
   useEffect(() => {
     setTitle(initialTitle);
     setContent(initialContent);
     setImages(initialImages || []);
-  }, [cellId]); // Only re-run when cellId changes
+  }, [cellId]); 
 
+  //obsługa obrazów
   const handleImageUpload = (e) => {
     const files = Array.from(e.target.files);
     setSelectedFilesCount(files.length);
     
     files.forEach(file => {
       if (file.size > 2 * 1024 * 1024) {
-        alert(t('imageTooLarge') || 'Obraz jest za duży (max 2MB)');
+        alert(t('imageTooLarge') || 'Obraz jest za duży (max 2MB)'); //sprawdzenie rozmiaru
         return;
       }
       
@@ -44,7 +46,7 @@ export default function CommentDialog({
       reader.onload = (event) => {
         setImages(prev => {
           const updated = [...prev, {
-            data: event.target.result, // Base64
+            data: event.target.result, //do base64
             name: file.name
           }];
           return updated;
@@ -53,25 +55,25 @@ export default function CommentDialog({
       reader.readAsDataURL(file);
     });
     
-    // Reset input po dodaniu
+    //reset inputu po dodaniu aby można było dodać te same pliki ponownie
     e.target.value = '';
     setSelectedFilesCount(0);
   };
-
+//systemowy dialog wyboru plików
   const handleChooseFiles = () => {
     fileInputRef.current?.click();
   };
-
+//usuwa obraz po kliknięciu przez użytkownika x
   const handleRemoveImage = (index) => {
     setImages(prev => prev.filter((_, i) => i !== index));
   };
-
+//zapisuje jeśli coś jest wpisane lub są obrazy
   const handleSave = () => {
     if (title.trim() || content.trim() || images.length > 0) {
       onSave(title, content, images);
     }
   };
-
+//zamyka dialog, gdy uzytkownik kliknął w tło
   const handleBackdropClick = (e) => {
     if (e.target === e.currentTarget) {
       onClose();
@@ -80,13 +82,14 @@ export default function CommentDialog({
 
   if (!isOpen || !cellId) return null;
 
-  // Wyciągnij tylko ID elementu (bez warstwy)
+  //wyciąga samo id elementu, pobiera tłumaczoną nazwę i łączy w formacie ID - Nazwa
   const elementId = cellId.split('-')[1] || cellId;
   const elementName = getSEName(elementId, language);
   const displayName = `${elementId} - ${elementName}`;
 
+  //widok UI
   return (
-    <div className="dialog-backdrop" onClick={handleBackdropClick}>
+    <div className="dialog-backdrop" onClick={handleBackdropClick}> {/**półprzezroczyste tło */}
       <div className="dialog">
         <div className="dialog-header">
           <h3>{t('commentTitle')} - {displayName}</h3>
