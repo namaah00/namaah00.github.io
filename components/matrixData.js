@@ -1,6 +1,6 @@
 import { translations } from './translations.js';
 
-// Główna struktura danych matrycy
+//główna struktura danych matrycy
 export const MATRIX_DATA = {
   L1: {
     name: 'Jakość Informacji',
@@ -39,51 +39,51 @@ export const MATRIX_DATA = {
   }
 };
 
-// Helper function to get SE name by language
+//funkcja tworzy klucz do wyszukania tłumaczeń (001.1 - klucz se001_1)
 export const getSEName = (id, lang = 'pl') => {
-  // Handle undefined or null id
+  //jeśli nie jest określone
   if (!id) return '';
   
-  // Check if this is a dynamic PE 004 source (format: 004.n.x)
+  //czy jest to dynamiczne źródło 004, z trzema częsciami po kropkach (tylko ID w formacie 004.X.Y)
   if (id.startsWith('004.') && id.split('.').length === 3) {
     const parts = id.split('.');
-    const seNumber = parts[2]; // Get the SE number (1-4)
+    const seNumber = parts[2]; //wybieranie trzeciej części, aby z tego utworzyć klucz
     
-    // Map SE numbers to translation keys
+    //tworzenie klucza (004.2.3 - se004_3)
     const seKey = `se004_${seNumber}`;
-    return translations[lang][seKey] || id;
+    return translations[lang][seKey] || id; //funkcja szuka w tłumaczeniach tego seKey
   }
   
-  // Standard SE lookup
+  //funkcja standardowa (001.1 - klucz se001_1)
   const key = `se${id.replace(/\./g, '_')}`;
   return translations[lang][key] || id;
 };
 
-// Helper function to get layer name
+//funkcja pobiera nazwę warstwy z tłumaczeń (L1 - klucz layer1)
 export const getLayerName = (layerId, lang = 'pl') => {
   const key = `layer${layerId.replace('L', '')}`;
   return translations[lang][key] || layerId;
 };
 
-// Helper function to get PE name
+//funkcja pobiera nazwę elementu nadrzędnego (PE) z tłumaczeń (001 - klucz pe001)
 export const getPEName = (peId, lang = 'pl') => {
   const key = `pe${peId}`;
   return translations[lang][key] || peId;
 };
 
-// Helper function to get SE description
+//funckja wyszykania opisów (001.1 - klucz seDesc_001_1)
 export const getSEDescription = (seId, lang = 'pl') => {
   const key = `seDesc_${seId.replace(/\./g, '_')}`;
   return translations[lang][key] || '';
 };
 
-// Helper function to get SE hints
+//funkcja wyszukania wskazówek, listy punktów
 export const getSEHints = (seId, lang = 'pl') => {
   const key = `seHints_${seId.replace(/\./g, '_')}`;
   return translations[lang][key] || [];
 };
 
-// Rating scales for PE 001 and 002 (0-5 scale with descriptions)
+//skala ocen z opisami dla każdego elementu, zasila RatingDialog gdy użytkownik da ocenę
 export const RATING_SCALES = {
   '001.1': {
     pl: {
@@ -267,12 +267,12 @@ export const RATING_SCALES = {
   }
 };
 
-// Check if SE has rating scale
+//funkcja sprawdza czy komórka może być oceniana (mogą być oceniane tylko w 001 i 002)
 export const hasRatingScale = (seId) => {
   return !!RATING_SCALES[seId];
 };
 
-// Get rating description
+//funkcja zwraca opis konkretnej oceny
 export const getRatingDescription = (seId, rating, lang = 'pl') => {
   if (!RATING_SCALES[seId]) return '';
   return RATING_SCALES[seId][lang]?.[rating] || '';
