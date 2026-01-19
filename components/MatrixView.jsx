@@ -17,15 +17,17 @@ export default function MatrixView({
   onAddSource,
   onDeleteSource
 }) {
-  const [selectedCell, setSelectedCell] = useState(null);
-  const [selectedRatingCell, setSelectedRatingCell] = useState(null);
-  const [expandedCells, setExpandedCells] = useState(new Set());
-  const [isPE004HelpExpanded, setIsPE004HelpExpanded] = useState(false);
+  const [selectedCell, setSelectedCell] = useState(null); //która komórka jest aktualnie edytowana w dialogu komentarza
+  const [selectedRatingCell, setSelectedRatingCell] = useState(null); //która komórka jest aktualnie oceniana
+  const [expandedCells, setExpandedCells] = useState(new Set()); //id komórek, które są rozszerzone (pokazują opis + wskazówki)
+  const [isPE004HelpExpanded, setIsPE004HelpExpanded] = useState(false); //czy panel pomocy dla PE 004 w L3 jest rozwinięty
 
+  //ustawia komórkę do komentarza
   const handleCellClick = (cellId) => {
     setSelectedCell(cellId);
   };
 
+  //rozwija / zwija opis i wskazówki w komórkach podrzędnych
   const handleToggleExpand = (seId, e) => {
     e.stopPropagation();
     setExpandedCells(prev => {
@@ -39,23 +41,28 @@ export default function MatrixView({
     });
   };
   
+  ////rozwija / zwija panel pomocy dla PE 004 w L3
   const handleTogglePE004Help = () => {
     setIsPE004HelpExpanded(prev => !prev);
   };
 
+  //otwiera dialog oceny dla danej komórki
   const handleRatingClick = (id, e) => {
-    e.stopPropagation(); // Zapobiega otwieraniu dialogu komentarza
+    e.stopPropagation(); //zapobiega otwieraniu dialogu komentarza
     setSelectedRatingCell(id);
   };
 
+  //zamyka dialog komentarza
   const handleClose = () => {
     setSelectedCell(null);
   };
 
+  //zamyka dialog oceny
   const handleCloseRating = () => {
     setSelectedRatingCell(null);
   };
 
+  //zapisuje komentarz dla wybranej komórki
   const handleSave = (title, content, images) => {
     if (selectedCell) {
       onSave(selectedCell, title, content, images);
@@ -63,6 +70,7 @@ export default function MatrixView({
     }
   };
 
+  //zapisuje ocenę
   const handleSaveRating = (rating) => {
     if (selectedRatingCell && onSaveRating) {
       onSaveRating(selectedRatingCell, rating);
@@ -70,6 +78,7 @@ export default function MatrixView({
     }
   };
 
+  ///usuwa komentarz
   const handleDelete = () => {
     if (selectedCell) {
       onDelete(selectedCell);
@@ -77,6 +86,7 @@ export default function MatrixView({
     }
   };
 
+  //usuwa ocenę
   const handleDeleteRating = () => {
     if (selectedRatingCell && onDeleteRating) {
       onDeleteRating(selectedRatingCell);
@@ -84,9 +94,10 @@ export default function MatrixView({
     }
   };
 
+  //renderowanie macierzy (3 warstw i ich elementów)
   return (
     <div className="matrix-container">
-      {Object.entries(MATRIX_DATA).map(([layerId, layer]) => (
+      {Object.entries(MATRIX_DATA).map(([layerId, layer]) => (//iteracja po warstwach
         <div key={layerId} className="layer">
           <div className="layer-header">
             <h2>{getLayerName(layerId, language)}</h2>
@@ -94,7 +105,7 @@ export default function MatrixView({
           <div className="layer-content">
             {layer.primary.map((pe) => (
               <div key={pe.id} className="primary-element">
-                {/* PE Header - nie klikalne */}
+                {/* Nagłówek elementu nadrzednego (PE) */}
                 <div className="element-card pe-header">
                   <div className="element-content">
                     <div className="element-header-row" style={{ width: '100%' }}>
@@ -102,7 +113,7 @@ export default function MatrixView({
                         <div className="element-id">{pe.id}</div>
                         <div className="element-name">{getPEName(pe.id, language)}</div>
                       </div>
-                      {/* Przycisk pomocy tylko dla PE 004 */}
+                      {/*Opis elemoentów tylko dla PE 004 */}
                       {pe.id === '004' && layerId === 'L3' && (
                         <div className="element-actions" style={{ position: 'relative', opacity: 1 }}>
                           <button
@@ -154,7 +165,7 @@ export default function MatrixView({
                   </div>
                 </div>
                 
-                {/* Specjalna obsługa dla PE 004 - dynamiczne źródła */}
+                {/*obsługa dynamicznie zmienianych źródeł dla PE 004 */}
                 {pe.id === '004' && layerId === 'L3' ? (
                   <SourcesView
                     sources={sources || []}
@@ -166,7 +177,7 @@ export default function MatrixView({
                     language={language}
                   />
                 ) : (
-                  /* Elementy podrzędne - standardowa obsługa */
+                  /*elementy podrzędne render (id, nazwa, badge oceny, buttony, opis) */
                   <div className="secondary-elements">
                     {pe.secondary.map((seId) => {
                     const cellId = `${layerId}-${seId}`;
@@ -196,7 +207,7 @@ export default function MatrixView({
                               <div className="element-name">{getSEName(seId, language)}</div>
                             </div>
                             
-                            {/* Action Buttons */}
+                            {/*buttony*/}
                             <div className="element-actions">
                               <button
                                 className="action-btn expand-btn"
@@ -226,7 +237,7 @@ export default function MatrixView({
                             </div>
                           </div>
                           
-                          {/* Rozwijany panel z opisem i wskazówkami */}
+                          {/*rozwijany panel z opisem i wskazówkami */}
                           {isExpanded && (
                             <div className="element-expanded-content">
                               {description && (
@@ -259,7 +270,7 @@ export default function MatrixView({
         </div>
       ))}
 
-      {/* Comment Dialog */}
+      {/*dialog komentowania*/}
       {selectedCell && (
         <CommentDialog
           isOpen={!!selectedCell}
@@ -275,7 +286,7 @@ export default function MatrixView({
         />
       )}
 
-      {/* Rating Dialog */}
+      {/*dialog oceniania*/}
       {selectedRatingCell && (
         <RatingDialog
           isOpen={!!selectedRatingCell}
