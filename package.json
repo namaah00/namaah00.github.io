@@ -1,7 +1,7 @@
 {
-  "name": "system-analizy-informacji",
+  "name": "model-weryfikacji-informacji",
   "version": "1.0.0",
-  "description": "System analizy taktyk i technik cyberbezpieczeństwa",
+  "description": "Model weryfikacji informacji",
   "license": "Apache-2.0",
   "type": "module",
   "scripts": {
