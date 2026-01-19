@@ -1,20 +1,19 @@
-#nazwa workflow „Wdróż na GitHub Pages”
+#nazwa workflow widoczna na github w repo
 name: Deploy to GitHub Pages
 
-#automatyne uruchomienie workflow po zrobieniu push na gałęzi main
+#workflow uruchomi się za każdym razem, gdy zostanie wykonany push do gałęzi main
 on:
   push:
     branches: [ main ]
   workflow_dispatch:
 
-#uprawnienia : pozwala odczytać repozytorium, pozwala zapisać i wdrożyć strone na GitHub Pages,
-#id-token używany do uwierzytelnienia w ramach GitHub Actions
+#uprawienia workflow do odczytu repo, tworzenia github pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
-#tylko jedno wdrożenie może działać na Pages; jeśli nowe wdrożenie się zacznie, nie anuluje ono poprzedniego
+#nowe wdrożenie nie przerywa trwającego, unikane są konflikty
 concurrency:
   group: "pages"
   cancel-in-progress: false
@@ -25,35 +24,35 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      #pobiera kod z repozytorium, żeby workflow miał do niego dostęp
+      #pobraanie kodu z repozytorium, żeby workflow miał do niego dostęp
       - name: Checkout
         uses: actions/checkout@v4
 
-      #instaluje środowisko Node.js 18 wersja, które jest potrzebne do uruchomienia projektu,
+      #instalacja środowisko Node.js 18 wersja, które jest potrzebne do uruchomienia projektu,
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: '18'
       
-      #uruchamia npm install, czyli insatluje wszystkie zależności z package.json    
+      #instalacja paczek z package.json   
       - name: Install dependencies
         run: npm install
       
-      #uruchamia npm run build, która buduje stronę   
+      #uruchomienie npm run build, która buduje stronę   
       - name: Build
         run: npm run build
       
-      #konfigurujeśrodowisko wdrożenia strony na GitHub Pages (ustawia parametry i ścieżki)
+      #konfiguracja środowiska wdrożenia strony na GitHub Pages
       - name: Setup Pages
         uses: actions/configure-pages@v4
       
-      #pakuje i wysyła stronę (paczka, którą GitHub Pages opublikuje)
+      #pakowanie i wysyłka strony (paczka, którą GitHub Pages opublikuje)
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: './dist'
       
-      #publikuje stronę na GitHub Pages
+      #publikacja strony na GitHub Pages
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
