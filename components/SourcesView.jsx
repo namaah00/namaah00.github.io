@@ -9,7 +9,7 @@ export default function SourcesView({ sources, comments, onAddSource, onDeleteSo
   const [isAddingSource, setIsAddingSource] = useState(false);
   const [selectedCell, setSelectedCell] = useState(null);
 
-  // Elementy podrzędne dla każdego źródła (stałe)
+  //stale elementy podrzędne dla każdego źródła
   const SE_ITEMS = [
     { id: 1, key: 'se004_1' },
     { id: 2, key: 'se004_2' },
@@ -19,42 +19,43 @@ export default function SourcesView({ sources, comments, onAddSource, onDeleteSo
 
   const t = (key) => translations[language][key];
 
+  //funckja dodaje nazwę źródła wpisaną przez użytkownika
   const handleAddSource = (title) => {
     if (onAddSource) {
       onAddSource(title);
       setIsAddingSource(false);
     }
   };
-
+//funkcja usuwania źródła z potwierdzeniem użytkownika
   const handleDeleteSource = (sourceId) => {
     if (confirm(`${t('sourcesConfirmDelete')}\n${t('sourcesWillBeDeleted')}`)) {
       if (onDeleteSource) {
-        onDeleteSource(sourceId);
+        onDeleteSource(sourceId); //wywołanie usuwania
       }
     }
   };
-
+//którą komórkę użytkownik kliknął (selectedCell = "004.1.2")
   const handleCellClick = (cellId) => {
     setSelectedCell(cellId);
   };
-
+//zapis komentarza jesli komórka jest wybrana i treść, tytuł i obrazy wprowadzone
   const handleSaveComment = (title, content, images) => {
     if (selectedCell) {
       onSaveComment(selectedCell, title, content, images);
-      setSelectedCell(null);
+      setSelectedCell(null); //zamknięcie okna
     }
   };
-
+//usunięcie komentarza dla zaznaczonej komórki
   const handleDeleteComment = () => {
     if (selectedCell) {
       onDeleteComment(selectedCell);
       setSelectedCell(null);
     }
   };
-
+//widok UI
   return (
     <div className="sources-container">
-      <div className="sources-header">
+      <div className="sources-header"> {/**nagłówek z przyciskiem dodawania nowego źródła */}
         <button
           className="btn btn-primary sources-add-btn"
           onClick={() => setIsAddingSource(true)}
@@ -64,15 +65,16 @@ export default function SourcesView({ sources, comments, onAddSource, onDeleteSo
         </button>
       </div>
 
+      {/**sprawdzenei, czy są już jakieś źródła dodane (powiadomienie o braku źródeł lub  siatka źrodeł) */}
       {sources.length === 0 ? (
         <div className="no-sources-message">
           <p>{t('sourcesNoSources')}</p>
         </div>
       ) : (
-        <div className="sources-grid">
+        <div className="sources-grid"> {/**lista źródeł (karta źródła, unikalny klucz, style)*/}
           {sources.map((source) => (
             <div key={source.id} className="source-card">
-              <div className="source-header">
+              <div className="source-header"> {/**nagłówek pojedyńczego źródła (ID, nazwa, przycisk usuwania źródła)*/} 
                 <div className="source-title-row">
                   <span className="source-id">{source.id}</span>
                   <h4 className="source-title">{source.title}</h4>
@@ -86,11 +88,13 @@ export default function SourcesView({ sources, comments, onAddSource, onDeleteSo
                 </button>
               </div>
               
+              {/** powstanie ID komórki (źródło 004.1 - seId 004.1.1, 004.1.2, 004.1.3, 004.1.4)*/}
               <div className="source-elements">
                 {SE_ITEMS.map((se) => {
                   const seId = `${source.id}.${se.id}`;
                   const hasComment = comments[seId];
                   
+                   {/** zapisywanie komentarza pod kluczem danej komórki*/}
                   return (
                     <div
                       key={seId}
@@ -103,6 +107,7 @@ export default function SourcesView({ sources, comments, onAddSource, onDeleteSo
                           {getSEName(seId, language)}
                         </div>
                       </div>
+                       {/**jeśli jest komentarz, dodaje ikonę komentarza , jeśli nie ma, dodaje ikonę +*/}
                       {hasComment ? (
                         <span className="comment-indicator"><MessageSquare size={14} /></span>
                       ) : (
