@@ -4,10 +4,10 @@ import { RADAR_LABELS } from './pdfConstants.js';
 import { getTranslation } from './pdfTextUtils.js';
 
 /**
- * Sprawdza czy dla danego PE są kompletne dane ocen
- * @param {string} peId - ID Primary Element ('001' lub '002')
- * @param {Object} comments - Obiekt z komentarzami
- * @returns {boolean} - True jeśli wszystkie SE mają oceny
+ * Sprawdzenie kompletności ocen dla danego elementu nadrzędnego (PE)
+ * @param {string} peId - ID PE (001 lub 002)
+ * @param {Object} comments - obiekt z komentarzami
+ * @returns {boolean} - true jeśli wszystkie elementy podrzędne (SE) mają oceny
  */
 export const checkRadarDataCompleteness = (peId, comments) => {
   const seCount = peId === '001' ? 6 : 4;
@@ -25,11 +25,11 @@ export const checkRadarDataCompleteness = (peId, comments) => {
 };
 
 /**
- * Przygotowuje dane dla wykresu radarowego
- * @param {string} peId - ID Primary Element ('001' lub '002')
- * @param {Object} comments - Obiekt z komentarzami
- * @param {string} language - Język ('pl' lub 'en')
- * @returns {Array} - Dane dla Recharts RadarChart
+ * przygotowanei danych dla wykresu radarowego
+ * @param {string} peId - ID Primary Element (001 lub 002)
+ * @param {Object} comments - obiekt z komentarzami
+ * @param {string} language - język (pl lub en)
+ * @returns {Array} - dane dla Recharts RadarChart
  */
 export const prepareRadarChartData = (peId, comments, language) => {
   const seCount = peId === '001' ? 6 : 4;
@@ -51,27 +51,27 @@ export const prepareRadarChartData = (peId, comments, language) => {
 };
 
 /**
- * Generuje wykres radarowy jako obraz Base64
+ * generowanie wykresu radarowy jako obraz Base64
  * @param {string} peId - ID Primary Element ('001' lub '002')
- * @param {Object} comments - Obiekt z komentarzami
- * @param {string} language - Język ('pl' lub 'en')
- * @returns {Promise<string|null>} - Base64 data URL obrazu lub null jeśli brak danych
+ * @param {Object} comments - obiekt z komentarzami
+ * @param {string} language - język ('pl' lub 'en')
+ * @returns {Promise<string|null>} - base64 data URL obrazu lub null jeśli brak danych
  */
 export const generateRadarChartImage = async (peId, comments, language) => {
   return new Promise(async (resolve) => {
     try {
-      // Sprawdź kompletność danych
+      // sprawdzanie kompletności danych
       if (!checkRadarDataCompleteness(peId, comments)) {
         console.log(`Radar chart for PE ${peId}: incomplete data`);
         resolve(null);
         return;
       }
       
-      // Przygotuj dane
+      //przygotowanie danych
       const chartData = prepareRadarChartData(peId, comments, language);
       console.log('Radar chart data for PE', peId, ':', chartData);
       
-      // Stwórz tymczasowy kontener
+      //stworzenie tymczasowego kontenera (ukryty poza ekranem aby nie pokazywać go użytkownikowi)
       const container = document.createElement('div');
       container.style.position = 'absolute';
       container.style.left = '-9999px';
@@ -81,7 +81,7 @@ export const generateRadarChartImage = async (peId, comments, language) => {
       container.style.padding = '50px';
       document.body.appendChild(container);
       
-      // Import dynamiczny Recharts i React DOM
+      //import dynamiczny Recharts i React DOM
       const { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis } = await import('recharts');
       const { createRoot } = await import('react-dom/client');
       
@@ -91,7 +91,8 @@ export const generateRadarChartImage = async (peId, comments, language) => {
         ? `${t('pdfPrimaryElement')} 001 - ${t('pe001')}`
         : `${t('pdfPrimaryElement')} 002 - ${t('pe002')}`;
       
-      // Renderuj wykres
+      //renderowanie wykresu w tymczasowym kontenezre - Wykres ma: siatkę (PolarGrid), osie kątowe (PolarAngleAxis),
+      //osie promieniowe (PolarRadiusAxis), linię radarową (Radar)
       const root = createRoot(container);
       root.render(
         React.createElement('div', { 
@@ -148,27 +149,27 @@ export const generateRadarChartImage = async (peId, comments, language) => {
         )
       );
       
-      // Czekaj na renderowanie
+      //czekanie na pełne wyrenderowanie 2s
       await new Promise(r => setTimeout(r, 2000));
       
-      // Dodatkowe oczekiwanie na pełne renderowanie SVG
+      //dodatkowe oczekiwanie na pełne renderowanie SVG
       await new Promise(r => {
         const checkSvg = setInterval(() => {
           const svg = container.querySelector('svg');
           if (svg && svg.querySelector('.recharts-surface')) {
             clearInterval(checkSvg);
-            setTimeout(r, 500); // Dodatkowe 500ms po renderowaniu SVG
+            setTimeout(r, 500); //dodatkowe 500ms po renderowaniu SVG
           }
         }, 100);
         
-        // Timeout zabezpieczający (3 sekundy)
+        //timeout zabezpieczający (3 sekundy)
         setTimeout(() => {
           clearInterval(checkSvg);
           r();
         }, 3000);
       });
       
-      // Zrzut do canvas
+      //zrzut do canvas i konwersja html2canvas
       const canvas = await html2canvas(container, {
         backgroundColor: '#ffffff',
         scale: 2,
@@ -176,10 +177,11 @@ export const generateRadarChartImage = async (peId, comments, language) => {
       
       const imgData = canvas.toDataURL('image/png');
       
-      // Usuń kontener
+      //czyszczenie kontenera
       root.unmount();
       document.body.removeChild(container);
       
+      //funkcja zwraca Base64 string PNG, gotowy do wstawienia do PDF
       resolve(imgData);
     } catch (error) {
       console.error('Error generating radar chart:', error);
