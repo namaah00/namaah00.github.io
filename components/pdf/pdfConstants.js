@@ -1,17 +1,11 @@
-/**
- * Stałe używane w generatorze PDF
- */
 
 export const PDF_CONFIG = {
-  // Wymiary strony
-  pageFormat: 'a4',
-  orientation: 'p',
-  unit: 'mm',
+  pageFormat: 'a4', //rozmiar strony A4
+  orientation: 'p', //orientacja pionowa
+  unit: 'mm', //jestostka mm
+  margin: 20, //marginesy
   
-  // Marginesy
-  margin: 20,
-  
-  // Rozmiary czcionek
+  //rozmiary czcionek
   fontSize: {
     title: 24,
     subtitle: 14,
@@ -22,7 +16,7 @@ export const PDF_CONFIG = {
     footer: 8
   },
   
-  // Kolory (RGB)
+  //kolory RGB
   colors: {
     primary: [102, 126, 234],      // #667eea
     text: [0, 0, 0],                // czarny
@@ -31,7 +25,7 @@ export const PDF_CONFIG = {
     white: [255, 255, 255]
   },
   
-  // Odstępy
+  //odstępy
   spacing: {
     lineHeight: 7,
     sectionGap: 10,
@@ -39,7 +33,7 @@ export const PDF_CONFIG = {
     titleGap: 10
   },
   
-  // Grubaości linii
+  //grubaości linii
   lineWidth: {
     normal: 0.5,
     separator: 1,
@@ -47,13 +41,13 @@ export const PDF_CONFIG = {
   }
 };
 
-// Mapa polskich znaków dla jsPDF (standard fonts nie obsługują UTF-8)
+//mapa polskich znaków dla jsPDF
 export const POLISH_CHARS_MAP = {
   'ą': 'a', 'ć': 'c', 'ę': 'e', 'ł': 'l', 'ń': 'n', 'ó': 'o', 'ś': 's', 'ź': 'z', 'ż': 'z',
   'Ą': 'A', 'Ć': 'C', 'Ę': 'E', 'Ł': 'L', 'Ń': 'N', 'Ó': 'O', 'Ś': 'S', 'Ź': 'Z', 'Ż': 'Z'
 };
 
-// Nazwy osi dla wykresów radarowych
+//nazwy osi w wykresach radarowych
 export const RADAR_LABELS = {
   '001': {
     pl: {
