@@ -1,20 +1,16 @@
-/**
- * Główny moduł generowania PDF - orkestracja wszystkich komponentów
- */
-
 import { createPDF, getPageDimensions, addStandardHeader, addPageNumbers, checkPageBreak, savePDF } from './pdfPageUtils.js';
 import { renderTitlePage } from './pdfTitlePage.js';
 import { renderLayer } from './pdfLayerRenderers.js';
 
 /**
- * Generuje raport PDF z komentarzami
- * @param {Object} params - Parametry generowania PDF
- * @param {Object} params.comments - Obiekt z komentarzami
- * @param {Array} params.sources - Lista źródeł
- * @param {Object} params.MATRIX_DATA - Dane matrycy
- * @param {string} params.language - Język ('pl' lub 'en')
- * @param {string} params.title - Tytuł raportu (opcjonalny)
- * @param {string} params.author - Autor raportu (opcjonalny)
+ * generuje raport PDF z komentarzami
+ * @param {Object} params - parametry generowania PDF
+ * @param {Object} params.comments - obiekt z komentarzami
+ * @param {Array} params.sources - lista źródeł
+ * @param {Object} params.MATRIX_DATA - dane matrycy
+ * @param {string} params.language - język (pl lub en)
+ * @param {string} params.title - tytuł raportu
+ * @param {string} params.author - autor raportu
  * @returns {Promise<void>}
  */
 export const generatePDF = async ({
@@ -25,16 +21,15 @@ export const generatePDF = async ({
   title = '',
   author = ''
 }) => {
-  // Zabezpieczenie - upewnij się że language jest poprawny
+  //upewnienie się, że język jest poprawny, domyślnie polski
   const safeLanguage = (language === 'pl' || language === 'en') ? language : 'pl';
   
-  // Stwórz instancję PDF
-  const pdf = createPDF();
-  const { margin } = getPageDimensions(pdf);
+  //stworzenie instancji PDF
+  const pdf = createPDF(); //tworzy nowy obiekt PDF
+  const { margin } = getPageDimensions(pdf); //pobiera marginesy i wymiary strony
+  let yPosition = margin; //śledzi aktualną wysokość w PDF
   
-  let yPosition = margin;
-  
-  // === STRONA TYTUŁOWA (jeśli podano tytuł i autora) ===
+  //strona tytułowa jesli podano tytul i autora
   if (title && author) {
     yPosition = renderTitlePage(pdf, {
       title,
@@ -44,24 +39,25 @@ export const generatePDF = async ({
       sources
     });
   } else {
-    // === STANDARDOWY NAGŁÓWEK (bez strony tytułowej) ===
+    //jesli nie podano tytulu i autora, bez strony tytułowej
     const commentsCount = Object.keys(comments).length;
     yPosition = addStandardHeader(pdf, safeLanguage, commentsCount, yPosition);
   }
   
-  // === FUNKCJA POMOCNICZA: Sprawdzanie łamania stron ===
+  //łamanie stron
   // Przekazujemy title, author i language dla nagłówków na nowych stronach
   const checkPageBreakFn = (pdfInstance, currentY, requiredHeight) => {
     return checkPageBreak(pdfInstance, currentY, requiredHeight, title, author, safeLanguage);
   };
   
-  // === RENDEROWANIE WARSTW ===
-  // Sprawdź czy są jakiekolwiek komentarze
+  //renderowanie warstw
+  //sprawdzenie czy są jakiekolwiek komentarze
   let hasAnyComments = false;
   
-  for (const [layerId, layer] of Object.entries(MATRIX_DATA)) {
-    // Renderuj warstwę
-    const newYPosition = await renderLayer(
+  for (const [layerId, layer] of Object.entries(MATRIX_DATA)) { //MATRIX_DATA zawiera wszystkie warstwy L1, L2, L3
+    //renderowanie warstwy
+    const newYPosition = await renderLayer( //renderuje nagłówek warstwy, przechodzi po wszystkich elementach i komentarzach
+    // rysuje oceny, treści i obrazy, obsługuje łamanie stron dzięki checkPageBreakFn
       pdf,
       layerId,
       layer,
@@ -72,16 +68,16 @@ export const generatePDF = async ({
       checkPageBreakFn
     );
     
-    // Jeśli pozycja Y się zmieniła, oznacza to że warstwa miała komentarze
+    //jeśli pozycja Y się zmieniła, oznacza to że warstwa miała komentarze
     if (newYPosition !== yPosition) {
       hasAnyComments = true;
       yPosition = newYPosition;
     }
   }
   
-  // === NUMERACJA STRON (stopki) ===
+  //stopki (numeracja stron)
   addPageNumbers(pdf, title, safeLanguage);
   
-  // === ZAPIS PLIKU ===
+  //zapis pdf
   savePDF(pdf, title, safeLanguage);
 };
