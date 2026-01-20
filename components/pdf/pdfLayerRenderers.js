@@ -5,14 +5,16 @@ import { generateRadarChartImage } from './pdfChartGenerator.js';
 import { hasCommentContent, renderComment } from './pdfCommentRenderer.js';
 
 /**
- * Renderuje nagłówek warstwy (L1, L2, L3)
- * @param {jsPDF} pdf - Instancja PDF
+ * renderuje nagłówek warstwy (L1, L2, L3)
+ * @param {jsPDF} pdf - instancja PDF
  * @param {string} layerId - ID warstwy
- * @param {string} language - Język
- * @param {number} yPosition - Aktualna pozycja Y
- * @param {Function} checkPageBreakFn - Funkcja łamania stron
- * @returns {number} - Nowa pozycja Y
+ * @param {string} language - język
+ * @param {number} yPosition - aktualna pozycja Y
+ * @param {Function} checkPageBreakFn - funkcja łamania stron
+ * @returns {number} - nowa pozycja Y
  */
+
+//nagłówek warstw
 const renderLayerHeader = (pdf, layerId, language, yPosition, checkPageBreakFn) => {
   const { margin } = PDF_CONFIG;
   const pageWidth = pdf.internal.pageSize.getWidth();
@@ -28,7 +30,7 @@ const renderLayerHeader = (pdf, layerId, language, yPosition, checkPageBreakFn) 
   pdf.text(encodeText(layerName), margin, currentY);
   currentY += 8;
   
-  // Linia pod nagłówkiem
+  //linia pod nagłówkiem
   pdf.setDrawColor(...PDF_CONFIG.colors.muted);
   pdf.setLineWidth(PDF_CONFIG.lineWidth.normal);
   pdf.line(margin, currentY, pageWidth - margin, currentY);
@@ -38,34 +40,35 @@ const renderLayerHeader = (pdf, layerId, language, yPosition, checkPageBreakFn) 
 };
 
 /**
- * Renderuje wykresy radarowe dla warstwy L1
+ *renderuje wykresy radarowe dla warstwy L1
  * @param {jsPDF} pdf - Instancja PDF
- * @param {Object} comments - Obiekt z komentarzami
+ * @param {Object} comments - obiekt z komentarzami
  * @param {string} language - Język
- * @param {number} yPosition - Aktualna pozycja Y
- * @param {Function} checkPageBreakFn - Funkcja łamania stron
- * @returns {Promise<number>} - Nowa pozycja Y
+ * @param {number} yPosition - aktualna pozycja Y
+ * @param {Function} checkPageBreakFn - funkcja łamania stron
+ * @returns {Promise<number>} - nowa pozycja Y
  */
+
 const renderL1RadarCharts = async (pdf, comments, language, yPosition, checkPageBreakFn) => {
   const { margin } = PDF_CONFIG;
   const contentWidth = pdf.internal.pageSize.getWidth() - (2 * margin);
   
   console.log('Generating radar charts for L1...');
   
-  const chart001 = await generateRadarChartImage('001', comments, language);
-  const chart002 = await generateRadarChartImage('002', comments, language);
+  const chart001 = await generateRadarChartImage('001', comments, language); //Wywołuje generateRadarChartImage  dla 001
+  const chart002 = await generateRadarChartImage('002', comments, language); //Wywołuje generateRadarChartImage  dla 002
   
-  console.log('Chart 001 result:', chart001 ? 'SUCCESS' : 'NULL');
+  console.log('Chart 001 result:', chart001 ? 'SUCCESS' : 'NULL'); //powiadomienia na konsoli
   console.log('Chart 002 result:', chart002 ? 'SUCCESS' : 'NULL');
   
   let currentY = yPosition;
   
   if (!chart001 && !chart002) {
-    return currentY; // Brak wykresów
+    return currentY; //jesli brak wykresów
   }
   
   if (chart001 && chart002) {
-    // Oba wykresy - renderuj obok siebie
+    //oba wykresy render obok siebie
     const result = checkPageBreakFn(pdf, currentY, 110);
     currentY = result.yPosition;
     
@@ -104,15 +107,15 @@ const renderL1RadarCharts = async (pdf, comments, language, yPosition, checkPage
 };
 
 /**
- * Renderuje Primary Element (PE) i jego Secondary Elements (SE)
- * @param {jsPDF} pdf - Instancja PDF
- * @param {Object} pe - Obiekt Primary Element
- * @param {string} layerId - ID warstwy
- * @param {Object} comments - Obiekt z komentarzami
- * @param {string} language - Język
- * @param {number} yPosition - Aktualna pozycja Y
+ *renderuje Primary Element (PE) i jego Secondary Elements (SE)
+ * @param {jsPDF} pdf - instancja PDF
+ * @param {Object} pe - obiekt Primary Element
+ * @param {string} layerId - id warstwy
+ * @param {Object} comments - obiekt z komentarzami
+ * @param {string} language - język
+ * @param {number} yPosition - aktualna pozycja Y
  * @param {Function} checkPageBreakFn - Funkcja łamania stron
- * @returns {Promise<number>} - Nowa pozycja Y
+ * @returns {Promise<number>} - nowa pozycja Y
  */
 const renderPrimaryElement = async (pdf, pe, layerId, comments, language, yPosition, checkPageBreakFn) => {
   const { margin } = PDF_CONFIG;
@@ -120,7 +123,7 @@ const renderPrimaryElement = async (pdf, pe, layerId, comments, language, yPosit
   
   let currentY = yPosition;
   
-  // Sprawdź czy PE ma komentarze
+  //sprawdzenie czy PE ma komentarze
   let peHasComments = false;
   for (const seId of pe.secondary) {
     const cellId = `${layerId}-${seId}`;
@@ -131,7 +134,7 @@ const renderPrimaryElement = async (pdf, pe, layerId, comments, language, yPosit
   }
   
   if (!peHasComments) {
-    return currentY; // Brak komentarzy - pomiń PE
+    return currentY; //brak komentarzy (bez PE)
   }
   
   // Nagłówek PE
@@ -144,7 +147,7 @@ const renderPrimaryElement = async (pdf, pe, layerId, comments, language, yPosit
   pdf.text(encodeText(peName), margin + 3, currentY);
   currentY += 8;
   
-  // Renderuj komentarze dla SE
+  //render komentarze dla SE
   for (const seId of pe.secondary) {
     const cellId = `${layerId}-${seId}`;
     const comment = comments[cellId];
@@ -159,7 +162,7 @@ const renderPrimaryElement = async (pdf, pe, layerId, comments, language, yPosit
         language,
         currentY,
         checkPageBreakFn,
-        5 // indent level
+        5 //wcięcie
       );
     }
   }
@@ -168,14 +171,14 @@ const renderPrimaryElement = async (pdf, pe, layerId, comments, language, yPosit
 };
 
 /**
- * Renderuje warstwę L1 (PE 001, 002 z wykresami)
- * @param {jsPDF} pdf - Instancja PDF
- * @param {Object} layer - Obiekt warstwy
- * @param {Object} comments - Obiekt z komentarzami
- * @param {string} language - Język
- * @param {number} yPosition - Aktualna pozycja Y
- * @param {Function} checkPageBreakFn - Funkcja łamania stron
- * @returns {Promise<number>} - Nowa pozycja Y
+ * renderuje całą warstwę L1 (PE 001, 002 z wykresami)
+ * @param {jsPDF} pdf - instancja PDF
+ * @param {Object} layer - obiekt warstwy
+ * @param {Object} comments - obiekt z komentarzami
+ * @param {string} language - język
+ * @param {number} yPosition - aktualna pozycja Y
+ * @param {Function} checkPageBreakFn - funkcja łamania stron
+ * @returns {Promise<number>} - nowa pozycja Y
  */
 export const renderL1Layer = async (pdf, layer, comments, language, yPosition, checkPageBreakFn) => {
   let currentY = yPosition;
@@ -183,10 +186,10 @@ export const renderL1Layer = async (pdf, layer, comments, language, yPosition, c
   // Nagłówek warstwy
   currentY = renderLayerHeader(pdf, 'L1', language, currentY, checkPageBreakFn);
   
-  // Wykresy radarowe
+  //wykresy radarowe
   currentY = await renderL1RadarCharts(pdf, comments, language, currentY, checkPageBreakFn);
   
-  // Renderuj PE (001, 002)
+  //renderuj PE (001, 002)
   for (const pe of layer.primary) {
     currentY = await renderPrimaryElement(pdf, pe, 'L1', comments, language, currentY, checkPageBreakFn);
   }
@@ -195,22 +198,22 @@ export const renderL1Layer = async (pdf, layer, comments, language, yPosition, c
 };
 
 /**
- * Renderuje warstwę L2 (PE 003)
- * @param {jsPDF} pdf - Instancja PDF
- * @param {Object} layer - Obiekt warstwy
- * @param {Object} comments - Obiekt z komentarzami
- * @param {string} language - Język
+ *renderuje warstwę L2 (PE 003)
+ * @param {jsPDF} pdf - instancja PDF
+ * @param {Object} layer - obiekt warstwy
+ * @param {Object} comments - obiekt z komentarzami
+ * @param {string} language - język
  * @param {number} yPosition - Aktualna pozycja Y
- * @param {Function} checkPageBreakFn - Funkcja łamania stron
- * @returns {Promise<number>} - Nowa pozycja Y
+ * @param {Function} checkPageBreakFn - funkcja łamania stron
+ * @returns {Promise<number>} - nowa pozycja Y
  */
 export const renderL2Layer = async (pdf, layer, comments, language, yPosition, checkPageBreakFn) => {
   let currentY = yPosition;
   
-  // Nagłówek warstwy
+  //nagłówek warstwy
   currentY = renderLayerHeader(pdf, 'L2', language, currentY, checkPageBreakFn);
   
-  // Renderuj PE (003)
+  //eenderuje PE (003)
   for (const pe of layer.primary) {
     currentY = await renderPrimaryElement(pdf, pe, 'L2', comments, language, currentY, checkPageBreakFn);
   }
@@ -219,27 +222,27 @@ export const renderL2Layer = async (pdf, layer, comments, language, yPosition, c
 };
 
 /**
- * Renderuje warstwę L3 (PE 004 z dynamicznymi źródłami)
- * @param {jsPDF} pdf - Instancja PDF
- * @param {Object} layer - Obiekt warstwy
- * @param {Array} sources - Tablica źródeł
- * @param {Object} comments - Obiekt z komentarzami
- * @param {string} language - Język
- * @param {number} yPosition - Aktualna pozycja Y
- * @param {Function} checkPageBreakFn - Funkcja łamania stron
- * @returns {Promise<number>} - Nowa pozycja Y
+ *renderuje warstwę L3 (PE 004 z dynamicznymi źródłami)
+ * @param {jsPDF} pdf - instancja PDF
+ * @param {Object} layer - obiekt warstwy
+ * @param {Array} sources - tablica źródeł
+ * @param {Object} comments - obiekt z komentarzami
+ * @param {string} language - język
+ * @param {number} yPosition - aktualna pozycja Y
+ * @param {Function} checkPageBreakFn - funkcja łamania stron
+ * @returns {Promise<number>} - nowa pozycja Y
  */
 export const renderL3Layer = async (pdf, layer, sources, comments, language, yPosition, checkPageBreakFn) => {
   const { margin } = PDF_CONFIG;
   const t = (key) => getTranslation(key, language);
   
   if (sources.length === 0) {
-    return yPosition; // Brak źródeł
+    return yPosition; //jesli brak źródeł
   }
   
   let currentY = yPosition;
   
-  // Sprawdź czy PE 004 ma jakiekolwiek komentarze
+  //sprawdzenie czy PE 004 ma jakiekolwiek komentarze
   let peHasComments = false;
   for (const source of sources) {
     for (let i = 1; i <= 4; i++) {
@@ -253,13 +256,13 @@ export const renderL3Layer = async (pdf, layer, sources, comments, language, yPo
   }
   
   if (!peHasComments) {
-    return currentY; // Brak komentarzy
+    return currentY; //brak komentarzy
   }
   
   // Nagłówek warstwy
   currentY = renderLayerHeader(pdf, 'L3', language, currentY, checkPageBreakFn);
   
-  // Nagłówek PE 004
+  //nagłówek PE 004
   const result = checkPageBreakFn(pdf, currentY, 12);
   currentY = result.yPosition;
   
@@ -270,12 +273,12 @@ export const renderL3Layer = async (pdf, layer, sources, comments, language, yPo
   pdf.text(encodeText(peName), margin + 3, currentY);
   currentY += 8;
   
-  // Iteruj przez każde źródło
+  //iteruj przez każde źródło
   for (const source of sources) {
     let sourceHasComments = false;
     const sourceComments = [];
     
-    // Zbierz komentarze dla tego źródła
+    //zbierz komentarze dla tego źródła
     for (let i = 1; i <= 4; i++) {
       const seId = `${source.id}.${i}`;
       const seComment = comments[seId];
@@ -287,12 +290,12 @@ export const renderL3Layer = async (pdf, layer, sources, comments, language, yPo
       }
     }
     
-    // Renderuj źródło jeśli ma komentarze
+    //renderuj źródło jeśli ma komentarze
     if (sourceHasComments) {
       const result2 = checkPageBreakFn(pdf, currentY, 10);
       currentY = result2.yPosition;
       
-      // Tytuł źródła
+      //tytuł źródła
       pdf.setFontSize(10);
       pdf.setFont('helvetica', 'bold');
       pdf.setTextColor(...PDF_CONFIG.colors.text); // Czarny kolor dla tytułu źródła
@@ -308,10 +311,10 @@ export const renderL3Layer = async (pdf, layer, sources, comments, language, yPo
         currentY += 6;
       }
       
-      // Kolor już jest czarny, nie trzeba resetować
+      //kolor już jest czarny, nie trzeba resetować
       currentY += 2;
       
-      // Renderuj komentarze dla tego źródła
+      //renderuj komentarze dla tego źródła
       for (const item of sourceComments) {
         currentY = await renderComment(
           pdf,
@@ -319,7 +322,7 @@ export const renderL3Layer = async (pdf, layer, sources, comments, language, yPo
           language,
           currentY,
           checkPageBreakFn,
-          10 // większe wcięcie dla źródeł
+          10 //w iększe wcięcie dla źródeł
         );
       }
     }
@@ -329,16 +332,16 @@ export const renderL3Layer = async (pdf, layer, sources, comments, language, yPo
 };
 
 /**
- * Renderuje warstwę (dispatch function)
- * @param {jsPDF} pdf - Instancja PDF
- * @param {string} layerId - ID warstwy
- * @param {Object} layer - Obiekt warstwy
- * @param {Object} comments - Obiekt z komentarzami
- * @param {Array} sources - Tablica źródeł
- * @param {string} language - Język
- * @param {number} yPosition - Aktualna pozycja Y
- * @param {Function} checkPageBreakFn - Funkcja łamania stron
- * @returns {Promise<number>} - Nowa pozycja Y
+ * renderuje warstwę (dispatch function)
+ * @param {jsPDF} pdf - instancja PDF
+ * @param {string} layerId - iD warstwy
+ * @param {Object} layer - obiekt warstwy
+ * @param {Object} comments - obiekt z komentarzami
+ * @param {Array} sources - tablica źródeł
+ * @param {string} language - język
+ * @param {number} yPosition - kktualna pozycja Y
+ * @param {Function} checkPageBreakFn - funkcja łamania stron
+ * @returns {Promise<number>} - nowa pozycja Y
  */
 export const renderLayer = async (pdf, layerId, layer, comments, sources, language, yPosition, checkPageBreakFn) => {
   if (layerId === 'L1') {
