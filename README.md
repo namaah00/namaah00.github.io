@@ -8,16 +8,34 @@ Aplikacja webowa będąca implementacją modelu weryfikacji informacji. System u
 
 ---
 
-## Główne funkcje
+##  Główne funkcjonalności
 
-- **Hierarchiczna struktura warstw L1-L3** - trójpoziomowa struktura elementów nadrzędnych (PE) i podrzędnych (SE) weryfikacji informacji
-- **System ocen (0-5) dla warstwy L1** - precyzyjne ocenianie elementów podrzędnych warstwy 1 według ustalonych kryteriów
-- **Interaktywne komentarze** - system notatek z możliwością załączania materiałów graficznych
-- **Modularny silnik PDF** - 10 wyspecjalizowanych modułów do generowania raportów
-- **Wykresy radarowe** - wizualna reprezentacja ocen i rozkładu elementów (RadarChartDialog)
-- **Wielojęzyczność** - pełne wsparcie dla języka polskiego i angielskiego
-- **Eksport/Import JSON** - pełna mobilność danych projektowych
-- **Tryb ciemny/jasny** - interfejs zoptymalizowany pod kątem komfortu pracy
+###  Zarządzanie strukturą danych (Warstwy L1-L3)
+- **Trójpoziomowa hierarchia (L1–L3)** - wizualizacja danych.
+- **Dynamiczne mapowanie danych** - automatyczne odświeżanie struktury oraz stanów komórek na podstawie wprowadzonych informacji.
+- **Interaktywna nawigacja** - płynny widok główny oraz dedykowany widok źródeł dodawanych przez użytkownika (`SourcesView`).
+
+###  System ocen i opiniowania
+- **Skala ocen 0–5** - ocenianie elementów weryfikacyjnych według ustalonych kryteriów.
+- **Interaktywne komentarze** - notatki tekstowe z możliwością załączania materiałów graficznych (obrazy).
+- **Pełny system dodawania źródeł dla warstwy L3** - zarządzanie źródłami, dowodami oraz szczegółowymi rekordami weryfikacyjnymi.
+
+###  Analityka wizualna i UX
+- **Wykresy radarowe (Radar Charts)** - dynamiczna prezentacja ocen w dedykowanym dialogu analitycznym (`RadarChartDialog`).
+- **System powiadomień (Toast)** - czytelne informacje zwrotne o akcjach użytkownika.
+- **Tryb jasny / ciemny** - interfejs zoptymalizowany pod kątem komfortu pracy.
+- **Wielojęzyczność** - pełne wsparcie dla języka polskiego i angielskiego z przełączaniem w czasie rzeczywistym.
+
+###  Zaawansowane raportowanie (PDF)
+- **Modularny silnik PDF** - 10 wyspecjalizowanych modułów (m.in. `pdfCore`, `pdfChartGenerator`) do generowania raportów.
+- **Automatyczne wykresy w PDF** - radarowe wizualizacje generowane bezpośrednio w dokumentach.
+- **Konfigurowalny eksport** - możliwość wprowadzenia tytułu i atora raportu przed wygenerowaniem raportu.
+
+###  Zarządzanie danymi i trwałość
+- **Auto-zapis (Persistence)** - synchronizacja stanu aplikacji z `localStorage`.
+- **Eksport / Import JSON** - tworzenie kopii zapasowych i przenoszenie projektów między instancjami aplikacji.
+- **Izolacja danych sesji** - bezpieczeństwo danych na poziomie przeglądarki użytkownika.
+
 
 ---
 
@@ -79,3 +97,4 @@ npm run dev
 
 Apache License 2.0  
 Copyright (c) 2026 Model Weryfikacji Informacji (Information Verification Model)
+
