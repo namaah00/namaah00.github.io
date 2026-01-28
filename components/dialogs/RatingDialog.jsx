@@ -45,7 +45,7 @@ export default function RatingDialog({
     <div className="dialog-backdrop" onClick={handleBackdropClick}>
       <div className="dialog rating-dialog">
         <div className="dialog-header">
-          <h3>⭐ {t('ratingLabel')} - {displayName}</h3>
+          <h3> {t('ratingLabel')} - {displayName}</h3>
           <button className="close-btn" onClick={onClose}>✕</button>
         </div>
 
@@ -67,14 +67,14 @@ export default function RatingDialog({
               {/**lista opcji */}
               {[0, 1, 2, 3, 4, 5].map(val => (
                 <option key={val} value={val}>
-                  {val}/5 — {getRatingDescription(elementId, val, language)}
+                  {val}/5  {getRatingDescription(elementId, val, language)}
                 </option>
               ))}
             </select>
             {/**opis wybranej oceny */}
             {rating !== null && (
               <div className="rating-description">
-                ⭐ <strong>{rating}/5:</strong> {getRatingDescription(elementId, rating, language)}
+                 <strong>{rating}/5:</strong> {getRatingDescription(elementId, rating, language)}
               </div>
             )}
           </div>
