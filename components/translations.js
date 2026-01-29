@@ -30,9 +30,9 @@ export const translations = {
     confirmBackToHome: 'Czy na pewno chcesz wrócić do strony głównej? Niezapisane zmiany zostaną zachowane w pamięci przeglądarki.',
     
     //dialog z tytułem i autorem przy generowaniu pdf
-    pdfDialogTitle: 'Konfiguracja raportu PDF',
+    pdfDialogTitle: 'Personalizacja raportu PDF',
     pdfReportTitleLabel: 'Tytuł raportu',
-    pdfReportTitlePlaceholder: 'np. Analiza kampanii dezinformacyjnej XYZ',
+    pdfReportTitlePlaceholder: 'np. Analiza potencjalnej dezinformacji XYZ',
     pdfAuthorLabel: 'Autor raportu',
     pdfAuthorPlaceholder: 'np. Jan Kowalski',
     pdfGenerateButton: 'Generuj PDF',
