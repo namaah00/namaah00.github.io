@@ -217,8 +217,8 @@ export const translations = {
     //sekcje samouczka
     helpIntroTitle: 'Wprowadzenie',
     helpL1Title: 'Warstwa I - Jakość Informacji',
-    helpL2Title: 'Warstwa II - Szersze tło',
-    helpL3Title: 'Warstwa III - Zestawienie źródeł',
+    helpL2Title: 'Warstwa II - Kontekst',
+    helpL3Title: 'Warstwa III - Kontrast',
     helpUsageTitle: 'Funkcje aplikacji',
     helpTipsTitle: 'Wskazówki',
     
