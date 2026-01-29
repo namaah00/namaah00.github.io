@@ -223,18 +223,18 @@ export const translations = {
     helpTipsTitle: 'Wskazówki',
     
     //zawartość samouczka
-    helpIntroHeading: 'System Analizy Taktyk i Technik Cyberbezpieczeństwa',
-    helpIntroDesc: 'Aplikacja pozwala na systematyczną analizę informacji w trzech warstwach hierarchicznych:',
+    helpIntroHeading: 'Model Weryfikacji Informacji',
+    helpIntroDesc: 'Aplikacja wspomaga analizę informacji w trzech warstwach hierarchicznych:',
     helpIntroL1: 'Ocena treści i źródła informacji',
-    helpIntroL2: 'Analiza kontekstu społecznego i geopolitycznego',
+    helpIntroL2: 'Analiza kontekstu otaczającego badany materiał',
     helpIntroL3: 'Porównanie różnych źródeł informacji',
     helpHowToUse: 'Jak używać aplikacji:',
-    helpStep1: 'Kliknij na dowolny Element podrzędny (EP) z przyciskiem \"+\"',
-    helpStep2: 'Dodaj tytuł i treść komentarza',
-    helpStep3: 'Zapisz komentarz - zostanie oznaczony ikoną komentarza',
-    helpStep4: 'Eksportuj analizę do PDF lub JSON',
-    helpStep5: 'Importuj wcześniej zapisane analizy z JSON',
-    helpNote: 'Tylko Elementy podrzędne (EP) są klikalne i mogą zawierać komentarze. Elementy nadrzędne (EN) służą jako nagłówki kategorii.',
+    helpStep1: 'Przygotuj analizowany materiał',
+    helpStep2: 'Przeanalizuj go z pomocą elementów podrzędnych trzech warstw modelu',
+    helpStep3: 'Dodaj komentarze i oceny aby uzasadnić Twoje wnioskowanie oraz udokumentować przebieg analizy',
+    helpStep4: 'Dodaj źródła i porównaj sprzeczności lub spójności',
+    helpStep5: 'Generuj raport analityczny lub eksportuj plik JSON aby zapisać Twoją analizę',
+    helpNote: 'Aplikacja będzie kontynuowała działanie po utracie połączenia z Internetem, jednak pamiętaj o zapisie pliku JSON regularnie jako backup',
     
     //zawartość samouczka - Warstwa 1 (L1)
     helpL1Desc: 'Warstwa podstawowa oceniająca fundamentalne aspekty informacji.',
@@ -245,7 +245,7 @@ export const translations = {
     
     //opis elementów podrzędnych w samouczku (SE)
     helpSE001_1: 'Weryfikacja logicznej spójności argumentów i brak wewnętrznych sprzeczności.',
-    helpSE001_2: 'Ocena sposobu prezentacji informacji (tekst, wideo, grafika).',
+    helpSE001_2: 'Ocena sposobu prezentacji informacji',
     helpSE001_3: 'Jawność źródeł, metod pozyskania danych i ewentualnych ograniczeń.',
     helpSE001_4: 'Dokładność faktów, weryfikowalność danych i solidność podstaw.',
     helpSE001_5: 'Bezstronność prezentacji, brak manipulacji i tendencyjności.',
@@ -259,16 +259,16 @@ export const translations = {
     //zawartość samouczka - Warstwa 2 (L2)
     helpL2Desc: 'Warstwa kontekstowa analizująca szerszy obraz sytuacji.',
     helpL2PE003: '003 - Ocena kontekstu',
-    helpL2PE003Desc: 'Kompleksowa analiza okoliczności powstania i funkcjonowania informacji.',
+    helpL2PE003Desc: 'Analiza okoliczności powstania i obiegu informacji.',
     
     helpSE003_1: 'Czy informacja jest aktualna, jej data publikacji i ewentualne uaktualnienia.',
-    helpSE003_2: 'Intencje autora: informować, przekonywa, manipulować czy bawić.',
+    helpSE003_2: 'Intencje autora: informować, przekonywać, manipulować czy bawić.',
     helpSE003_3: 'Grupa docelowa przekazu i dostosowanie treści do odbiorcy.',
     helpSE003_4: 'Kontekst społeczny, kulturowy i ekonomiczny w momencie publikacji.',
     helpSE003_5: 'Interesy finansowe, polityczne lub osobiste związane z przekazem.',
     helpSE003_6: 'Warunki i okoliczności powstania informacji.',
     helpSE003_7: 'Zmienność sytuacji, tempo wydarzeń i ewolucja informacji.',
-    helpSE003_8: 'Międzynarodowe aspekty sytuacji, relacje między państwami.',
+    helpSE003_8: 'Międzynarodowe aspekty sytuacji, relacje między państwami i ich wpływ.',
     helpSE003_9: 'Skala rozpowszechnienia informacji i jej wpływ.',
     helpSE003_10: 'Techniczne aspekty przekazu: format, jakość, kanały dystrybucji.',
     
@@ -279,43 +279,43 @@ export const translations = {
     
     helpSE004_1: 'Punkty wspólne między różnymi źródłami, potwierdzenie faktów.',
     helpSE004_2: 'Różnice w relacjach, sprzeczne informacje wymagające wyjaśnienia.',
-    helpSE004_3: 'Zróżnicowanie typów źródeł: media, eksperci, dokumenty,świadkowie.',
+    helpSE004_3: 'Zróżnicowanie typów źródeł: media, eksperci, dokumenty, świadkowie.',
     helpSE004_4: 'Międzynarodowy wymiar źródeł, perspektywy różnych krajów.',
     
     //zawartoścć samouczka - Funkcjonalności
     helpUsageAddComments: 'Dodawanie komentarzy',
-    helpUsageAddStep1: 'Znajdź Element podrzędny (EP), który chcesz przeanalizować',
-    helpUsageAddStep2: 'Kliknij na kartę EP z przyciskiem "+"',
+    helpUsageAddStep1: 'Znajdź Element podrzędny, który chcesz przeanalizować',
+    helpUsageAddStep2: 'Kliknij w danym elemencie przyciskiem "+"',
     helpUsageAddStep3: 'W oknie dialogowym wprowadź:',
     helpUsageAddTitle: 'Krótkie podsumowanie (np. "Źródło niezweryfikowane")',
     helpUsageAddContent: 'Szczegółowa analiza i wnioski',
     helpUsageAddImage: 'Opcjonalnie: załącz obraz JPG/PNG (max 5MB)',
     helpUsageAddStep4: 'Kliknij "Zapisz"',
-    helpUsageImageNote: 'Komentarze z załącznikami są oznaczone ikoną komentarza i spinacza na matrycy',
+    helpUsageImageNote: 'Elementy z komentarzami mają pogrubioną ramkę dla przejrzystości',
     
     helpUsageEdit: 'Edycja i usuwanie',
-    helpUsageEditStep1: 'Kliknij na EP z ikoną komentarza aby edytować komentarz',
+    helpUsageEditStep1: 'Kliknij na ikonę komentarza aby edytować komentarz',
     helpUsageEditStep2: 'W oknie dialogowym możesz zmienić tytuł i treść',
     helpUsageEditStep3: 'Użyj przycisku "Usuń" aby usunąć komentarz',
     
     helpUsageRating: 'System ocen',
-    helpUsageRatingStep1: 'Kliknij ikonę gwiazdki (★) przy dowolnym Elemencie podrzędnym w Warstwie I',
-    helpUsageRatingStep2: 'Każdy Element podrzędny ma indywidualną ocenę',
-    helpUsageRatingStep3: 'Element podrzędny z oceną wyświetla ikonę gwiazdki w kolorze odpowiadającym poziomowi',
+    helpUsageRatingStep1: 'Kliknij ikonę gwiazdki przy dowolnym Elemencie podrzędnym w warstwie pierwszej',
+    helpUsageRatingStep2: 'Każdy Element podrzędny ma indywidualną skalę ocen',
+    helpUsageRatingStep3: 'Element podrzędny z oceną ma pogrubioną ramkę dla przejrzystości',
     helpUsageRatingNote: 'System ocen pozwala szybko oznaczyć problematyczne obszary bez tworzenia pełnego komentarza',
     
     helpUsageRadar: 'Wykres radarowy',
     helpUsageRadarStep1: 'Kliknij przycisk "Wykres radarowy" w górnym menu',
-    helpUsageRadarStep2: 'Wybierz Element nadrzędny (PE), dla którego chcesz zobaczyć wykres',
+    helpUsageRadarStep2: 'Wybierz Element nadrzędny, dla którego chcesz zobaczyć wykres',
     helpUsageRadarStep3: 'Wykres wygeneruje się tylko gdy wszystkie Elementy podrzędne w danym Elemencie nadrzędnym mają oceny',
     helpUsageRadarStep4: 'Możesz eksportować wykres jako PNG',
     helpUsageRadarNote: 'Wykres radarowy pomaga wizualnie zidentyfikować najbardziej problematyczne obszary analizy',
     
     helpUsagePDF: 'Eksport do PDF',
     helpUsagePDFStep1: 'Kliknij przycisk "Generuj PDF"',
-    helpUsagePDFStep2: 'Aplikacja wygeneruje raport z wszystkimi komentarzami',
+    helpUsagePDFStep2: 'Po wprowadzeniu tytułu i autora raportu, aplikacja wygeneruje raport z wszystkimi komentarzami',
     helpUsagePDFStep3: 'PDF zawiera:',
-    helpUsagePDFItem1: 'Listę wszystkich komentarzy pogrupowanych wg warstw',
+    helpUsagePDFItem1: 'Listę wszystkich komentarzy pogrupowanych według warstw lub źródeł',
     helpUsagePDFItem2: 'Załączone obrazy (jeśli dodane do komentarzy)',
     helpUsagePDFItem3: 'Podpisy pod obrazami (nazwa pliku JPG/PNG)',
     helpUsagePDFItem4: 'Datę i godzinę generowania raportu',
@@ -357,17 +357,14 @@ export const translations = {
     helpTipsBPDocumentation: 'Zapisuj źródła i linki w treści komentarzy',
     helpTipsBPRegularity: 'Aktualizuj analizę w miarę napływu nowych informacji',
     
-    helpTipsShortcuts: 'Skróty klawiszowe',
-    helpTipsShortcutsESC: 'Zamknij otwarty dialog',
-    helpTipsShortcutsClick: 'Zamknij bez zapisywania',
-    
+   
     //dodatkowe klucze
     note: 'Uwaga',
     objectivity: 'Obiektywność',
     verification: 'Weryfikacja',
     documentation: 'Dokumentacja',
     regularity: 'Regularność',
-    click: 'Kliknięcie poza dialog',
+   
   },
   
   en: {
