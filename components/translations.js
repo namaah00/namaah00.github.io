@@ -11,8 +11,8 @@ export const translations = {
     
     //strona startowa
     welcomeTitle: 'Witaj w Systemie Analizy Informacji',
-    welcomeSubtitle: 'Wybierz jedną z opcji, aby rozpocząć pracę z systemem',
-    newProject: 'Nowy projekt',
+    welcomeSubtitle: 'Wybierz jedną z opcji, aby rozpocząć pracę',
+    newProject: 'Nowa analiza',
     newProjectDescription: 'Rozpocznij nową analizę',
     importProject: 'Importuj projekt',
     importProjectDescription: 'Wczytaj wcześniej zapisany projekt z pliku JSON',
