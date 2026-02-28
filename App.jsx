@@ -190,8 +190,14 @@ export default function App() {
 
   //powrót na Landing Page
   const handleBackToHome = () => {
+  const message = language === 'pl' 
+    ? 'Czy na pewno chcesz wrócić do strony głównej? Niezapisane zmiany mogą zostać utracone.'
+    : 'Are you sure you want to return to the home page? Unsaved changes may be lost.';
+  
+  if (window.confirm(message)) {
     setCurrentView('landing');
-  };
+  }
+};
 
   //import json z Landing Page
   const handleImportFromLanding = (data) => {
