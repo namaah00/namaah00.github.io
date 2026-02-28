@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Sun, Moon, FileText, Save, Download, Trash2, Home, HelpCircle, BarChart3, Globe, MessageSquareText } from 'lucide-react'; //emoji z biblioteki
 
 //który widok pokazać, sterowanie dialogami, przekazanie danych
@@ -41,6 +41,23 @@ export default function App() {
   
   //pobiera tłumaczenia do odpowiedniego jezyka
   const t = (key) => translations[language][key] || key;
+
+ // Ostrzeżenie przy próbie opuszczenia strony
+  useEffect(() => {
+    const handleBeforeUnload = (e) => {
+      // Standardowy sposób - ustawienie returnValue
+      e.preventDefault();
+      e.returnValue = '';
+      // Niektóre przeglądarki wymagają zwrócenia stringa
+      return '';
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, []);
 
   //poprzedni stan komenatzry przekazany do saveComment, nowy obiekt z zapisanym komentzraem
   const handleSaveComment = (id, title, content, images = []) => {
