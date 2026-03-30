@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { HelpCircle, Check } from 'lucide-react';
 import { translations } from '../translations';
-import { getSEName } from '../modelData';
+import { getSEName } from '../matrixData';
 
 export default function HelpDialog({ isOpen, onClose, language }) {
   const t = (key) => translations[language][key] || key;
