@@ -1,29 +1,27 @@
 import { useState, useEffect } from 'react';
 import { HelpCircle, Check } from 'lucide-react';
-import { translations } from '../translations.js';
-import { getSEName } from '../matrixData.js';
- 
-//czy okno ma być widoczne, funkcja zamykająca okno, wybrany język 
+import { translations } from '../translations';
+import { getSEName } from '../modelData';
+
 export default function HelpDialog({ isOpen, onClose, language }) {
   const t = (key) => translations[language][key] || key;
   
-  const [activeSection, setActiveSection] = useState('intro'); //aktywna sekcja samouczka 
+  const [activeSection, setActiveSection] = useState('intro');
 
-  //zamyka okno po wciśnięciu esc
   useEffect(() => {
     const handleEsc = (e) => {
       if (e.key === 'Escape' && isOpen) {
         onClose();
       }
     };
-    //funkcja wywolana przy nacisnieciu dowolnego klawisza
+    
     window.addEventListener('keydown', handleEsc);
     return () => window.removeEventListener('keydown', handleEsc);
   }, [isOpen, onClose]);
 
   const handleSectionChange = (section) => {
     setActiveSection(section);
-    //przy zmianie sekcji, widok przesuwany jest w górę
+    // Scroll to top when changing sections
     const mainContent = document.querySelector('.help-main');
     if (mainContent) {
       mainContent.scrollTop = 0;
@@ -38,9 +36,7 @@ export default function HelpDialog({ isOpen, onClose, language }) {
     }
   };
 
-  //struktura sekcji
   const sections = {
-    //wprowadzenie, opis warstw matrycy, jak używać
     intro: {
       title: t('helpIntroTitle'),
       content: (
@@ -64,7 +60,6 @@ export default function HelpDialog({ isOpen, onClose, language }) {
         </div>
       )
     },
-    //opis Elementów nadrzędnych (PE) i elementów podrzędnych (SE) w każdej warstwie
     l1: {
       title: t('helpL1Title'),
       content: (
@@ -75,12 +70,19 @@ export default function HelpDialog({ isOpen, onClose, language }) {
             <h4>{t('helpL1PE001')}</h4>
             <p>{t('helpL1PE001Desc')}</p>
             <div className="help-se-list">
-              {['001.1', '001.2', '001.3', '001.4', '001.5', '001.6'].map(id => (
-                <div key={id} className="help-se-item">
-                  <strong>{id} - {getSEName(id, language)}</strong>
-                  <p>{t(`helpSE${id.replace('.', '_')}`)}</p>
-                </div>
-              ))}
+              {['001.1', '001.2', '001.3', '001.4', '001.5', '001.6'].map(id => {
+                const tips = t(`helpSE${id.replace('.', '_')}`);
+                return (
+                  <div key={id} className="help-se-item">
+                    <strong>{id} - {getSEName(id, language)}</strong>
+                    <ul>
+                      {Array.isArray(tips) ? tips.map((tip, i) => (
+                        <li key={i}>{tip}</li>
+                      )) : <li>{tips}</li>}
+                    </ul>
+                  </div>
+                );
+              })}
             </div>
           </div>
 
@@ -88,12 +90,19 @@ export default function HelpDialog({ isOpen, onClose, language }) {
             <h4>{t('helpL1PE002')}</h4>
             <p>{t('helpL1PE002Desc')}</p>
             <div className="help-se-list">
-              {['002.1', '002.2', '002.3', '002.4'].map(id => (
-                <div key={id} className="help-se-item">
-                  <strong>{id} - {getSEName(id, language)}</strong>
-                  <p>{t(`helpSE${id.replace('.', '_')}`)}</p>
-                </div>
-              ))}
+              {['002.1', '002.2', '002.3', '002.4'].map(id => {
+                const tips = t(`helpSE${id.replace('.', '_')}`);
+                return (
+                  <div key={id} className="help-se-item">
+                    <strong>{id} - {getSEName(id, language)}</strong>
+                    <ul>
+                      {Array.isArray(tips) ? tips.map((tip, i) => (
+                        <li key={i}>{tip}</li>
+                      )) : <li>{tips}</li>}
+                    </ul>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -109,12 +118,19 @@ export default function HelpDialog({ isOpen, onClose, language }) {
             <h4>{t('helpL2PE003')}</h4>
             <p>{t('helpL2PE003Desc')}</p>
             <div className="help-se-list">
-              {['003.1', '003.2', '003.3', '003.4', '003.5', '003.6', '003.7', '003.8', '003.9', '003.10'].map(id => (
-                <div key={id} className="help-se-item">
-                  <strong>{id} - {getSEName(id, language)}</strong>
-                  <p>{t(`helpSE${id.replace('.', '_')}`)}</p>
-                </div>
-              ))}
+              {['003.1', '003.2', '003.3', '003.4', '003.5', '003.6', '003.7', '003.8', '003.9', '003.10'].map(id => {
+                const tips = t(`helpSE${id.replace('.', '_')}`);
+                return (
+                  <div key={id} className="help-se-item">
+                    <strong>{id} - {getSEName(id, language)}</strong>
+                    <ul>
+                      {Array.isArray(tips) ? tips.map((tip, i) => (
+                        <li key={i}>{tip}</li>
+                      )) : <li>{tips}</li>}
+                    </ul>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -130,18 +146,24 @@ export default function HelpDialog({ isOpen, onClose, language }) {
             <h4>{t('helpL3PE004')}</h4>
             <p>{t('helpL3PE004Desc')}</p>
             <div className="help-se-list">
-              {['004.1', '004.2', '004.3', '004.4'].map(id => (
-                <div key={id} className="help-se-item">
-                  <strong>{id} - {getSEName(id, language)}</strong>
-                  <p>{t(`helpSE${id.replace('.', '_')}`)}</p>
-                </div>
-              ))}
+              {['004.1', '004.2', '004.3', '004.4'].map(id => {
+                const tips = t(`helpSE${id.replace('.', '_')}`);
+                return (
+                  <div key={id} className="help-se-item">
+                    <strong>{id} - {getSEName(id, language)}</strong>
+                    <ul>
+                      {Array.isArray(tips) ? tips.map((tip, i) => (
+                        <li key={i}>{tip}</li>
+                      )) : <li>{tips}</li>}
+                    </ul>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
       )
     },
-    //instrukcja użycia funkcji aplikacji
     usage: {
       title: t('helpUsageTitle'),
       content: (
@@ -218,7 +240,6 @@ export default function HelpDialog({ isOpen, onClose, language }) {
         </div>
       )
     },
-    //wskazówki, najlepsze praktyki, skróty
     tips: {
       title: t('helpTipsTitle'),
       content: (
@@ -254,13 +275,16 @@ export default function HelpDialog({ isOpen, onClose, language }) {
             <li>{t('regularity')}: {t('helpTipsBPRegularity')}</li>
           </ul>
 
-        
+          <h4 style={{ fontWeight: 'bold' }}>{t('helpTipsShortcuts')}</h4>
+          <ul>
+            <li>ESC: {t('helpTipsShortcutsESC')}</li>
+            <li>{t('click')}: {t('helpTipsShortcutsClick')}</li>
+          </ul>
         </div>
       )
     }
   };
 
-  //widok samouczka
   return (
     <div className="dialog-backdrop help-backdrop" onClick={handleBackdropClick}>
       <div className="dialog help-dialog">
