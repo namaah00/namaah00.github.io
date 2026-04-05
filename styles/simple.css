@@ -1,6 +1,6 @@
-/* ============================================
-   RESET I STYLE PODSTAWOWE
-   ============================================ */
+/* 
+   PRZYCISK RESET I PODSTAWA
+ */
 
 /* usuwa domyślne marginesy przeglądarki */
 * {
@@ -23,9 +23,9 @@ body {
 }
 
 
-/* ============================================
-   NAGŁÓWEK APLIKACJI
-   ============================================ */
+/* 
+   NAGŁÓWEK 
+*/
 
 .header {
   background: #667eea;
@@ -72,9 +72,9 @@ body {
 }
 
 
-/* ============================================
+/*
    PASEK NARZĘDZI
-   ============================================ */
+*/
 
 .toolbar {
   background: white;
@@ -86,9 +86,9 @@ body {
 }
 
 
-/* ============================================
+/*
    PRZYCISKI
-   ============================================ */
+*/
 
 .btn {
   padding: 0.65rem 1.25rem;
@@ -165,9 +165,9 @@ body {
 }
 
 
-/* ============================================
+/*
    GŁÓWNA ZAWARTOŚĆ
-   ============================================ */
+*/
 
 .content {
   flex: 1;
@@ -182,9 +182,9 @@ body {
 }
 
 
-/* ============================================
+/*
    WARSTWY MODELU (L1, L2, L3)
-   ============================================ */
+ */
 
 .layer {
   background: white;
@@ -218,9 +218,9 @@ body {
 }
 
 
-/* ============================================
-   ELEMENTY NADRZĘDNE I PODRZĘDNE
-   ============================================ */
+/*
+   ELEMENTY NADRZĘDNE I PODRZĘDNE (PE, SE)
+*/
 
 .primary-element {
   display: flex;
@@ -237,9 +237,9 @@ body {
 }
 
 
-/* ============================================
-   KARTY ELEMENTÓW
-   ============================================ */
+/*
+   Karty ELEMENTÓW
+*/
 
 .element-card {
   background: #f8f9fa;
@@ -297,9 +297,9 @@ body {
 }
 
 
-/* ============================================
+/*
    ZAWARTOŚĆ ELEMENTU
-   ============================================ */
+*/
 
 .element-content {
   flex: 1;
@@ -365,9 +365,9 @@ body {
 }
 
 
-/* ============================================
-   ROZWIJANA ZAWARTOŚĆ ELEMENTU
-   ============================================ */
+/*
+   ROZWIJANY OPIS ELEMENTU
+*/
 
 .element-expanded-content {
   margin-top: 1rem;
@@ -443,9 +443,9 @@ body {
 }
 
 
-/* ============================================
-   OCENY I PRZYCISKI AKCJI
-   ============================================ */
+/*
+   OCENY I PRZYCISKI ELEMENTÓw
+*/
 
 .rating-badge {
   background: #fbbf24;
@@ -515,9 +515,9 @@ body {
 }
 
 
-/* ============================================
-   DIALOGI I MODALE
-   ============================================ */
+/*
+   DIALOGI
+*/
 
 .dialog-backdrop {
   position: fixed;
@@ -603,9 +603,9 @@ body {
 }
 
 
-/* ============================================
+/*
    FORMULARZE
-   ============================================ */
+*/
 
 .form-group {
   margin-bottom: 1.5rem;
@@ -692,9 +692,9 @@ select.rating-select option {
 }
 
 
-/* ============================================
-   POWIADOMIENIA (TOAST)
-   ============================================ */
+/*
+   POWIADOMIENIA
+*/
 
 .toast {
   position: fixed;
@@ -737,9 +737,9 @@ select.rating-select option {
 }
 
 
-/* ============================================
-   DIALOG SAMOUCZKA (HELP)
-   ============================================ */
+/*
+   SAMOUCZEK
+*/
 
 .help-backdrop {
   z-index: 2000;
@@ -943,9 +943,9 @@ select.rating-select option {
 }
 
 
-/* ============================================
+/*
    WYKRES RADAROWY
-   ============================================ */
+*/
 
 .radar-chart-dialog {
   width: 90%;
@@ -1097,9 +1097,9 @@ select.rating-select option {
 }
 
 
-/* ============================================
-   STRONA STARTOWA (LANDING PAGE)
-   ============================================ */
+/*
+   STRONA STARTOWA
+*/
 
 .landing-page {
   min-height: 100vh;
@@ -1305,9 +1305,9 @@ select.rating-select option {
 }
 
 
-/* ============================================
+/*
    ŹRÓDŁA (004)
-   ============================================ */
+*/
 
 .sources-container {
   padding: 2rem;
@@ -1541,9 +1541,9 @@ select.rating-select option {
 }
 
 
-/* ============================================
-   DIALOG KONFIGURACJI PDF
-   ============================================ */
+/*
+   DIALOG TWORZENIA PDF
+*/
 
 .pdf-config-dialog {
   max-width: 550px;
@@ -1598,9 +1598,9 @@ select.rating-select option {
 }
 
 
-/* ============================================
-   TRYB CIEMNY (DARK MODE)
-   ============================================ */
+/*
+   CIEMNA KOLORYSTYKA
+*/
 
 .dark body {
   background: #1a1a1a;
@@ -2106,9 +2106,9 @@ select.rating-select option {
 }
 
 
-/* ============================================
-   RESPONSYWNOŚĆ - MOBILE
-   ============================================ */
+/*
+   RESPONSYWNOŚĆ
+*/
 
 @media (max-width: 768px) {
   /* Nagłówek */
