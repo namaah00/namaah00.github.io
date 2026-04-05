@@ -2128,6 +2128,50 @@ select.rating-select option {
   color: #9da5b4;
 }
 
+/* Panel PE004 w trybie ciemnym */
+.dark .pe004-help-panel {
+  border-top-color: rgba(74, 138, 196, 0.3);
+}
+
+.dark .pe004-help-item {
+  background: rgba(13, 17, 23, 0.8);
+  border-color: rgba(74, 138, 196, 0.3);
+}
+
+.dark .pe004-help-title {
+  border-bottom-color: rgba(74, 138, 196, 0.2);
+}
+
+.dark .pe004-help-id {
+  background: rgba(74, 138, 196, 0.25);
+  color: #d8dee9;
+  border-color: rgba(74, 138, 196, 0.4);
+}
+
+.dark .pe004-help-name {
+  color: #d8dee9;
+}
+
+.dark .pe004-help-description strong {
+  color: #9da5b4;
+}
+
+.dark .pe004-help-description p {
+  color: #6c707e;
+}
+
+.dark .pe004-help-hints strong {
+  color: #d4b862;
+}
+
+.dark .pe004-help-hints li {
+  color: #9da5b4;
+}
+
+.dark .pe004-help-hints li:before {
+  color: #d4b862;
+}
+
 /* Dialog konfiguracji PDF */
 .dark .pdf-config-form label {
   color: #9da5b4;
