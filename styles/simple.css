@@ -1617,6 +1617,42 @@ select.rating-select option {
   border-bottom-color: #1a1f29;
 }
 
+.dark .header {
+  background: #0d1117;
+  border-bottom: 1px solid #1a1f29;
+}
+
+.dark .header-subtitle {
+  opacity: 0.8;
+}
+
+.dark .comment-count {
+  background: rgba(91, 157, 216, 0.2);
+  border: 1px solid rgba(91, 157, 216, 0.3);
+}
+
+.dark .btn-theme {
+  background: rgba(91, 157, 216, 0.2);
+  border-color: rgba(91, 157, 216, 0.3);
+}
+
+.dark .btn-theme:hover {
+  background: rgba(91, 157, 216, 0.3);
+  border-color: rgba(91, 157, 216, 0.5);
+}
+
+.dark .btn-help,
+.dark .btn-language {
+  background: rgba(91, 157, 216, 0.15);
+  border-color: rgba(91, 157, 216, 0.3);
+}
+
+.dark .btn-help:hover,
+.dark .btn-language:hover {
+  background: rgba(91, 157, 216, 0.25);
+  border-color: rgba(91, 157, 216, 0.5);
+}
+
 .dark .content {
   background: #000c18;
 }
