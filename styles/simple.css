@@ -1746,6 +1746,12 @@ select.rating-select option {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.8);
 }
 
+.dark .rating-badge {
+  background: #3d3314;
+  color: #d4b862;
+  border: 1px solid #5a4a1f;
+}
+
 .dark .action-btn.rating-btn {
   background: #3d3314;
   color: #eeda74;
