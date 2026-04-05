@@ -1798,6 +1798,16 @@ select.rating-select option {
   color: #d8dee9;
 }
 
+.dark .btn-danger {
+  background: #8b2e2e;
+  color: #f0a8a8;
+}
+
+.dark .btn-danger:hover {
+  background: #a83838;
+  color: #ffd0d0;
+}
+
 .dark .btn-secondary:hover {
   background: #2a3040;
 }
