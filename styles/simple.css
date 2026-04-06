@@ -2103,6 +2103,14 @@ select.rating-select option {
   border-top-color: #1a1f29;
 }
 
+.dark .landing-card-icon-blue {
+  background: #5b9dd8;
+}
+
+.dark .landing-card-icon-green {
+  background: #5a8a6f;
+}
+
 /* Źródła (004) */
 .dark .sources-container {
   background: #000c18;
