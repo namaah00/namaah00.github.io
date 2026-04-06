@@ -733,6 +733,6 @@ export const translations = {
 }; // koniec translations
 
 // Funkcja pobierania tłumaczenia
-export function t(key, lang = 'pl') {
-  return translations[lang]?.[key] || translations.pl[key] || key;
-}
+export const getTranslation = (lang, key) => {
+  return translations[lang]?.[key] || translations['pl'][key] || key;
+};
