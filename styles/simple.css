@@ -2024,6 +2024,15 @@ select.rating-select option {
 }
 
 /* Strona startowa */
+.dark .landing-header {
+  background: #0d1117;
+  border-bottom: 1px solid #1a1f29;
+}
+
+.dark .landing-header h1 {
+  color: #d8dee9;
+}
+
 .dark .landing-page {
   background: #000c18;
 }
