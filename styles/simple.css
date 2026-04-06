@@ -1812,6 +1812,15 @@ select.rating-select option {
   background: #2a3040;
 }
 
+.dark .btn-primary {
+  background: #5b9dd8;
+  color: white;
+}
+
+.dark .btn-primary:hover {
+  background: #6baee5;
+}
+
 /* Dialogi */
 .dark .dialog {
   background: #0d1117;
