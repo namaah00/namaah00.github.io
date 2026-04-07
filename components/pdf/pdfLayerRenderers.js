@@ -1,6 +1,6 @@
 import { PDF_CONFIG } from './pdfConstants.js';
 import { encodeText, getTranslation } from './pdfTextUtils.js';
-import { getSEName, getPEName, getLayerName } from '../modelData.js';
+import { getSEName, getPEName, getLayerName } from '../matrixData.js';
 import { generateRadarChartImage } from './pdfChartGenerator.js';
 import { hasCommentContent, renderComment } from './pdfCommentRenderer.js';
 

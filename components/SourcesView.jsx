@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { PlusCircle, Trash2, MessageSquare, Plus } from 'lucide-react';
 import CommentDialog from './dialogs/CommentDialog.jsx';
-import { getSEName } from './modelData.js';
+import { getSEName } from './matrixData.js';
 import { translations } from './translations.js';
 import SourceDialog from './dialogs/SourceDialog.jsx';
 
