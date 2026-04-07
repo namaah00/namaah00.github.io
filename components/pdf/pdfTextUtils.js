@@ -20,14 +20,25 @@ export const encodeText = (text) => {
  */
 export const getTranslation = (key, language) => {
   const safeLanguage = (language === 'pl' || language === 'en') ? language : 'pl';
+  
+  // Sprawdź czy klucz istnieje w tłumaczeniach
   const translation = translations[safeLanguage]?.[key];
   
-  if (!translation) {
-    console.warn(`Missing translation for key: ${key} in language: ${safeLanguage}`);
-    return key;
+  if (translation !== undefined && translation !== null && translation !== '') {
+    return translation;
   }
   
-  return translation;
+  // Fallback do 'pl' jeśli nie znaleziono w wybranym języku
+  if (safeLanguage !== 'pl') {
+    const plTranslation = translations['pl']?.[key];
+    if (plTranslation !== undefined && plTranslation !== null && plTranslation !== '') {
+      return plTranslation;
+    }
+  }
+  
+  // Loguj ostrzeżenie tylko jeśli naprawdę brak tłumaczenia
+  console.warn(`Missing translation for key: "${key}" in language: ${safeLanguage}`);
+  return key;
 };
 
 /**
