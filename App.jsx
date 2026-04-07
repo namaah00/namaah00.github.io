@@ -82,12 +82,16 @@ export default function App() {
 
   //zarządza 004
   //obecna lista źródeł, utworzenie nowego ID, dodanie nowego źródła do tablicy
-  const handleAddSource = (title) => {
+  const handleAddSource = (sourceData) => {
     setSources(prev => {
       const nextNumber = prev.length + 1;
       const newSource = {
         id: `004.${nextNumber}`,
-        title: title,
+        title: sourceData.title,
+        accessDate: sourceData.accessDate || '',
+        accessLink: sourceData.accessLink || '',
+        character: sourceData.character || '',
+        status: sourceData.status || '',
         createdAt: new Date().toISOString()
       };
       return [...prev, newSource];
