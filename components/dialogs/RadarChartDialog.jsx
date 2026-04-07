@@ -3,7 +3,7 @@ import html2canvas from 'html2canvas';
 import { BarChart3, AlertTriangle, Camera } from 'lucide-react';
 import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, ResponsiveContainer } from 'recharts';
 import { translations } from '../translations.js';
-import { MATRIX_DATA } from '../modelData.js';
+import { MATRIX_DATA } from '../matrixData.js';
 
 export default function RadarChartDialog({ isOpen, onClose, language, ratings, showToast }) {
   const [selectedPE, setSelectedPE] = useState('001'); //domyślnie wybrany element nadrzędny (PE) 
