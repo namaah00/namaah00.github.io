@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { PlusCircle, Trash2, MessageSquare, Plus } from 'lucide-react';
 import CommentDialog from './dialogs/CommentDialog.jsx';
-import { getSEName } from './matrixData.js';
+import { getSEName } from './modelData.js';
 import { translations } from './translations.js';
 import SourceDialog from './dialogs/SourceDialog.jsx';
 
@@ -18,11 +18,11 @@ export default function SourcesView({ sources, comments, onAddSource, onDeleteSo
   ];
 
   const t = (key) => translations[language][key];
-
+  
   //funckja dodaje nazwę źródła wpisaną przez użytkownika
-  const handleAddSource = (title) => {
+  const handleAddSource = (sourceData) => {
     if (onAddSource) {
-      onAddSource(title);
+      onAddSource(sourceData);
       setIsAddingSource(false);
     }
   };
@@ -87,6 +87,44 @@ export default function SourcesView({ sources, comments, onAddSource, onDeleteSo
                   <Trash2 size={16} />
                 </button>
               </div>
+              
+              {/** Metadata źródła */}
+              {(source.accessDate || source.accessLink || source.character || source.status) && (
+                <div className="source-metadata">
+                  {source.accessDate && (
+                    <div className="metadata-item">
+                      <span className="metadata-label">{t('sourceDialogAccessDateLabel')}:</span>
+                      <span className="metadata-value">{source.accessDate}</span>
+                    </div>
+                  )}
+                  {source.accessLink && (
+                    <div className="metadata-item">
+                      <span className="metadata-label">{t('sourceDialogAccessLinkLabel')}:</span>
+                      <a 
+                        href={source.accessLink} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="metadata-link"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        {source.accessLink.length > 50 ? source.accessLink.substring(0, 50) + '...' : source.accessLink}
+                      </a>
+                    </div>
+                  )}
+                  {source.character && (
+                    <div className="metadata-item">
+                      <span className="metadata-label">{t('sourceDialogCharacterLabel')}:</span>
+                      <span className="metadata-value">{t(source.character)}</span>
+                    </div>
+                  )}
+                  {source.status && (
+                    <div className="metadata-item">
+                      <span className="metadata-label">{t('sourceDialogStatusLabel')}:</span>
+                      <span className="metadata-value">{t(source.status)}</span>
+                    </div>
+                  )}
+                </div>
+              )}
               
               {/** powstanie ID komórki (źródło 004.1 - seId 004.1.1, 004.1.2, 004.1.3, 004.1.4)*/}
               <div className="source-elements">

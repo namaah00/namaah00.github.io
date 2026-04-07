@@ -541,6 +541,18 @@ body {
   animation: slideIn 0.2s ease-out;
 }
 
+.source-dialog {
+  max-width: 650px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.source-dialog .dialog-body {
+  overflow-y: auto;
+  flex: 1;
+}
+
 @keyframes slideIn {
   from {
     opacity: 0;
@@ -1394,6 +1406,43 @@ select.rating-select option {
   transform: scale(1.1);
 }
 
+.source-metadata {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.metadata-item {
+  display: flex;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  align-items: flex-start;
+}
+
+.metadata-label {
+  font-weight: 600;
+  color: #667eea;
+  flex-shrink: 0;
+  min-width: 120px;
+}
+
+.metadata-value {
+  color: #555;
+  word-break: break-word;
+}
+
+.metadata-link {
+  color: #667eea;
+  text-decoration: none;
+  word-break: break-all;
+}
+
+.metadata-link:hover {
+  text-decoration: underline;
+}
+
 .source-elements {
   display: flex;
   flex-direction: column;
@@ -2127,6 +2176,22 @@ select.rating-select option {
 
 .dark .source-header {
   border-bottom-color: #4a8ac4;
+}
+
+.dark .source-metadata {
+  border-bottom-color: #1a1f29;
+}
+
+.dark .metadata-label {
+  color: #5b9dd8;
+}
+
+.dark .metadata-value {
+  color: #9da5b4;
+}
+
+.dark .metadata-link {
+  color: #5b9dd8;
 }
 
 .dark .source-id {

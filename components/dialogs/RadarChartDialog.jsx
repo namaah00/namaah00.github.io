@@ -1,9 +1,9 @@
-import { useState, useEffect, useRef } from 'react';
-import { Camera, BarChart3, AlertTriangle } from 'lucide-react';
-import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from 'recharts';
+import { useState, useRef } from 'react';
 import html2canvas from 'html2canvas';
+import { BarChart3, AlertTriangle, Camera } from 'lucide-react';
+import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, ResponsiveContainer } from 'recharts';
 import { translations } from '../translations.js';
-import { MATRIX_DATA } from '../matrixData.js';
+import { MATRIX_DATA } from '../modelData.js';
 
 export default function RadarChartDialog({ isOpen, onClose, language, ratings, showToast }) {
   const [selectedPE, setSelectedPE] = useState('001'); //domyślnie wybrany element nadrzędny (PE) 
@@ -38,6 +38,7 @@ export default function RadarChartDialog({ isOpen, onClose, language, ratings, s
       
       //budowanie punktu wykresu
       data.push({
+        id: `${pe}-${i}`, //unikalny identyfikator dla każdego punktu danych
         subject: t(`se${pe}_${i}`), //nazwa osi na wykresie
         value: rating, //wartość danego SE na wykresie
         fullMark: 5, //maksymalna wartość 
@@ -134,10 +135,12 @@ export default function RadarChartDialog({ isOpen, onClose, language, ratings, s
                 <ResponsiveContainer width="100%" height={500}>
                   <RadarChart data={chartData}>
                     <PolarGrid 
+                      key={`grid-${selectedPE}`}
                       stroke="#cbd5e1" 
                       strokeWidth={1.5}
                     />
                     <PolarAngleAxis 
+                      key={`angle-${selectedPE}`}
                       dataKey="subject" 
                       tick={{ 
                         fill: 'var(--foreground)', 
@@ -147,6 +150,7 @@ export default function RadarChartDialog({ isOpen, onClose, language, ratings, s
                       stroke="#cbd5e1"
                     />
                     <PolarRadiusAxis 
+                      key={`radius-${selectedPE}`}
                       angle={90} 
                       domain={[0, 5]} 
                       tick={{ 
@@ -157,6 +161,7 @@ export default function RadarChartDialog({ isOpen, onClose, language, ratings, s
                       tickCount={6}
                     />
                     <Radar 
+                      key={`radar-${selectedPE}`}
                       name={selectedPE === '001' ? t('radarPE001') : t('radarPE002')}
                       dataKey="value" 
                       stroke="#667eea" 

@@ -1,6 +1,6 @@
 import { PDF_CONFIG } from './pdfConstants.js';
 import { encodeText, getTranslation } from './pdfTextUtils.js';
-import { getSEName, getPEName, getLayerName } from '../matrixData.js';
+import { getSEName, getPEName, getLayerName } from '../modelData.js';
 import { generateRadarChartImage } from './pdfChartGenerator.js';
 import { hasCommentContent, renderComment } from './pdfCommentRenderer.js';
 
@@ -311,7 +311,46 @@ export const renderL3Layer = async (pdf, layer, sources, comments, language, yPo
         currentY += 6;
       }
       
-      //kolor już jest czarny, nie trzeba resetować
+      //metadane źródła
+      pdf.setFontSize(PDF_CONFIG.fontSize.small);
+      pdf.setFont('helvetica', 'normal');
+      pdf.setTextColor(...PDF_CONFIG.colors.muted);
+      
+      //data dostępu
+      if (source.accessDate) {
+        const dateText = `${t('pdfSourceAccessDate')}: ${source.accessDate}`;
+        pdf.text(encodeText(dateText), margin + 10, currentY);
+        currentY += 4;
+      }
+      
+      //link dostępu
+      if (source.accessLink) {
+        const linkText = `${t('pdfSourceLink')}: ${source.accessLink}`;
+        const splitLink = pdf.splitTextToSize(linkText, contentWidth - 15);
+        for (let line of splitLink) {
+          const resultLink = checkPageBreakFn(pdf, currentY, 4);
+          currentY = resultLink.yPosition;
+          pdf.text(encodeText(line), margin + 10, currentY);
+          currentY += 4;
+        }
+      }
+      
+      //charakter źródła
+      if (source.character) {
+        const characterText = `${t('pdfSourceCharacter')}: ${t(source.character)}`;
+        pdf.text(encodeText(characterText), margin + 10, currentY);
+        currentY += 4;
+      }
+      
+      //status źródła
+      if (source.status) {
+        const statusText = `${t('pdfSourceStatus')}: ${t(source.status)}`;
+        pdf.text(encodeText(statusText), margin + 10, currentY);
+        currentY += 4;
+      }
+      
+      //reset koloru na czarny
+      pdf.setTextColor(...PDF_CONFIG.colors.text);
       currentY += 2;
       
       //renderuj komentarze dla tego źródła
