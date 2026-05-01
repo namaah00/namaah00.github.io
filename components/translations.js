@@ -8,6 +8,8 @@ export const translations = {
     comments: 'Komentarzy',
     changeLanguage: 'Zmień język',
     toggleTheme: 'Przełącz motyw',
+    lightMode: 'Jasny motyw',
+    darkMode: 'Ciemny motyw',
     
     //strona startowa
     welcomeTitle: 'Witaj w Systemie Analizy Informacji',
@@ -99,6 +101,30 @@ export const translations = {
     sourceStatusExpert: 'informacja ekspercka',
     sourceStatusFieldReport: 'raport terenowy/obserwacja',
     sourceStatusOther: 'inne',
+    
+    //backward compatibility - stare klucze dla danych zapisanych w localStorage
+    official_gov: 'oficjalne – rządowe',
+    official_inst: 'oficjalne – instytucjonalne',
+    media_mainstream: 'media – głównego nurtu',
+    media_niche: 'media – niszowe / branżowe',
+    media_tabloid: 'media – tabloidalne',
+    social_media: 'platforma społecznościowa',
+    anonymous: 'źródło anonimowe',
+    primary: 'źródło pierwotne',
+    scientific: 'źródło naukowe',
+    other: 'inne',
+    official: 'oficjalne stanowisko',
+    journalistic: 'relacja dziennikarska',
+    opinion: 'opinia / komentarz',
+    unofficial: 'informacja nieoficjalna',
+    statistical: 'dane statystyczne',
+    expert: 'opinia ekspercka',
+    field_report: 'relacja z miejsca',
+    
+    //powiadomienia toast
+    toastSourceAdded: 'Źródło dodane',
+    toastSourceDeleted: 'Źródło usunięte',
+    toastNewProjectCreated: 'Nowy projekt utworzony',
     
     //nazwy warstw
     layer1: 'Warstwa I - Jakość Informacji',
@@ -411,6 +437,8 @@ export const translations = {
     comments: 'Comments',
     changeLanguage: 'Change Language',
     toggleTheme: 'Toggle Theme',
+    lightMode: 'Light mode',
+    darkMode: 'Dark mode',
     
     //strona startowa
     welcomeTitle: 'Welcome to Information Analysis System',
@@ -500,6 +528,30 @@ export const translations = {
     sourceStatusExpert: 'expert information',
     sourceStatusFieldReport: 'field report/observation',
     sourceStatusOther: 'other',
+    
+    //backward compatibility - stare klucze dla danych zapisanych w localStorage
+    official_gov: 'official – governmental',
+    official_inst: 'official – institutional',
+    media_mainstream: 'media – mainstream',
+    media_niche: 'media – niche / industry',
+    media_tabloid: 'media – tabloid',
+    social_media: 'social media platform',
+    anonymous: 'anonymous source',
+    primary: 'primary source',
+    scientific: 'scientific source',
+    other: 'other',
+    official: 'official statement',
+    journalistic: 'journalistic report',
+    opinion: 'opinion / commentary',
+    unofficial: 'unofficial information',
+    statistical: 'statistical data',
+    expert: 'expert opinion',
+    field_report: 'field report',
+    
+    //powiadomienia toast
+    toastSourceAdded: 'Source added',
+    toastSourceDeleted: 'Source deleted',
+    toastNewProjectCreated: 'New project created',
     
     //nazwy warstw
     layer1: 'Layer I - Information Quality',

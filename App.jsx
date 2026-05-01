@@ -96,7 +96,7 @@ export default function App() {
       };
       return [...prev, newSource];
     });
-    showToast(language === 'pl' ? 'Źródło dodane' : 'Source added');
+    showToast(translations[language].toastSourceAdded);
   };
 
   //usuwanie źrodła 
@@ -121,7 +121,7 @@ export default function App() {
       return updated;
     });
 
-    showToast(language === 'pl' ? 'Źródło usunięte' : 'Source deleted');
+    showToast(translations[language].toastSourceDeleted);
   };
 
   //eksport json, tworzy plik z komentarzami i zrodlami
@@ -189,19 +189,15 @@ export default function App() {
     removeFromStorage(STORAGE_KEYS.COMMENTS);
     removeFromStorage(STORAGE_KEYS.SOURCES);
     setCurrentView('matrix');
-    showToast(language === 'pl' ? 'Nowy projekt utworzony' : 'New project created');
+    showToast(translations[language].toastNewProjectCreated);
   };
 
   //powrót na Landing Page
   const handleBackToHome = () => {
-  const message = language === 'pl' 
-    ? 'Czy na pewno chcesz wrócić do strony głównej? Niezapisane zmiany mogą zostać utracone.'
-    : 'Are you sure you want to return to the home page? Unsaved changes may be lost.';
-  
-  if (window.confirm(message)) {
-    setCurrentView('landing');
-  }
-};
+    if (window.confirm(t('confirmBackToHome'))) {
+      setCurrentView('landing');
+    }
+  };
 
   //import json z Landing Page
   const handleImportFromLanding = (data) => {
@@ -247,7 +243,7 @@ export default function App() {
           <p className="header-subtitle">{t('appSubtitle')}</p>
         </div>
         <div className="header-info">
-          <button className="btn btn-theme" onClick={toggleDarkMode} title={isDarkMode ? 'Jasny motyw' : 'Ciemny motyw'}>
+          <button className="btn btn-theme" onClick={toggleDarkMode} title={isDarkMode ? t('lightMode') : t('darkMode')}>
             {isDarkMode ? <Sun /> : <Moon />}
           </button>
           <button className="btn btn-language" onClick={toggleLanguage}>
